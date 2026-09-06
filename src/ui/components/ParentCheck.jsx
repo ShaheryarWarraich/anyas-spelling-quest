@@ -24,7 +24,7 @@ export default function ParentCheck({ app, items, onSubmit, onCancel, stickers =
           <div className="checkrow" key={i}>
             <div>
               <div className="w">{it.sentence || it.word}</div>
-              <div className="small muted">{it.source === 'way' ? `Way ${it.way} word` : it.source === 'revision' ? `revision (${it.ruleId})` : it.source}{it.sentence && it.word !== it.sentence ? ` · word: ${it.word}` : ''}</div>
+              <div className="small muted">{it.source === 'way' ? `Way ${it.way} word` : it.source === 'revision' ? `revision (${it.ruleId})` : it.source === 'sentence-write' ? 'dictated sentence (whole sentence right?)' : it.source === 'exception' ? 'rule breaker' : it.source}{it.sentence && it.word !== it.sentence ? ` · word: ${it.word}` : ''}</div>
             </div>
             <div className="row">
               <button className={`mark ${marks[i] === true ? 'on-yes' : ''}`} onClick={() => setMarks(m => m.map((x, j) => j === i ? true : x))}>✓</button>

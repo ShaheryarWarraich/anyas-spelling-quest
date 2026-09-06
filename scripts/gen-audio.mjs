@@ -11,6 +11,8 @@ for (const w of content.weeks) {
   for (const k of ['taught', 'daily_transfer', 'probe']) (w[k] || []).forEach(x => items.add(x));
   for (const l of Object.values(w.probe_by_rule || {})) l.forEach(x => items.add(x));
   (w.daily_sentences || []).forEach(s => items.add(s.text));
+  (w.review_sentences || []).forEach(s => items.add(s.text));
+  (w.exceptions || []).forEach(e => items.add(e.word));
   (w.probe_sentences || []).forEach(s => items.add(s.text));
   (w.way3_words || []).forEach(x => items.add(x.word));
   (w.way1_pairs_by_day || []).flat().forEach(x => items.add(x.word));

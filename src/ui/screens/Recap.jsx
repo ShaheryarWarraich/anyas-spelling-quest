@@ -12,6 +12,7 @@ export default function Recap({ app, weekEntry, onDone }) {
     <div className="col"><h1>Your week!</h1><RuleCard week={data.week} /></div>,
     <div className="col"><h1>Ways you did</h1><div className="row">{data.ways.length ? data.ways.map(w => <div key={w} className="tapcard glow">{w}. {WAY_NAMES[w]}</div>) : <div className="muted">A quiet week. That's okay!</div>}</div></div>,
     <div className="col"><h1>Videos you watched</h1><div className="row">{data.videos.length ? data.videos.map(v => <div key={v} className="tapcard">🎬 {v}</div>) : <div className="muted">No videos this week.</div>}</div></div>,
+    <div className="col"><h1>Rule breakers you met</h1><div className="row">{(data.week.exceptions || []).length ? data.week.exceptions.map(e => <div key={e.word} className="tapcard" style={{ color: '#e0474c' }}>{e.word}</div>) : <div className="muted">None this week.</div>}</div></div>,
     <div className="col"><h1>Flowers you grew</h1><Garden flowers={data.flowers} bloomLast /></div>,
     <div className="col"><h1>See you on Monday!</h1><div className="big">🌈</div></div>,
   ];

@@ -4,6 +4,7 @@ import Guide from '../components/Guide.jsx';
 import Pip from '../../art/Pip.jsx';
 import { playWord } from '../audio.js';
 import { seedFrom, mulberry32, shuffle } from '../../core/rng.js';
+import { BreakerRound } from '../components/EarCheck.jsx';
 // Way 4: one game per rule (sort / where-does-it-live / word hunt / rhyme race / heart hunt), then write 2 words on paper.
 export default function Way4Game({ week, dateStr, onDone, stickers }) {
   const [stage, setStage] = useState('game');
@@ -12,7 +13,9 @@ export default function Way4Game({ week, dateStr, onDone, stickers }) {
   const rnd = mulberry32(seedFrom('w4' + dateStr));
   const words = shuffle(week.taught, rnd).slice(0, 2);
   if (stage === 'write') return <WriteWords items={words.map(word => ({ word }))} stickers={stickers} onDone={() => onDone({ kind: 'game', type: game.type, ...result }, words)} />;
-  const finish = r => { setResult(r); setStage('end'); };
+  const breakers = (week.exceptions || []).filter(e => !e.homophone).map(e => e.word);
+  const finish = r => { setResult(r); setStage(game.breakers_round && breakers.length ? 'breakers' : 'end'); };
+  if (stage === 'breakers') return <BreakerRound breakers={shuffle(breakers, rnd).slice(0, 3)} followers={shuffle(week.taught, rnd).slice(0, 3)} ruleName={week.rule_name} stickers={stickers} onDone={r => { setResult(x => ({ ...x, breakers: r })); setStage('end'); }} />;
   if (stage === 'end') return (
     <div className="screen center"><Guide text="What a game! Now let's write." stickers={stickers} size={170} /><button className="btn primary wide" onClick={() => setStage('write')}>Write 2 words ➜</button></div>
   );

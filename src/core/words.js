@@ -35,6 +35,13 @@ export function pickDailyWords({ content, info, days, revisions }) {
   } else {
     transfer = fresh(week.daily_transfer).slice(0, transferN).map(word => ({ word, source: 'transfer', ruleId: week.rule_id }));
   }
+  // From Wednesday, one transfer slot goes to a rule breaker so she meets every exception during the week.
+  const exc = (week.exceptions || []).filter(e => !e.homophone).map(e => e.word);
+  if ((info.dayIdx ?? 0) >= 2 && exc.length && transfer.length) {
+    const served = new Set(); for (const d of days) for (const w of d.words || []) if (w.source === 'exception') served.add(w.word);
+    const nextExc = [...exc.filter(w => !served.has(w)), ...exc.filter(w => served.has(w))][0];
+    transfer[transfer.length - 1] = { word: nextExc, source: 'exception', ruleId: week.rule_id };
+  }
   const items = [...taught, ...transfer];
   if (revision) items.push(revision);
   return shuffle(items, rnd);

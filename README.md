@@ -19,7 +19,9 @@ A tablet-first, offline-capable PWA that turns a 6-week spelling plan into a 10�
 12. **Old-rule badges** appear on the shelf once a week has ended (or the rule is fully known). "Fully known" (≥2 Ways done and Saturday probe ≥ 8/10) is parent-only; the child sees "You finished the FLOSS rule!" with a badge.
 13. **Default PIN is 3690.** Change it in Grown-ups → Settings. The PIN is stored as a SHA-256 hash.
 14. **Audio** is pre-generated with the macOS voice "Karen" (`npm run audio`); if a file is missing the app falls back to the device's speech synthesis, which works offline on iPad.
-15. **Guide character** is Pip, an original round fox cub (SVG in `src/art/Pip.jsx`). Stickers at 5/10/20 streak days: star scarf, sparkle glasses, gold crown.
+15. **Rule breakers are part of every week.** Each week has an `exceptions` list (word + child-friendly "why"). They appear as a Way 1 "Rule breakers" slide, an extra quiz question per video, one rule-breaker word in the sound boxes, a "Tap the rule breakers" round after every Way 4 game, one daily word from Wednesday (tagged *exception*), and a recap slide. Homophone traps (their/there, where/were, some/sum) are only used in sentence picks, never in single-word listening.
+16. **Verbal-to-written checks.** `confusables` gives each word two sound-alike misspellings (shown, never spoken). Learn days from Tuesday get a 2-item "Listen and pick" ear check after the Way. The Saturday review runs: probe words → 6 ear-check words (about a third rule breakers) → 3 "Which sentence?" picks → 2 dictated sentences written on paper (audio only; the grown-up can peek at the text) → grown-up check. Wrong taps never show on screen; the parent sees them in the *Ear* tab and the `ear-checks.csv` export.
+17. **Guide character** is Pip, an original round fox cub (SVG in `src/art/Pip.jsx`). Stickers at 5/10/20 streak days: star scarf, sparkle glasses, gold crown.
 
 ## Setup
 
@@ -59,6 +61,9 @@ All words, scripts, videos, quizzes and games live in one JSON file; no code cha
   - `way2_videos[]`: `{title, url, quiz[{q, options[], answer}]}`; add `"type":"link"` for a web page instead of a YouTube video, optional `checkbox` label.
   - `way3_words[]`: `{word, tiles[]}` where each tile is one sound (`"ll"`, `"ai"`, `"igh"`, `"a_e"`); optional `syllables[[...],[...]]`, `colors{tile:hex}`, `heart[tiles]`.
   - `way4_game`: `{type: "sort"|"where"|"hunt"|"rhyme"|"hearthunt", ...}` — see Week 1–5 for each shape.
+  - `exceptions[]`: `{word, why, group?: "nearmiss", homophone?: "there"}` rule breakers for the week.
+  - `confusables{}`: `word: [misspelling1, misspelling2]` used by the ear check and sentence picks. Every taught, transfer and exception word needs an entry.
+  - `review_sentences[]`: `{text, words}` dictated sentences for the Saturday review (picks and paper writing).
   - `watch_for`: shown to the grown-up on the check screen.
 
 After editing, reload the app (or rebuild). The audio generator only creates files that don't exist yet, so run `npm run audio` after adding words.
@@ -69,7 +74,7 @@ After editing, reload the app (or rebuild). The audio generator only creates fil
 - `days`: one record per calendar day: week, day type, step, active ms, Way(s) done, switches, words shown (with source/mark/rule tap), parent check, probe score, counts-for-streak.
 - `videos`: watch records with quiz taps. `revisions`: auto revision words served, quick looks, old-rule mini sessions. `events`: switch presses, hard stops, date jumps, repeat marks.
 
-Export (Grown-ups → Settings) gives the full JSON or five CSVs (`sessions`, `words`, `videos`, `revisions`, `events`). Optional Google Sheet sync: see `apps-script/SETUP.md`.
+Export (Grown-ups → Settings) gives the full JSON or six CSVs (`sessions`, `words`, `ear-checks`, `videos`, `revisions`, `events`). Optional Google Sheet sync: see `apps-script/SETUP.md`.
 
 ## Headless simulation
 

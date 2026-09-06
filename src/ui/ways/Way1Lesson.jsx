@@ -32,6 +32,9 @@ export default function Way1Lesson({ app, week, dayIdx = 0, onDone, stickers }) 
         {demo.type === 'columns' && <Columns cols={demo.cols} />}
         {demo.type === 'clap' && <Clap syllables={demo.syllables} />}
         {demo.type === 'list' && <div className="row">{demo.words.map(w => <button key={w} className="tapcard" onClick={() => playWord(w)}><Letters word={w} highlight={demo.highlight} color={demo.color} /></button>)}</div>}
+        {demo.type === 'breakers' && <div className="col" style={{ width: '100%' }}>
+          {(week.exceptions || []).map(e => <button key={e.word} className="tapcard" style={{ width: 'min(100%, 720px)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16 }} onClick={() => playWord(e.word)}><span style={{ fontSize: '2.2rem', color: e.group === 'nearmiss' ? '#2f6fdb' : '#e0474c' }}>{e.word}</span><span className="small muted" style={{ fontWeight: 600, textAlign: 'right' }}>{e.why}</span></button>)}
+        </div>}
         {heartItem && <div className="col"><div className="big">{heartItem.word}</div><HeartWord tiles={heartItem.tiles} heart={heartItem.heart} /><button className="btn secondary" onClick={() => playWord(heartItem.word)}>🔊 Hear it</button></div>}
       </div>
       <div className="parent-note"><b>Grown-up reads:</b> {s.text}</div>

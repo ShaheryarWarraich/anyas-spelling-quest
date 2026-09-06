@@ -1,6 +1,7 @@
 
 === 2026-09-07 (learn) streak before: 0 none; no yesterday
   Way 1 done; way words: hill, miss
+  flow: welcome > learn > write > check > done
   words today: doll[transfer], off[taught], dress[taught], bell[taught], huff[transfer]
   parent check done (7/7, self-caught 1); minutes 10.8; counts: true; streak now 1 active
   done screen preview -> Tomorrow: Learn it with a grown-up!
@@ -9,28 +10,38 @@
   pressed "Try another way": 1 -> 2
   watched video: Floss Rule Song
   Way 2 done; way words: hill, miss
+  flow: welcome > learn > ear > write > check > done
+  ear check: yes(e)✓ toss(r)·
   words today: puff[taught], buzz[taught], hiss[transfer], bass[transfer], kiss[taught]
-  parent check done (7/7, self-caught 0); minutes 10.8; counts: true; streak now 2 active
+  parent check done (7/7, self-caught 0); minutes 11.3; counts: true; streak now 2 active
   done screen preview -> Tomorrow: the Alphablocks: FF LL SS video!
 
 === 2026-09-09 MISSED (no session opened) — streak 2 active
 
 === 2026-09-10 (learn) streak before: 2 paused; Last time you did the Floss Rule Song!
-  Way 3 done; way words: bell, dress, buzz, off
-  words today: cliff[transfer], toss[transfer], puff[taught], fuzz[taught], fill[taught]
-  parent check done (8/9, self-caught 0); minutes 10.8; counts: true; streak now 3 active
+  Way 3 done; way words: bell, dress, buzz, off, bus
+  flow: welcome > learn > ear > write > check > done
+  ear check: dress(r)✓ milk(e)·
+  words today: cliff[transfer], of[exception], puff[taught], fuzz[taught], fill[taught]
+  parent check done (9/10, self-caught 0); minutes 11.3; counts: true; streak now 3 active
   done screen preview -> Tomorrow: play the Sort game!
 
 === 2026-09-11 (learn) streak before: 3 active; Yesterday you did Sound boxes!
   Way 4 done; way words: hill, miss
-  words today: puff[taught], cliff[transfer], miss[taught], fill[taught], hiss[transfer]
+  flow: welcome > learn > ear > write > check > done
+  ear check: bus(e)✓ hill(r)·
+  words today: puff[taught], toss[transfer], miss[taught], fill[taught], if[exception]
   HARD STOP at 15 minutes (mid-activity) -> "Done for today"
-  parent check done (7/7, self-caught 0); minutes 16.5; counts: true; streak now 4 active
+  parent check done (7/7, self-caught 0); minutes 15.0; counts: true; streak now 4 active
   done screen preview -> Tomorrow: show what you know!
 
 === 2026-09-12 (probe) streak before: 4 active; Yesterday you played the Sort game!
+  flow: welcome > write > ear > pick > sentences > check > done
   words today: doll[probe], mess[probe], cuff[probe], jazz[probe], well[probe], boss[probe], sniff[probe], spill[probe], class[probe], fizz[probe]
-  parent check done (9/10, self-caught 2); minutes 8.2; counts: true; streak now 5 active
+  ear check: bus(e)✓ puff(r)· miss(r)✓ toss(r)✓ yes(e)✓ kiss(r)✓
+  which sentence?: [this] ✓ [off] ✓ [yes] ✓
+  write sentences: Miss Hill has a big doll. / This is a kiss for us.
+  parent check done (11/12, self-caught 2); minutes 11.7; counts: true; streak now 5 active
   done screen preview -> Tomorrow is a rest day. Have fun!
   weekly recap: {"rule":"The FLOSS rule","days":["2026-09-07","2026-09-08","2026-09-10","2026-09-11","2026-09-12"],"ways":[1,2,3,4],"videos":["Floss Rule Song"],"flowers":["2026-09-07","2026-09-08","2026-09-10","2026-09-11","2026-09-12"]}
 
@@ -39,13 +50,14 @@
 
 === 2026-09-14 (learn) streak before: 6 active; Yesterday you learned The FLOSS rule with a grown-up!
   Way 1 done; way words: hill, miss
+  flow: welcome > learn > write > check > done
   words today: doll[revision:FLOSS], mail[taught], hope[transfer], rope[taught], ride[transfer]
   parent check done (7/7, self-caught 0); minutes 10.8; counts: true; streak now 7 active
   done screen preview -> Tomorrow: Learn it with a grown-up!
   revision word drawn: doll (from FLOSS)
   quick look 2026-09-08 -> rule The FLOSS rule, ways 2, videos Floss Rule Song, words puff,buzz,hiss,bass,kiss
   old rules shelf: FLOSS
-  old-rule mini session FLOSS: off,miss,doll
+  old-rule mini session FLOSS: bell,doll,toss
 
 ================ PARENT DASHBOARD ================
 {
@@ -98,6 +110,24 @@
      "revision": [],
      "probe": null,
      "selfCaught": 1,
+     "exceptions": {
+      "correct": 0,
+      "total": 0
+     },
+     "ear": {
+      "correct": 0,
+      "total": 0
+     },
+     "pick": {
+      "correct": 0,
+      "total": 0
+     },
+     "earItems": [],
+     "pickItems": [],
+     "sentences": {
+      "correct": 0,
+      "total": 0
+     },
      "ruleTaps": [],
      "wayWords": [
       {
@@ -117,7 +147,7 @@
      "dayType": "learn",
      "bonus": false,
      "status": "complete",
-     "minutes": 10.8,
+     "minutes": 11.3,
      "countsForStreak": true,
      "ways": [
       2
@@ -134,6 +164,37 @@
      "revision": [],
      "probe": null,
      "selfCaught": 0,
+     "exceptions": {
+      "correct": 0,
+      "total": 0
+     },
+     "ear": {
+      "correct": 1,
+      "total": 2
+     },
+     "pick": {
+      "correct": 0,
+      "total": 0
+     },
+     "earItems": [
+      {
+       "word": "yes",
+       "source": "exception",
+       "chosen": "yes",
+       "correct": true
+      },
+      {
+       "word": "toss",
+       "source": "rule",
+       "chosen": "tass",
+       "correct": false
+      }
+     ],
+     "pickItems": [],
+     "sentences": {
+      "correct": 0,
+      "total": 0
+     },
      "ruleTaps": [],
      "wayWords": [
       {
@@ -153,15 +214,15 @@
      "dayType": "learn",
      "bonus": false,
      "status": "complete",
-     "minutes": 10.8,
+     "minutes": 11.3,
      "countsForStreak": true,
      "ways": [
       3
      ],
      "switches": 0,
      "transfer": {
-      "correct": 2,
-      "total": 2
+      "correct": 1,
+      "total": 1
      },
      "taught": {
       "correct": 3,
@@ -170,6 +231,37 @@
      "revision": [],
      "probe": null,
      "selfCaught": 0,
+     "exceptions": {
+      "correct": 1,
+      "total": 1
+     },
+     "ear": {
+      "correct": 1,
+      "total": 2
+     },
+     "pick": {
+      "correct": 0,
+      "total": 0
+     },
+     "earItems": [
+      {
+       "word": "dress",
+       "source": "rule",
+       "chosen": "dress",
+       "correct": true
+      },
+      {
+       "word": "milk",
+       "source": "exception",
+       "chosen": "millk",
+       "correct": false
+      }
+     ],
+     "pickItems": [],
+     "sentences": {
+      "correct": 0,
+      "total": 0
+     },
      "ruleTaps": [],
      "wayWords": [
       {
@@ -191,6 +283,11 @@
        "word": "off",
        "way": 3,
        "mark": true
+      },
+      {
+       "word": "bus",
+       "way": 3,
+       "mark": true
       }
      ]
     },
@@ -199,15 +296,15 @@
      "dayType": "learn",
      "bonus": false,
      "status": "complete",
-     "minutes": 16.5,
+     "minutes": 15,
      "countsForStreak": true,
      "ways": [
       4
      ],
      "switches": 0,
      "transfer": {
-      "correct": 2,
-      "total": 2
+      "correct": 1,
+      "total": 1
      },
      "taught": {
       "correct": 3,
@@ -216,6 +313,37 @@
      "revision": [],
      "probe": null,
      "selfCaught": 0,
+     "exceptions": {
+      "correct": 1,
+      "total": 1
+     },
+     "ear": {
+      "correct": 1,
+      "total": 2
+     },
+     "pick": {
+      "correct": 0,
+      "total": 0
+     },
+     "earItems": [
+      {
+       "word": "bus",
+       "source": "exception",
+       "chosen": "bus",
+       "correct": true
+      },
+      {
+       "word": "hill",
+       "source": "rule",
+       "chosen": "hel",
+       "correct": false
+      }
+     ],
+     "pickItems": [],
+     "sentences": {
+      "correct": 0,
+      "total": 0
+     },
      "ruleTaps": [],
      "wayWords": [
       {
@@ -235,7 +363,7 @@
      "dayType": "probe",
      "bonus": false,
      "status": "complete",
-     "minutes": 8.2,
+     "minutes": 11.7,
      "countsForStreak": true,
      "ways": [],
      "switches": 0,
@@ -259,6 +387,80 @@
       }
      },
      "selfCaught": 2,
+     "exceptions": {
+      "correct": 0,
+      "total": 0
+     },
+     "ear": {
+      "correct": 5,
+      "total": 6
+     },
+     "pick": {
+      "correct": 3,
+      "total": 3
+     },
+     "earItems": [
+      {
+       "word": "bus",
+       "source": "exception",
+       "chosen": "bus",
+       "correct": true
+      },
+      {
+       "word": "puff",
+       "source": "rule",
+       "chosen": "puf",
+       "correct": false
+      },
+      {
+       "word": "miss",
+       "source": "rule",
+       "chosen": "miss",
+       "correct": true
+      },
+      {
+       "word": "toss",
+       "source": "rule",
+       "chosen": "toss",
+       "correct": true
+      },
+      {
+       "word": "yes",
+       "source": "exception",
+       "chosen": "yes",
+       "correct": true
+      },
+      {
+       "word": "kiss",
+       "source": "rule",
+       "chosen": "kiss",
+       "correct": true
+      }
+     ],
+     "pickItems": [
+      {
+       "text": "This is a kiss for us.",
+       "target": "this",
+       "chosen": "This is a kiss for us.",
+       "correct": true
+      },
+      {
+       "text": "The bell is off.",
+       "target": "off",
+       "chosen": "The bell is off.",
+       "correct": true
+      },
+      {
+       "text": "Yes, the bus will huff and puff.",
+       "target": "yes",
+       "chosen": "Yes, the bus will huff and puff.",
+       "correct": true
+      }
+     ],
+     "sentences": {
+      "correct": 2,
+      "total": 2
+     },
      "ruleTaps": [],
      "wayWords": []
     },
@@ -284,6 +486,24 @@
      "revision": [],
      "probe": null,
      "selfCaught": 0,
+     "exceptions": {
+      "correct": 0,
+      "total": 0
+     },
+     "ear": {
+      "correct": 0,
+      "total": 0
+     },
+     "pick": {
+      "correct": 0,
+      "total": 0
+     },
+     "earItems": [],
+     "pickItems": [],
+     "sentences": {
+      "correct": 0,
+      "total": 0
+     },
      "ruleTaps": [],
      "wayWords": [
       {
@@ -307,8 +527,24 @@
     4
    ],
    "weekTransfer": {
-    "correct": 10,
-    "total": 10
+    "correct": 8,
+    "total": 8
+   },
+   "weekEar": {
+    "correct": 8,
+    "total": 12
+   },
+   "weekPick": {
+    "correct": 3,
+    "total": 3
+   },
+   "weekExceptions": {
+    "correct": 2,
+    "total": 2
+   },
+   "weekSentences": {
+    "correct": 2,
+    "total": 2
    },
    "probes": [
     {
@@ -342,6 +578,11 @@
       {
        "q": "Which word follows the rule?",
        "chosen": "hill",
+       "correct": true
+      },
+      {
+       "q": "Which word breaks the rule (one s)?",
+       "chosen": "bus",
        "correct": true
       }
      ]
@@ -387,6 +628,24 @@
      ],
      "probe": null,
      "selfCaught": 0,
+     "exceptions": {
+      "correct": 0,
+      "total": 0
+     },
+     "ear": {
+      "correct": 0,
+      "total": 0
+     },
+     "pick": {
+      "correct": 0,
+      "total": 0
+     },
+     "earItems": [],
+     "pickItems": [],
+     "sentences": {
+      "correct": 0,
+      "total": 0
+     },
      "ruleTaps": [],
      "wayWords": [
       {
@@ -410,6 +669,22 @@
     "correct": 2,
     "total": 2
    },
+   "weekEar": {
+    "correct": 0,
+    "total": 0
+   },
+   "weekPick": {
+    "correct": 0,
+    "total": 0
+   },
+   "weekExceptions": {
+    "correct": 0,
+    "total": 0
+   },
+   "weekSentences": {
+    "correct": 0,
+    "total": 0
+   },
    "probes": [],
    "videos": [],
    "switches": 0,
@@ -427,6 +702,22 @@
    "sessionCount": 0,
    "waysDone": [],
    "weekTransfer": {
+    "correct": 0,
+    "total": 0
+   },
+   "weekEar": {
+    "correct": 0,
+    "total": 0
+   },
+   "weekPick": {
+    "correct": 0,
+    "total": 0
+   },
+   "weekExceptions": {
+    "correct": 0,
+    "total": 0
+   },
+   "weekSentences": {
     "correct": 0,
     "total": 0
    },
@@ -450,6 +741,22 @@
     "correct": 0,
     "total": 0
    },
+   "weekEar": {
+    "correct": 0,
+    "total": 0
+   },
+   "weekPick": {
+    "correct": 0,
+    "total": 0
+   },
+   "weekExceptions": {
+    "correct": 0,
+    "total": 0
+   },
+   "weekSentences": {
+    "correct": 0,
+    "total": 0
+   },
    "probes": [],
    "videos": [],
    "switches": 0,
@@ -470,6 +777,22 @@
     "correct": 0,
     "total": 0
    },
+   "weekEar": {
+    "correct": 0,
+    "total": 0
+   },
+   "weekPick": {
+    "correct": 0,
+    "total": 0
+   },
+   "weekExceptions": {
+    "correct": 0,
+    "total": 0
+   },
+   "weekSentences": {
+    "correct": 0,
+    "total": 0
+   },
    "probes": [],
    "videos": [],
    "switches": 0,
@@ -487,6 +810,22 @@
    "sessionCount": 0,
    "waysDone": [],
    "weekTransfer": {
+    "correct": 0,
+    "total": 0
+   },
+   "weekEar": {
+    "correct": 0,
+    "total": 0
+   },
+   "weekPick": {
+    "correct": 0,
+    "total": 0
+   },
+   "weekExceptions": {
+    "correct": 0,
+    "total": 0
+   },
+   "weekSentences": {
     "correct": 0,
     "total": 0
    },
@@ -529,19 +868,19 @@
    "replayDate": null,
    "words": [
     {
-     "word": "off",
-     "source": "oldrule",
-     "ruleId": "FLOSS",
-     "mark": true
-    },
-    {
-     "word": "miss",
+     "word": "bell",
      "source": "oldrule",
      "ruleId": "FLOSS",
      "mark": true
     },
     {
      "word": "doll",
+     "source": "oldrule",
+     "ruleId": "FLOSS",
+     "mark": true
+    },
+    {
+     "word": "toss",
      "source": "oldrule",
      "ruleId": "FLOSS",
      "mark": false
@@ -559,7 +898,7 @@
  "dateJumps": [],
  "totals": {
   "sessions": 7,
-  "minutes": 81.8,
+  "minutes": 84.8,
   "videosWatched": 1
  }
 }
@@ -618,7 +957,7 @@
   "videos": [],
   "words": [
    "cliff",
-   "toss",
+   "of",
    "puff",
    "fuzz",
    "fill"
@@ -637,10 +976,10 @@
   "videos": [],
   "words": [
    "puff",
-   "cliff",
+   "toss",
    "miss",
    "fill",
-   "hiss"
+   "if"
   ],
   "countsForStreak": true
  },
@@ -707,13 +1046,13 @@
 ]
 
 ================ sessions.csv ================
-date,weekId,dayType,status,minutes,countsForStreak,waysDone,switches,wordsCorrect,wordsTotal,transferCorrect,transferTotal,probeCorrect,probeTotal,selfCaught
-2026-09-07,FLOSS,learn,complete,10.8,true,1,0,7,7,2,2,,,1
-2026-09-08,FLOSS,learn,complete,10.8,true,2,1,7,7,2,2,,,0
-2026-09-10,FLOSS,learn,complete,10.8,true,3,0,8,9,2,2,,,0
-2026-09-11,FLOSS,learn,complete,16.5,true,4,0,7,7,2,2,,,0
-2026-09-12,FLOSS,probe,complete,8.2,true,,0,9,10,0,0,9,10,2
-2026-09-13,FLOSS,learn,complete,10.8,true,1,0,7,7,2,2,,,0
-2026-09-14,LONGV,learn,complete,13.8,true,1,0,7,7,2,2,,,0
+date,weekId,dayType,status,minutes,countsForStreak,waysDone,switches,wordsCorrect,wordsTotal,transferCorrect,transferTotal,probeCorrect,probeTotal,selfCaught,exceptionCorrect,exceptionTotal,earCorrect,earTotal,pickCorrect,pickTotal,sentencesCorrect,sentencesTotal,bonus
+2026-09-07,FLOSS,learn,complete,10.8,true,1,0,7,7,2,2,,,1,0,0,0,0,0,0,0,0,false
+2026-09-08,FLOSS,learn,complete,11.3,true,2,1,7,7,2,2,,,0,0,0,1,2,0,0,0,0,false
+2026-09-10,FLOSS,learn,complete,11.3,true,3,0,9,10,1,1,,,0,1,1,1,2,0,0,0,0,false
+2026-09-11,FLOSS,learn,complete,15.0,true,4,0,7,7,1,1,,,0,1,1,1,2,0,0,0,0,false
+2026-09-12,FLOSS,probe,complete,11.7,true,,0,11,12,0,0,9,10,2,0,0,5,6,3,3,2,2,false
+2026-09-13,FLOSS,learn,complete,10.8,true,1,0,7,7,2,2,,,0,0,0,0,0,0,0,0,0,true
+2026-09-14,LONGV,learn,complete,13.8,true,1,0,7,7,2,2,,,0,0,0,0,0,0,0,0,0,false
 
 ALL ASSERTIONS PASSED

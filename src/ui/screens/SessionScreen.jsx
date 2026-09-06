@@ -5,6 +5,7 @@ import Garden from '../components/Garden.jsx';
 import WriteWords from '../components/WriteWords.jsx';
 import ParentCheck from '../components/ParentCheck.jsx';
 import RuleTap from '../components/RuleTap.jsx';
+import { EarCheck, SentencePick } from '../components/EarCheck.jsx';
 import Way1Lesson from '../ways/Way1Lesson.jsx';
 import Way2Video from '../ways/Way2Video.jsx';
 import Way3SoundBoxes from '../ways/Way3SoundBoxes.jsx';
@@ -35,7 +36,7 @@ export default function SessionScreen({ app, session, home, onHome }) {
     <div className="screen center">
       <Guide text={pick(app.content.guide.hello, seed)} stickers={stickers} size={170} />
       {day.dayType === 'learn' && <RuleCard week={week} />}
-      {day.dayType === 'probe' && <div className="rulecard"><div className="name">⭐ Show what you know!</div><div className="text">Write the words your grown-up says.</div></div>}
+      {day.dayType === 'probe' && <div className="rulecard"><div className="name">⭐ Show what you know!</div><div className="text">Write the words, listen and pick, then write two sentences.</div></div>}
       {day.dayType === 'mixed' && <RuleCard week={week} />}
       {home.yesterday && <div className="card"><div className="muted small">{home.yesterday.text}</div></div>}
       <button className="btn primary wide" onClick={() => session.finishWelcome()}>Let's go! ➜</button>
@@ -63,6 +64,12 @@ export default function SessionScreen({ app, session, home, onHome }) {
     );
   }
 
+  if (day.step === 'ear') return <EarCheck items={day.ear} stickers={stickers} onAnswer={(i, o) => session.answerEar(i, o)} onDone={() => session.advance()} />;
+  if (day.step === 'pick') return <SentencePick items={day.pick} stickers={stickers} onAnswer={(i, o) => session.answerPick(i, o)} onDone={() => session.advance()} />;
+  if (day.step === 'sentences') {
+    const idx = day.sentenceIndex; const it = day.sentences[idx];
+    return <WriteWords key={'s' + idx} items={[it]} counter={[idx + 1, day.sentences.length]} stickers={stickers} onDone={() => session.nextSentence()} />;
+  }
   if (day.step === 'write') {
     const idx = day.wordIndex; const w = day.words[idx];
     if (w.needsRuleTap && !w.ruleTap) {
@@ -78,7 +85,7 @@ export default function SessionScreen({ app, session, home, onHome }) {
   }
 
   if (day.step === 'hardstop') {
-    const written = (day.wayWords || []).length + day.words.filter(x => x.shown).length;
+    const written = (day.wayWords || []).length + day.words.filter(x => x.shown).length + (day.sentences || []).filter(x => x.shown).length;
     return (
       <div className="screen center">
         <Guide text="Done for today! Great work." stickers={stickers} mood="sleepy" size={180} />

@@ -24,14 +24,20 @@ export function buildDashboard(content, schedule, dump, today) {
       taught: score(d.words.filter(w => w.source === 'taught')),
       revision: d.words.filter(w => w.source === 'revision').map(w => ({ word: w.word, ruleId: w.ruleId, mark: w.mark })),
       probe: d.probeScore || null, selfCaught: d.parentCheck?.selfCaught ?? null,
+      exceptions: score(d.words.filter(w => w.source === 'exception')),
+      ear: tally(d.ear), pick: tally(d.pick), earItems: (d.ear || []).map(e => ({ word: e.word, source: e.source, chosen: e.chosen, correct: e.correct })),
+      pickItems: (d.pick || []).map(p => ({ text: p.text, target: p.target, chosen: p.chosen, correct: p.correct })),
+      sentences: score(d.sentences || []),
       ruleTaps: d.words.filter(w => w.needsRuleTap).map(w => ({ word: w.word, ruleId: w.ruleId, tapped: w.ruleTap || null })),
       wayWords: (d.wayWords || []).map(w => ({ word: w.word, way: w.way, mark: w.mark })),
     }));
     const waysDone = [...new Set(sessions.flatMap(s => s.ways))].sort();
     const weekTransfer = sessions.reduce((a, s) => ({ correct: a.correct + s.transfer.correct, total: a.total + s.transfer.total }), { correct: 0, total: 0 });
+    const sum = key => sessions.reduce((a, s) => ({ correct: a.correct + s[key].correct, total: a.total + s[key].total }), { correct: 0, total: 0 });
+    const weekEar = sum('ear'), weekPick = sum('pick'), weekExceptions = sum('exceptions'), weekSentences = sum('sentences');
     return {
       weekId: e.weekId, ruleName: e.week.rule_name, start: e.start, end: e.end, repeat: e.repeat, iteration: e.iteration,
-      sessions, sessionCount: sessions.length, waysDone, weekTransfer,
+      sessions, sessionCount: sessions.length, waysDone, weekTransfer, weekEar, weekPick, weekExceptions, weekSentences,
       probes: sessions.filter(s => s.probe).map(s => ({ date: s.date, ...s.probe })),
       videos: videos.filter(v => v.date >= e.start && v.date <= e.end).map(v => ({ date: v.date, title: v.title, watched: v.watched, quizTaps: v.quizTaps || [] })),
       switches: sessions.reduce((a, s) => a + s.switches, 0),
@@ -51,3 +57,4 @@ export function buildDashboard(content, schedule, dump, today) {
   };
 }
 function score(items) { return { correct: items.filter(w => w.mark === true).length, total: items.length }; }
+function tally(items) { const a = (items || []).filter(i => i.chosen !== null && i.chosen !== undefined); return { correct: a.filter(i => i.correct).length, total: a.length }; }

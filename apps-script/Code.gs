@@ -9,7 +9,7 @@ function doPost(e) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
 
   writeSheet_(ss, 'Sessions',
-    ['date', 'weekId', 'dayType', 'status', 'minutes', 'countsForStreak', 'waysDone', 'switches', 'wordsCorrect', 'wordsTotal', 'transferCorrect', 'transferTotal', 'probeCorrect', 'probeTotal', 'selfCaught', 'startedAt', 'completedAt'],
+    ['date', 'weekId', 'dayType', 'status', 'minutes', 'countsForStreak', 'waysDone', 'switches', 'wordsCorrect', 'wordsTotal', 'transferCorrect', 'transferTotal', 'probeCorrect', 'probeTotal', 'selfCaught', 'exceptionCorrect', 'exceptionTotal', 'earCorrect', 'earTotal', 'pickCorrect', 'pickTotal', 'sentencesCorrect', 'sentencesTotal', 'bonus', 'startedAt', 'completedAt'],
     (data.days || []).map(function (d) {
       var tr = (d.words || []).filter(function (w) { return w.source === 'transfer' || w.source === 'sentence'; });
       var pc = d.parentCheck || {};
@@ -17,13 +17,24 @@ function doPost(e) {
         ((d.learn || {}).waysDone || []).map(function (w) { return w.way; }).join(' '), ((d.learn || {}).switches || []).length,
         pc.correct == null ? '' : pc.correct, pc.total == null ? '' : pc.total,
         tr.filter(function (w) { return w.mark; }).length, tr.length,
-        d.probeScore ? d.probeScore.correct : '', d.probeScore ? d.probeScore.total : '', pc.selfCaught == null ? '' : pc.selfCaught, d.startedAt || '', d.completedAt || ''];
+        d.probeScore ? d.probeScore.correct : '', d.probeScore ? d.probeScore.total : '', pc.selfCaught == null ? '' : pc.selfCaught,
+        cnt(d.words, function (w) { return w.source === 'exception' && w.mark; }), cnt(d.words, function (w) { return w.source === 'exception'; }),
+        cnt(d.ear, function (e) { return e.correct; }), cnt(d.ear, function (e) { return e.chosen != null; }),
+        cnt(d.pick, function (e) { return e.correct; }), cnt(d.pick, function (e) { return e.chosen != null; }),
+        cnt(d.sentences, function (x) { return x.mark; }), (d.sentences || []).length, !!d.bonus, d.startedAt || '', d.completedAt || ''];
     }));
 
   writeSheet_(ss, 'Words', ['date', 'weekId', 'word', 'source', 'ruleId', 'way', 'mark', 'ruleTap', 'sentence'],
     (data.days || []).reduce(function (rows, d) {
-      var all = (d.wayWords || []).concat(d.words || []);
+      var all = (d.wayWords || []).concat(d.words || []).concat(d.sentences || []);
       all.forEach(function (w) { rows.push([d.date, d.weekId, w.word, w.source, w.ruleId || '', w.way || '', w.mark == null ? '' : w.mark, w.ruleTap || '', w.sentence || '']); });
+      return rows;
+    }, []));
+
+  writeSheet_(ss, 'EarChecks', ['date', 'weekId', 'kind', 'heard', 'options', 'chosen', 'correct'],
+    (data.days || []).reduce(function (rows, d) {
+      (d.ear || []).forEach(function (e) { rows.push([d.date, d.weekId, 'word', e.word, e.options.join(' | '), e.chosen == null ? '' : e.chosen, e.chosen == null ? '' : !!e.correct]); });
+      (d.pick || []).forEach(function (p) { rows.push([d.date, d.weekId, 'sentence', p.text, p.options.join(' | '), p.chosen == null ? '' : p.chosen, p.chosen == null ? '' : !!p.correct]); });
       return rows;
     }, []));
 
@@ -42,6 +53,8 @@ function doPost(e) {
 
   return ContentService.createTextOutput(JSON.stringify({ ok: true })).setMimeType(ContentService.MimeType.JSON);
 }
+
+function cnt(list, fn) { return (list || []).filter(fn).length; }
 
 function doGet() { return ContentService.createTextOutput('Anya\'s Spelling Quest sink is running.'); }
 

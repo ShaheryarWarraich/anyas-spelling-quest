@@ -4,6 +4,7 @@ import { computeStreak } from './streak.js';
 import { pickDailyWords } from './words.js';
 import { finishedRules, oldRuleWords } from './revision.js';
 import { Session } from './session.js';
+import { earItems, sentencePicks, sentencesToWrite } from './review.js';
 import { buildDashboard, fullyKnownMap } from './dashboard.js';
 import { toJSONExport, toCSVExport } from './export.js';
 
@@ -69,6 +70,19 @@ export async function createApp({ db, content, now = () => new Date() }) {
           learn: { currentWay: info.defaultWay, waysDone: [], switches: [] }, wayWords: [], words, wordIndex: 0, parentCheck: null, countsForStreak: false,
           bonus: isBonus || false,
         };
+        // Verbal-to-written checks: a short ear check on learn days (from day 2); the full review on Saturday.
+        const st = content.settings; const week = info.weekEntry.week;
+        if (info.dayType === 'probe') {
+          day.ear = earItems(content, week, st.ear_items_review ?? 6, dateStr, { exclude: new Set(words.map(w => w.word)) });
+          day.pick = sentencePicks(content, week, st.sentence_picks_review ?? 3, dateStr);
+          day.sentences = week.probe_sentences ? [] : sentencesToWrite(week, st.sentences_to_write_review ?? 2, dateStr, day.pick.map(p => p.text));
+          day.sentenceIndex = 0;
+          day.flow = ['welcome', 'write', 'ear', 'pick', ...(day.sentences.length ? ['sentences'] : []), 'check', 'done'];
+        } else {
+          day.ear = (info.dayType === 'learn' && (info.dayIdx ?? 0) >= 1) ? earItems(content, week, st.ear_items_daily ?? 2, dateStr) : [];
+          day.pick = []; day.sentences = []; day.sentenceIndex = 0;
+          day.flow = ['welcome', ...(info.dayType === 'learn' ? ['learn'] : []), ...(day.ear.length ? ['ear'] : []), 'write', 'check', 'done'];
+        }
         for (const w of words) if (w.source === 'revision') await db.add('revisions', { type: 'auto', date: dateStr, ruleId: w.ruleId, word: w.word, at: this.nowISO() });
         await this.saveDay(day);
       }
