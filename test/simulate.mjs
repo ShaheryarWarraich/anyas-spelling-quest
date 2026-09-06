@@ -63,7 +63,13 @@ setDay(2026, 9, 10); await runDay({ way: 3, wrong: ['dress'], expectStreakBefore
 setDay(2026, 9, 11); await runDay({ way: 4, hardstopBeforeCheck: true, expectStreakBefore: 'active' }); // Fri: Way 4, hard stop
 setDay(2026, 9, 12); { const d = await runDay({ way: null, wrong: ['jazz'], selfCaught: 2 }); assert.equal(d.dayType, 'probe'); assert.equal(d.probeScore.correct, 9);
   const app = await open(); const recap = await app.weeklyRecap(app.info().weekEntry); log('  weekly recap:', JSON.stringify({ rule: recap.week.rule_name, days: recap.days, ways: recap.ways, videos: recap.videos, flowers: recap.flowers })); }
-setDay(2026, 9, 13); { const app = await open(); const h = await app.getHome(); assert.equal(h.info.dayType, 'rest'); assert.equal(await app.getSession(), null); log(`\n=== ${h.today} Sunday rest day — streak ${h.streak.count} ${h.streak.state} (Sunday never counts as missed)`); }
+setDay(2026, 9, 13); { const app = await open(); const h = await app.getHome(); assert.equal(h.info.dayType, 'rest'); assert.equal(await app.getSession(), null); log(`\n=== ${h.today} Sunday rest day — streak ${h.streak.count} ${h.streak.state} (Sunday never counts as missed)`);
+  assert.equal(h.info.bonus.weekEntry.weekId, 'FLOSS', 'Sunday bonus uses the week just finished');
+  const b = await app.getSession(undefined, { bonus: true }); assert.ok(b && b.day.bonus, 'bonus session created'); assert.equal(b.day.dayType, 'learn');
+  const again = await (await open()).getSession(); assert.equal(again.day.startedAt, b.day.startedAt, 'plain reopen resumes the bonus record');
+  await b.tick(30000); await b.finishWelcome(); await b.tick(6 * 60000); await b.completeWay(1, { kind: 'ruletap', correct: true }, ['hill', 'miss']);
+  while (b.step === 'write') { await b.tick(40000); await b.nextWord(); } await b.tick(60000); await b.parentCheck({ marks: b.checkList.map(() => true), selfCaught: 0 });
+  log(`  BONUS "Play anyway" session on Sunday: ${b.day.words.map(w => w.word).join(', ')} -> logged as bonus day (${b.day.weekId}), streak now ${(await app.streak()).count}`); }
 // Week 2 Monday
 setDay(2026, 9, 14); const w2 = await runDay({ way: 1, expectStreakBefore: 'active' });
 assert.equal(w2.weekId, 'LONGV');
@@ -85,10 +91,11 @@ log(`  revision word drawn: ${rev.word} (from ${rev.ruleId})`);
 const app = await open();
 const dash = await app.dashboard();
 const cal = await app.revisionCalendar();
-assert.equal(dash.streak.count, 6, 'six counted days (Wed missed, Sunday rest)');
+assert.equal(dash.streak.count, 7, 'seven counted days (Wed missed, Sunday bonus)');
 assert.equal(dash.switchPresses.length, 1);
 assert.equal(dash.weeks[0].fullyKnown, true, 'FLOSS fully known: >=2 ways and probe >= 8');
-assert.equal(cal.length, 6);
+assert.equal(cal.length, 7);
+assert.ok(dash.weeks[0].sessions.some(s => s.bonus && s.date === '2026-09-13'), 'bonus day listed under FLOSS in the dashboard');
 console.log('\n================ PARENT DASHBOARD ================');
 console.log(JSON.stringify(dash, null, 1));
 console.log('\n================ REVISION CALENDAR ================');

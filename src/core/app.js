@@ -54,10 +54,12 @@ export async function createApp({ db, content, now = () => new Date() }) {
     stickersFor(streak) { return STICKERS.filter(s => streak.count >= s.at); },
 
     // Start or resume today's session. Opening twice in one day resumes the same record.
-    async getSession(dateStr = this.today()) {
-      const info = this.info(dateStr);
-      if (!['learn', 'probe', 'mixed'].includes(info.dayType)) return null;
+    async getSession(dateStr = this.today(), { bonus = false } = {}) {
+      let info = this.info(dateStr);
       let day = await this.getDay(dateStr);
+      const isBonus = info.dayType === 'rest' && !!info.bonus && (bonus || !!day);
+      if (isBonus) info = { ...info, ...info.bonus, bonus: true };
+      else if (!['learn', 'probe', 'mixed'].includes(info.dayType)) return null;
       if (!day) {
         const days = await this.days(); const revisions = await db.all('revisions');
         const words = pickDailyWords({ content, info, days, revisions });
@@ -65,6 +67,7 @@ export async function createApp({ db, content, now = () => new Date() }) {
           date: dateStr, weekId: info.weekEntry.weekId, weekIteration: info.weekEntry.iteration, ruleId: info.weekEntry.weekId,
           dayType: info.dayType, dayIdx: info.dayIdx, status: 'started', step: 'welcome', startedAt: this.nowISO(), activeMs: 0,
           learn: { currentWay: info.defaultWay, waysDone: [], switches: [] }, wayWords: [], words, wordIndex: 0, parentCheck: null, countsForStreak: false,
+          bonus: isBonus || false,
         };
         for (const w of words) if (w.source === 'revision') await db.add('revisions', { type: 'auto', date: dateStr, ruleId: w.ruleId, word: w.word, at: this.nowISO() });
         await this.saveDay(day);
@@ -155,7 +158,7 @@ export async function createApp({ db, content, now = () => new Date() }) {
       if (day) { day.activeMs += activeMs; day.revisionMs = (day.revisionMs || 0) + activeMs; if (day.status === 'complete') day.countsForStreak = day.activeMs >= (day.dayType === 'probe' ? (content.settings.min_probe_minutes ?? 0) : (content.settings.min_session_minutes ?? 10)) * 60000; await this.saveDay(day); }
     },
     async weeklyRecap(weekEntry) {
-      const days = (await this.days()).filter(d => d.weekId === weekEntry.weekId && d.date >= weekEntry.start && d.date <= weekEntry.end);
+      const days = (await this.days()).filter(d => d.weekId === weekEntry.weekId && d.date >= addDays(weekEntry.start, -1) && d.date <= addDays(weekEntry.end, 1));
       const videos = (await db.all('videos')).filter(v => v.watched && v.date >= weekEntry.start && v.date <= weekEntry.end);
       const ways = [...new Set(days.flatMap(d => d.learn.waysDone.map(w => w.way)))].sort();
       return { week: weekEntry.week, days: days.map(d => d.date), ways, videos: videos.map(v => v.title), flowers: days.filter(d => d.status === 'complete').map(d => d.date) };

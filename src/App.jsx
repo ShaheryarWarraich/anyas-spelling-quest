@@ -35,7 +35,7 @@ export default function App() {
   useEffect(() => { const f = () => { primeAudio(); window.removeEventListener('pointerdown', f); }; window.addEventListener('pointerdown', f); }, []);
 
   const goHome = async () => { setSession(null); setView({ name: 'home' }); setHome(await app.getHome()); };
-  const play = async () => { const s = await app.getSession(); if (!s) return; setHome(await app.getHome()); setSession(s); setView({ name: 'session' }); };
+  const play = async (opts) => { const s = await app.getSession(undefined, opts); if (!s) return; setHome(await app.getHome()); setSession(s); setView({ name: 'session' }); };
 
   if (error) return <div className="screen center"><h1>Oops</h1><div className="muted">{error}</div></div>;
   if (!app || !home) return <div className="screen center"><Guide text="Loading…" /></div>;
@@ -45,5 +45,5 @@ export default function App() {
   if (view.name === 'badge') return (
     <div className="screen center fade"><h1>You finished {view.week.rule_name}!</h1><RuleBadge week={view.week} /><Guide text="A new badge for your shelf!" stickers={home.stickers.map(s => s.id)} mood="wow" /><button className="btn primary wide" onClick={goHome}>Yay! ➜</button></div>
   );
-  return <HomeScreen app={app} home={home} onPlay={play} onRemember={() => setView({ name: 'revision' })} onParent={() => setView({ name: 'parent' })} onBadge={week => setView({ name: 'badge', week })} />;
+  return <HomeScreen app={app} home={home} onPlay={() => play()} onBonus={() => play({ bonus: true })} onRemember={() => setView({ name: 'revision' })} onParent={() => setView({ name: 'parent' })} onBadge={week => setView({ name: 'badge', week })} />;
 }

@@ -24,7 +24,15 @@ export const DEFAULT_WAY_BY_DAY = [1, 1, 2, 3, 4]; // Mon..Fri
 export function getDayInfo(content, profile, dateStr) {
   const sched = buildSchedule(content, profile);
   const wd = weekday(dateStr);
-  if (wd === 0) return { dayType: 'rest', dateStr, schedule: sched, weekEntry: findWeekAround(sched, dateStr) };
+  if (wd === 0) {
+    // Rest day. A "Play anyway" bonus session uses next week's rule if the plan hasn't started yet, else the week just finished.
+    const next = sched.find(e => e.start === addDays(dateStr, 1));
+    const prev = [...sched].reverse().find(e => e.end < dateStr && !e.week.mixed);
+    const started = sched.some(e => e.start <= dateStr);
+    const bonusEntry = (!started && next) ? next : (prev || next || null);
+    const bonus = bonusEntry ? { weekEntry: bonusEntry, dayIdx: 0, dayType: bonusEntry.week.mixed ? 'mixed' : 'learn', defaultWay: 1 } : null;
+    return { dayType: 'rest', dateStr, schedule: sched, weekEntry: findWeekAround(sched, dateStr), bonus };
+  }
   const entry = sched.find(e => dateStr >= e.start && dateStr <= e.end);
   if (!entry) {
     if (dateStr < sched[0].start) return { dayType: 'before', dateStr, schedule: sched, weekEntry: sched[0], startsIn: diffDays(dateStr, sched[0].start) };

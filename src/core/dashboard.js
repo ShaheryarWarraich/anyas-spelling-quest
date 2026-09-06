@@ -1,3 +1,4 @@
+import { addDays } from './dates.js';
 // Parent-facing numbers. Never shown to the child.
 export function fullyKnownMap(content, days) {
   const out = {};
@@ -15,9 +16,9 @@ export function buildDashboard(content, schedule, dump, today) {
   const p = profile[0] || {};
   const fullyKnown = fullyKnownMap(content, days);
   const weeks = schedule.map(e => {
-    const wd = days.filter(d => d.weekId === e.weekId && d.date >= e.start && d.date <= e.end);
+    const wd = days.filter(d => d.weekId === e.weekId && d.date >= addDays(e.start, -1) && d.date <= addDays(e.end, 1));
     const sessions = wd.map(d => ({
-      date: d.date, dayType: d.dayType, status: d.status, minutes: +(d.activeMs / 60000).toFixed(1), countsForStreak: !!d.countsForStreak,
+      date: d.date, dayType: d.dayType, bonus: !!d.bonus, status: d.status, minutes: +(d.activeMs / 60000).toFixed(1), countsForStreak: !!d.countsForStreak,
       ways: (d.learn?.waysDone || []).map(w => w.way), switches: (d.learn?.switches || []).length,
       transfer: score(d.words.filter(w => ['transfer', 'sentence'].includes(w.source))),
       taught: score(d.words.filter(w => w.source === 'taught')),
