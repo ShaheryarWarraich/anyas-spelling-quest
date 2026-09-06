@@ -68,7 +68,7 @@ export default function SessionScreen({ app, session, home, onHome }) {
   if (day.step === 'pick') return <SentencePick items={day.pick} stickers={stickers} onAnswer={(i, o) => session.answerPick(i, o)} onDone={() => session.advance()} />;
   if (day.step === 'sentences') {
     const idx = day.sentenceIndex; const it = day.sentences[idx];
-    return <WriteWords key={'s' + idx} items={[it]} counter={[idx + 1, day.sentences.length]} stickers={stickers} onDone={() => session.nextSentence()} />;
+    return <WriteWords app={app} key={'s' + idx} items={[it]} counter={[idx + 1, day.sentences.length]} stickers={stickers} onDone={() => session.nextSentence()} />;
   }
   if (day.step === 'write') {
     const idx = day.wordIndex; const w = day.words[idx];
@@ -76,7 +76,7 @@ export default function SessionScreen({ app, session, home, onHome }) {
       const rules = app.content.weeks.filter(x => !x.mixed);
       return <div><div className="huge" style={{ paddingTop: 20 }} onClick={() => playWord(w.word)}>{w.word}</div><RuleTap question="Which rule is this word?" weeks={rules} correctId={w.ruleId} onTap={id => session.setRuleTap(idx, id)} /></div>;
     }
-    return <WriteWords key={idx} items={[w]} counter={[idx + 1, day.words.length]} stickers={stickers} onDone={() => session.nextWord()} />;
+    return <WriteWords app={app} key={idx} items={[w]} counter={[idx + 1, day.words.length]} stickers={stickers} onDone={() => session.nextWord()} />;
   }
 
   if (day.step === 'check' || (day.step === 'hardstop' && after === 'check')) {

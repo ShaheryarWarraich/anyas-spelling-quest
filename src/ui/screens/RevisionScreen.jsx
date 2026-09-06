@@ -57,11 +57,11 @@ function QuickLook({ app, date, stickers, onDone }) {
   slides.push({ secs: 0, words: true });
   slides.push({ secs: 6, body: <div className="col"><Guide text="That was your day! Well remembered." stickers={stickers} size={160} /></div> });
   const s = slides[i];
-  return <Slideshow key={i} slide={s} words={words} stickers={stickers} onNext={() => (i + 1 < slides.length ? setI(i + 1) : onDone())} onExit={onDone} idx={i} total={slides.length} />;
+  return <Slideshow key={i} app={app} slide={s} words={words} stickers={stickers} onNext={() => (i + 1 < slides.length ? setI(i + 1) : onDone())} onExit={onDone} idx={i} total={slides.length} />;
 }
-function Slideshow({ slide, words, stickers, onNext, onExit, idx, total }) {
+function Slideshow({ app, slide, words, stickers, onNext, onExit, idx, total }) {
   useEffect(() => { if (slide.secs) { const id = setTimeout(onNext, slide.secs * 1000); return () => clearTimeout(id); } }, []);
-  if (slide.words) return <WriteWords items={words} stickers={stickers} onDone={onNext} title="Say it" />;
+  if (slide.words) return <WriteWords app={app} items={words} stickers={stickers} onDone={onNext} title="Say it" />;
   return (
     <div className="screen center fade">
       <div className="topbar"><button className="btn ghost" onClick={onExit}>✕</button><div className="muted small">{idx + 1} / {total}</div></div>
@@ -76,7 +76,7 @@ function OldRule({ app, ruleId, stickers, onDone }) {
   const [mini] = useState(() => app.startOldRule(ruleId));
   const [stage, setStage] = useState('card'); const start = useRef(Date.now());
   if (stage === 'card') return <div className="screen center"><RuleCard week={mini.week} /><button className="btn primary wide" onClick={() => setStage('write')}>Write 3 words ➜</button><button className="btn ghost" onClick={onDone}>Back</button></div>;
-  if (stage === 'write') return <WriteWords items={mini.words} stickers={stickers} onDone={() => setStage('check')} />;
+  if (stage === 'write') return <WriteWords app={app} items={mini.words} stickers={stickers} onDone={() => setStage('check')} />;
   if (stage === 'check') return <ParentCheck app={app} items={mini.words} stickers={stickers} onSubmit={async r => { await app.finishOldRule({ ruleId, words: mini.words, marks: r.marks, selfCaught: r.selfCaught, activeMs: Date.now() - start.current }); setStage('warm'); }} />;
   return <div className="screen center"><Guide text="You still remember it! Brilliant." stickers={stickers} size={180} mood="wow" /><button className="btn primary wide" onClick={onDone}>Done ➜</button></div>;
 }

@@ -16,7 +16,7 @@ export default function Way1Lesson({ app, week, dayIdx = 0, onDone, stickers }) 
   const options = [week, ...others].sort(() => 0.5 - Math.random());
 
   if (stage === 'check') return <RuleTap question="Which rule did we learn?" weeks={options} correctId={week.rule_id} onTap={(id, ok) => { setEndCheck({ kind: 'ruletap', tapped: id, correct: ok }); setStage('write'); }} />;
-  if (stage === 'write') return <WriteWords items={writeWords.map(word => ({ word }))} stickers={stickers} onDone={() => onDone(endCheck, writeWords)} />;
+  if (stage === 'write') return <WriteWords app={app} items={writeWords.map(word => ({ word }))} stickers={stickers} onDone={() => onDone(endCheck, writeWords)} />;
 
   const s = slides[i];
   const demo = s.demo || {};

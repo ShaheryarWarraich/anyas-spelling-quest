@@ -43,7 +43,7 @@ export default function Way2Video({ app, week, video, dateStr, onDone, onSwitch,
     setStage(video.quiz && video.quiz.length ? 'quiz' : 'write');
   };
   if (stage === 'quiz') return <Quiz quiz={video.quiz} onDone={async t => { setTaps(t); await app.recordVideo({ weekId: week.rule_id, title: video.title, url: video.url, watched: true, quizTaps: t, kind: 'quiz' }); setStage('write'); }} />;
-  if (stage === 'write') return <WriteWords items={words.map(word => ({ word }))} stickers={stickers} onDone={() => onDone({ kind: 'quiz', video: video.title, taps }, words)} />;
+  if (stage === 'write') return <WriteWords app={app} items={words.map(word => ({ word }))} stickers={stickers} onDone={() => onDone({ kind: 'quiz', video: video.title, taps }, words)} />;
 
   return (
     <div className="screen">
