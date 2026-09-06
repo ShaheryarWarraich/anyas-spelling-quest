@@ -26,7 +26,7 @@ export async function createApp({ db, content, now = () => new Date() }) {
     async init() {
       let p = await db.get('profile', 'anya');
       if (!p) {
-        p = { id: 'anya', name: content.child.name, pinHash: await sha256('1234'), startDate: content.weeks[0].dates.start, repeats: [], settings: { sheetUrl: '', voice: 'file' }, createdAt: this.nowISO(), lastOpened: null };
+        p = { id: 'anya', name: content.child.name, pinHash: await sha256('3690'), startDate: content.weeks[0].dates.start, repeats: [], settings: { sheetUrl: '', voice: 'file' }, createdAt: this.nowISO(), lastOpened: null };
         await db.put('profile', p);
       }
       const today = this.today();

@@ -16,7 +16,7 @@ A tablet-first, offline-capable PWA that turns a 6-week spelling plan into a 10�
 10. **Repeat a week:** inserts that week again starting the Monday after the current week and shifts later weeks by 7 days. Past day records keep their own week id, so history never changes.
 11. **Date jump:** records are keyed by calendar date; a jump of more than 7 days (or backwards) is logged and shown to the parent, nothing is deleted.
 12. **Old-rule badges** appear on the shelf once a week has ended (or the rule is fully known). "Fully known" (≥2 Ways done and Saturday probe ≥ 8/10) is parent-only; the child sees "You finished the FLOSS rule!" with a badge.
-13. **Default PIN is 1234.** Change it in Grown-ups → Settings. The PIN is stored as a SHA-256 hash.
+13. **Default PIN is 3690.** Change it in Grown-ups → Settings. The PIN is stored as a SHA-256 hash.
 14. **Audio** is pre-generated with the macOS voice "Karen" (`npm run audio`); if a file is missing the app falls back to the device's speech synthesis, which works offline on iPad.
 15. **Guide character** is Pip, an original round fox cub (SVG in `src/art/Pip.jsx`). Stickers at 5/10/20 streak days: star scarf, sparkle glasses, gold crown.
 
