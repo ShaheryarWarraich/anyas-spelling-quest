@@ -7,15 +7,15 @@
 
 === 2026-09-08 (learn) streak before: 1 active; Yesterday you learned The FLOSS rule with a grown-up!
   pressed "Try another way": 1 -> 2
-  watched video: Floss Dance
+  watched video: Floss Rule Song
   Way 2 done; way words: hill, miss
   words today: puff[taught], buzz[taught], hiss[transfer], bass[transfer], kiss[taught]
   parent check done (7/7, self-caught 0); minutes 10.8; counts: true; streak now 2 active
-  done screen preview -> Tomorrow: the Floss Rule Song video!
+  done screen preview -> Tomorrow: the Alphablocks: FF LL SS video!
 
 === 2026-09-09 MISSED (no session opened) — streak 2 active
 
-=== 2026-09-10 (learn) streak before: 2 paused; Last time you did the Floss Dance!
+=== 2026-09-10 (learn) streak before: 2 paused; Last time you did the Floss Rule Song!
   Way 3 done; way words: bell, dress, buzz, off
   words today: cliff[transfer], toss[transfer], puff[taught], fuzz[taught], fill[taught]
   parent check done (8/9, self-caught 0); minutes 10.8; counts: true; streak now 3 active
@@ -32,7 +32,7 @@
   words today: doll[probe], mess[probe], cuff[probe], jazz[probe], well[probe], boss[probe], sniff[probe], spill[probe], class[probe], fizz[probe]
   parent check done (9/10, self-caught 2); minutes 8.2; counts: true; streak now 5 active
   done screen preview -> Tomorrow is a rest day. Have fun!
-  weekly recap: {"rule":"The FLOSS rule","days":["2026-09-07","2026-09-08","2026-09-10","2026-09-11","2026-09-12"],"ways":[1,2,3,4],"videos":["Floss Dance"],"flowers":["2026-09-07","2026-09-08","2026-09-10","2026-09-11","2026-09-12"]}
+  weekly recap: {"rule":"The FLOSS rule","days":["2026-09-07","2026-09-08","2026-09-10","2026-09-11","2026-09-12"],"ways":[1,2,3,4],"videos":["Floss Rule Song"],"flowers":["2026-09-07","2026-09-08","2026-09-10","2026-09-11","2026-09-12"]}
 
 === 2026-09-13 Sunday rest day — streak 5 active (Sunday never counts as missed)
   BONUS "Play anyway" session on Sunday: kiss, doll, hill, huff, dress -> logged as bonus day (FLOSS), streak now 6
@@ -43,9 +43,9 @@
   parent check done (7/7, self-caught 0); minutes 10.8; counts: true; streak now 7 active
   done screen preview -> Tomorrow: Learn it with a grown-up!
   revision word drawn: doll (from FLOSS)
-  quick look 2026-09-08 -> rule The FLOSS rule, ways 2, videos Floss Dance, words puff,buzz,hiss,bass,kiss
+  quick look 2026-09-08 -> rule The FLOSS rule, ways 2, videos Floss Rule Song, words puff,buzz,hiss,bass,kiss
   old rules shelf: FLOSS
-  old-rule mini session FLOSS: kiss,dress,toss
+  old-rule mini session FLOSS: off,miss,doll
 
 ================ PARENT DASHBOARD ================
 {
@@ -326,22 +326,22 @@
    "videos": [
     {
      "date": "2026-09-08",
-     "title": "Floss Dance",
+     "title": "Floss Rule Song",
      "watched": true,
      "quizTaps": [
       {
-       "q": "Which word gets two Ls?",
-       "chosen": "bell",
+       "q": "Which one is right?",
+       "chosen": "buzz",
        "correct": true
       },
       {
-       "q": "Which word gets two Ss?",
-       "chosen": "kiss",
+       "q": "How many Fs in off?",
+       "chosen": "two",
        "correct": true
       },
       {
-       "q": "Which letters get doubled?",
-       "chosen": "f l s z",
+       "q": "Which word follows the rule?",
+       "chosen": "hill",
        "correct": true
       }
      ]
@@ -529,19 +529,19 @@
    "replayDate": null,
    "words": [
     {
-     "word": "kiss",
+     "word": "off",
      "source": "oldrule",
      "ruleId": "FLOSS",
      "mark": true
     },
     {
-     "word": "dress",
+     "word": "miss",
      "source": "oldrule",
      "ruleId": "FLOSS",
      "mark": true
     },
     {
-     "word": "toss",
+     "word": "doll",
      "source": "oldrule",
      "ruleId": "FLOSS",
      "mark": false
@@ -595,7 +595,7 @@
    2
   ],
   "videos": [
-   "Floss Dance"
+   "Floss Rule Song"
   ],
   "words": [
    "puff",
