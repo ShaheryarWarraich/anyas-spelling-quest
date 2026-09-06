@@ -36,7 +36,7 @@ Testing tip: add `?today=2026-09-07` to the URL to open the app as if it were th
 
 ## Install on an iPad
 
-The PWA needs to be served over HTTPS (or `localhost`). Easiest: put the `dist/` folder on any static host (Netlify drop, GitHub Pages, Cloudflare Pages) — the build uses relative paths so any sub-folder works.
+Live app: **https://shaheryarwarraich.github.io/anyas-spelling-quest/** (GitHub Pages, published from the `gh-pages` branch). After editing anything, run `npm run deploy` to republish.
 
 1. Open the URL in **Safari** on the iPad (not Chrome; only Safari can add PWAs to the home screen).
 2. Tap the **Share** button → **Add to Home Screen** → Add.
