@@ -34,9 +34,10 @@ function Dashboard({ app, onHome }) {
           {d.weeks.map(w => <tr key={w.weekId + w.start}><td>{w.iteration > 1 ? `${w.weekId} (repeat)` : w.weekId}</td><td>{w.ruleName}</td><td>{w.start} → {w.end}</td><td>{w.sessionCount}</td><td>{w.waysDone.map(x => <span className="tag ok" key={x}>Way {x}</span>)}</td><td>{pct(w.weekTransfer)}</td><td>{w.probes.map(p => <span key={p.date} className="tag">{p.correct}/{p.total}</span>)}</td><td>{w.selfCaught}</td><td>{w.fullyKnown === null ? '–' : w.fullyKnown ? <span className="tag ok">yes</span> : <span className="tag">not yet</span>}</td></tr>)}
         </tbody></table>
         {d.dateJumps.length > 0 && <div className="parent-note"><b>Date jumps detected:</b> {d.dateJumps.map(j => `${j.from} → ${j.to}`).join(', ')}. Records are keyed by date, so nothing was lost.</div>}
-        {d.repeats.length > 0 && <div className="parent-note"><b>Repeats:</b> {d.repeats.map(r => `${r.ruleId} from ${r.startDate}`).join(', ')}</div>}
+        <Repeats app={app} d={d} setMsg={setMsg} reload={reload} />
       </>}
 
+      {tab === 'weeks' && <Repeats app={app} d={d} setMsg={setMsg} reload={reload} />}
       {tab === 'weeks' && d.weeks.map(w => (
         <div key={w.weekId + w.start} className="card" style={{ textAlign: 'left' }}>
           <h2>{w.ruleName} · {w.start} → {w.end} {w.repeat && <span className="tag">repeat</span>}</h2>
@@ -45,7 +46,9 @@ function Dashboard({ app, onHome }) {
             {w.sessions.map(s => <tr key={s.date}><td>{s.date}</td><td>{s.dayType}{s.bonus && <span className="tag">bonus</span>} <span className="small muted">{s.status}</span></td><td>{s.minutes}</td><td>{s.countsForStreak ? '✓' : '–'}</td><td>{s.ways.join(', ')}</td><td>{s.switches}</td><td>{pct(s.taught)}</td><td>{pct(s.transfer)}</td><td>{s.revision.map(r => <span key={r.word} className={`tag ${r.mark ? 'ok' : r.mark === false ? 'no' : ''}`}>{r.word} ({r.ruleId})</span>)}</td><td>{s.probe ? `${s.probe.correct}/${s.probe.total}` : '–'}{s.probe?.byRule && Object.keys(s.probe.byRule).length > 1 && <div className="small">{Object.entries(s.probe.byRule).map(([r, v]) => `${r} ${v.correct}/${v.total}`).join(' · ')}</div>}</td><td>{s.selfCaught ?? '–'}</td><td>{s.wayWords.map(x => <span key={x.word} className={`tag ${x.mark ? 'ok' : x.mark === false ? 'no' : ''}`}>{x.word}</span>)}</td><td>{s.ruleTaps.map(t => <span key={t.word} className={`tag ${t.tapped === t.ruleId ? 'ok' : 'no'}`}>{t.word}: {t.tapped || '–'}</span>)}</td></tr>)}
             {w.sessions.length === 0 && <tr><td colSpan="13" className="muted">No sessions yet.</td></tr>}
           </tbody></table>
-          <div style={{ marginTop: 10 }}><button className="btn secondary" onClick={async () => { await app.markRepeat(w.weekId); setMsg(`${w.ruleName} will repeat after the current week.`); reload(); }}>Repeat this week</button></div>
+          <div style={{ marginTop: 10 }}>{w.repeat
+            ? <button className="btn secondary" onClick={async () => { await app.unmarkRepeat(w.weekId, w.start); setMsg(`Repeat of ${w.ruleName} removed.`); reload(); }}>Remove this repeat</button>
+            : <button className="btn secondary" onClick={async () => { await app.markRepeat(w.weekId); setMsg(`${w.ruleName} will repeat after the current week.`); reload(); }}>Repeat this week</button>}</div>
         </div>
       ))}
 
@@ -59,6 +62,22 @@ function Dashboard({ app, onHome }) {
       </tbody></table>}
 
       {tab === 'settings' && <Settings app={app} d={d} setMsg={setMsg} reload={reload} />}
+    </div>
+  );
+}
+
+function Repeats({ app, d, setMsg, reload }) {
+  if (!d.repeats.length) return null;
+  const name = id => app.content.weeks.find(w => w.rule_id === id)?.rule_name || id;
+  return (
+    <div className="card" style={{ textAlign: 'left' }}>
+      <h2>Repeats planned</h2>
+      {d.repeats.map(r => (
+        <div key={r.ruleId + r.startDate} className="row" style={{ justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid #eee' }}>
+          <span><b>{name(r.ruleId)}</b> repeats from {r.startDate} (later weeks shift by 7 days)</span>
+          <button className="btn secondary" onClick={async () => { await app.unmarkRepeat(r.ruleId, r.startDate); setMsg(`Repeat of ${name(r.ruleId)} removed.`); reload(); }}>Remove repeat</button>
+        </div>
+      ))}
     </div>
   );
 }
@@ -87,7 +106,6 @@ function Settings({ app, d, setMsg, reload }) {
         </div></div>
       <div className="card" style={{ textAlign: 'left' }}><h2>Plan start date</h2><div className="small muted">Week 1 starts on this Monday; later weeks follow. Change it to shift the whole plan.</div>
         <div className="row" style={{ justifyContent: 'flex-start' }}><input type="date" value={start} onChange={e => setStart(e.target.value)} style={{ width: 220 }} /><button className="btn secondary" onClick={async () => { await app.saveProfile({ startDate: start }); setMsg('Start date saved.'); reload(); }}>Save</button></div>
-        {app.profile.repeats?.length > 0 && <div style={{ marginTop: 8 }}>{app.profile.repeats.map(r => <span key={r.startDate} className="tag">{r.ruleId} repeat from {r.startDate} <button className="btn ghost" onClick={async () => { await app.unmarkRepeat(r.ruleId, r.startDate); reload(); }}>remove</button></span>)}</div>}
       </div>
       <div className="card" style={{ textAlign: 'left' }}><h2>Danger zone</h2><button className="btn secondary" onClick={async () => { if (confirm('Erase ALL of Anya\'s progress on this device? Export first!')) { for (const s of app.db.stores) await app.db.clear(s); location.reload(); } }}>Erase all data</button></div>
     </div>
