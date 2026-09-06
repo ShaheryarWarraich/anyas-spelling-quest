@@ -1,0 +1,655 @@
+
+=== 2026-09-07 (learn) streak before: 0 none; no yesterday
+  Way 1 done; way words: hill, miss
+  words today: doll[transfer], off[taught], dress[taught], bell[taught], huff[transfer]
+  parent check done (7/7, self-caught 1); minutes 10.8; counts: true; streak now 1 active
+  done screen preview -> Tomorrow: Learn it with a grown-up!
+
+=== 2026-09-08 (learn) streak before: 1 active; Yesterday you learned The FLOSS rule with a grown-up!
+  pressed "Try another way": 1 -> 2
+  watched video: Floss Dance
+  Way 2 done; way words: hill, miss
+  words today: puff[taught], buzz[taught], hiss[transfer], bass[transfer], kiss[taught]
+  parent check done (7/7, self-caught 0); minutes 10.8; counts: true; streak now 2 active
+  done screen preview -> Tomorrow: the Floss Rule Song video!
+
+=== 2026-09-09 MISSED (no session opened) — streak 2 active
+
+=== 2026-09-10 (learn) streak before: 2 paused; Last time you did the Floss Dance!
+  Way 3 done; way words: bell, dress, buzz, off
+  words today: cliff[transfer], toss[transfer], puff[taught], fuzz[taught], fill[taught]
+  parent check done (8/9, self-caught 0); minutes 10.8; counts: true; streak now 3 active
+  done screen preview -> Tomorrow: play the Sort game!
+
+=== 2026-09-11 (learn) streak before: 3 active; Yesterday you did Sound boxes!
+  Way 4 done; way words: hill, miss
+  words today: puff[taught], cliff[transfer], miss[taught], fill[taught], hiss[transfer]
+  HARD STOP at 15 minutes (mid-activity) -> "Done for today"
+  parent check done (7/7, self-caught 0); minutes 16.5; counts: true; streak now 4 active
+  done screen preview -> Tomorrow: show what you know!
+
+=== 2026-09-12 (probe) streak before: 4 active; Yesterday you played the Sort game!
+  words today: doll[probe], mess[probe], cuff[probe], jazz[probe], well[probe], boss[probe], sniff[probe], spill[probe], class[probe], fizz[probe]
+  parent check done (9/10, self-caught 2); minutes 8.2; counts: true; streak now 5 active
+  done screen preview -> Tomorrow is a rest day. Have fun!
+  weekly recap: {"rule":"The FLOSS rule","days":["2026-09-07","2026-09-08","2026-09-10","2026-09-11","2026-09-12"],"ways":[1,2,3,4],"videos":["Floss Dance"],"flowers":["2026-09-07","2026-09-08","2026-09-10","2026-09-11","2026-09-12"]}
+
+=== 2026-09-13 Sunday rest day — streak 5 active (Sunday never counts as missed)
+
+=== 2026-09-14 (learn) streak before: 5 active; Last time you showed what you know!
+  Way 1 done; way words: hill, miss
+  words today: doll[revision:FLOSS], mail[taught], hope[transfer], rope[taught], ride[transfer]
+  parent check done (7/7, self-caught 0); minutes 10.8; counts: true; streak now 6 active
+  done screen preview -> Tomorrow: Learn it with a grown-up!
+  revision word drawn: doll (from FLOSS)
+  quick look 2026-09-08 -> rule The FLOSS rule, ways 2, videos Floss Dance, words puff,buzz,hiss,bass,kiss
+  old rules shelf: FLOSS
+  old-rule mini session FLOSS: hill,bell,hiss
+
+================ PARENT DASHBOARD ================
+{
+ "today": "2026-09-14",
+ "child": "Anya",
+ "startDate": "2026-09-07",
+ "repeats": [],
+ "lastSync": null,
+ "streak": {
+  "count": 6,
+  "lastDone": "2026-09-14",
+  "days": [
+   "2026-09-07",
+   "2026-09-08",
+   "2026-09-10",
+   "2026-09-11",
+   "2026-09-12",
+   "2026-09-14"
+  ]
+ },
+ "weeks": [
+  {
+   "weekId": "FLOSS",
+   "ruleName": "The FLOSS rule",
+   "start": "2026-09-07",
+   "end": "2026-09-12",
+   "repeat": false,
+   "iteration": 1,
+   "sessions": [
+    {
+     "date": "2026-09-07",
+     "dayType": "learn",
+     "status": "complete",
+     "minutes": 10.8,
+     "countsForStreak": true,
+     "ways": [
+      1
+     ],
+     "switches": 0,
+     "transfer": {
+      "correct": 2,
+      "total": 2
+     },
+     "taught": {
+      "correct": 3,
+      "total": 3
+     },
+     "revision": [],
+     "probe": null,
+     "selfCaught": 1,
+     "ruleTaps": [],
+     "wayWords": [
+      {
+       "word": "hill",
+       "way": 1,
+       "mark": true
+      },
+      {
+       "word": "miss",
+       "way": 1,
+       "mark": true
+      }
+     ]
+    },
+    {
+     "date": "2026-09-08",
+     "dayType": "learn",
+     "status": "complete",
+     "minutes": 10.8,
+     "countsForStreak": true,
+     "ways": [
+      2
+     ],
+     "switches": 1,
+     "transfer": {
+      "correct": 2,
+      "total": 2
+     },
+     "taught": {
+      "correct": 3,
+      "total": 3
+     },
+     "revision": [],
+     "probe": null,
+     "selfCaught": 0,
+     "ruleTaps": [],
+     "wayWords": [
+      {
+       "word": "hill",
+       "way": 2,
+       "mark": true
+      },
+      {
+       "word": "miss",
+       "way": 2,
+       "mark": true
+      }
+     ]
+    },
+    {
+     "date": "2026-09-10",
+     "dayType": "learn",
+     "status": "complete",
+     "minutes": 10.8,
+     "countsForStreak": true,
+     "ways": [
+      3
+     ],
+     "switches": 0,
+     "transfer": {
+      "correct": 2,
+      "total": 2
+     },
+     "taught": {
+      "correct": 3,
+      "total": 3
+     },
+     "revision": [],
+     "probe": null,
+     "selfCaught": 0,
+     "ruleTaps": [],
+     "wayWords": [
+      {
+       "word": "bell",
+       "way": 3,
+       "mark": true
+      },
+      {
+       "word": "dress",
+       "way": 3,
+       "mark": false
+      },
+      {
+       "word": "buzz",
+       "way": 3,
+       "mark": true
+      },
+      {
+       "word": "off",
+       "way": 3,
+       "mark": true
+      }
+     ]
+    },
+    {
+     "date": "2026-09-11",
+     "dayType": "learn",
+     "status": "complete",
+     "minutes": 16.5,
+     "countsForStreak": true,
+     "ways": [
+      4
+     ],
+     "switches": 0,
+     "transfer": {
+      "correct": 2,
+      "total": 2
+     },
+     "taught": {
+      "correct": 3,
+      "total": 3
+     },
+     "revision": [],
+     "probe": null,
+     "selfCaught": 0,
+     "ruleTaps": [],
+     "wayWords": [
+      {
+       "word": "hill",
+       "way": 4,
+       "mark": true
+      },
+      {
+       "word": "miss",
+       "way": 4,
+       "mark": true
+      }
+     ]
+    },
+    {
+     "date": "2026-09-12",
+     "dayType": "probe",
+     "status": "complete",
+     "minutes": 8.2,
+     "countsForStreak": true,
+     "ways": [],
+     "switches": 0,
+     "transfer": {
+      "correct": 0,
+      "total": 0
+     },
+     "taught": {
+      "correct": 0,
+      "total": 0
+     },
+     "revision": [],
+     "probe": {
+      "correct": 9,
+      "total": 10,
+      "byRule": {
+       "FLOSS": {
+        "correct": 9,
+        "total": 10
+       }
+      }
+     },
+     "selfCaught": 2,
+     "ruleTaps": [],
+     "wayWords": []
+    }
+   ],
+   "sessionCount": 5,
+   "waysDone": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "weekTransfer": {
+    "correct": 8,
+    "total": 8
+   },
+   "probes": [
+    {
+     "date": "2026-09-12",
+     "correct": 9,
+     "total": 10,
+     "byRule": {
+      "FLOSS": {
+       "correct": 9,
+       "total": 10
+      }
+     }
+    }
+   ],
+   "videos": [
+    {
+     "date": "2026-09-08",
+     "title": "Floss Dance",
+     "watched": true,
+     "quizTaps": [
+      {
+       "q": "Which word gets two Ls?",
+       "chosen": "bell",
+       "correct": true
+      },
+      {
+       "q": "Which word gets two Ss?",
+       "chosen": "kiss",
+       "correct": true
+      },
+      {
+       "q": "Which letters get doubled?",
+       "chosen": "f l s z",
+       "correct": true
+      }
+     ]
+    }
+   ],
+   "switches": 1,
+   "selfCaught": 3,
+   "fullyKnown": true
+  },
+  {
+   "weekId": "LONGV",
+   "ruleName": "Long vowels",
+   "start": "2026-09-14",
+   "end": "2026-09-19",
+   "repeat": false,
+   "iteration": 1,
+   "sessions": [
+    {
+     "date": "2026-09-14",
+     "dayType": "learn",
+     "status": "complete",
+     "minutes": 13.8,
+     "countsForStreak": true,
+     "ways": [
+      1
+     ],
+     "switches": 0,
+     "transfer": {
+      "correct": 2,
+      "total": 2
+     },
+     "taught": {
+      "correct": 2,
+      "total": 2
+     },
+     "revision": [
+      {
+       "word": "doll",
+       "ruleId": "FLOSS",
+       "mark": true
+      }
+     ],
+     "probe": null,
+     "selfCaught": 0,
+     "ruleTaps": [],
+     "wayWords": [
+      {
+       "word": "hill",
+       "way": 1,
+       "mark": true
+      },
+      {
+       "word": "miss",
+       "way": 1,
+       "mark": true
+      }
+     ]
+    }
+   ],
+   "sessionCount": 1,
+   "waysDone": [
+    1
+   ],
+   "weekTransfer": {
+    "correct": 2,
+    "total": 2
+   },
+   "probes": [],
+   "videos": [],
+   "switches": 0,
+   "selfCaught": 0,
+   "fullyKnown": false
+  },
+  {
+   "weekId": "BOSSYR",
+   "ruleName": "Bossy r",
+   "start": "2026-09-21",
+   "end": "2026-09-26",
+   "repeat": false,
+   "iteration": 1,
+   "sessions": [],
+   "sessionCount": 0,
+   "waysDone": [],
+   "weekTransfer": {
+    "correct": 0,
+    "total": 0
+   },
+   "probes": [],
+   "videos": [],
+   "switches": 0,
+   "selfCaught": 0,
+   "fullyKnown": false
+  },
+  {
+   "weekId": "IGHLE",
+   "ruleName": "igh and -le",
+   "start": "2026-09-28",
+   "end": "2026-10-03",
+   "repeat": false,
+   "iteration": 1,
+   "sessions": [],
+   "sessionCount": 0,
+   "waysDone": [],
+   "weekTransfer": {
+    "correct": 0,
+    "total": 0
+   },
+   "probes": [],
+   "videos": [],
+   "switches": 0,
+   "selfCaught": 0,
+   "fullyKnown": false
+  },
+  {
+   "weekId": "HEART",
+   "ruleName": "Heart words",
+   "start": "2026-10-05",
+   "end": "2026-10-10",
+   "repeat": false,
+   "iteration": 1,
+   "sessions": [],
+   "sessionCount": 0,
+   "waysDone": [],
+   "weekTransfer": {
+    "correct": 0,
+    "total": 0
+   },
+   "probes": [],
+   "videos": [],
+   "switches": 0,
+   "selfCaught": 0,
+   "fullyKnown": false
+  },
+  {
+   "weekId": "MIXED",
+   "ruleName": "Mixed week",
+   "start": "2026-10-12",
+   "end": "2026-10-17",
+   "repeat": false,
+   "iteration": 1,
+   "sessions": [],
+   "sessionCount": 0,
+   "waysDone": [],
+   "weekTransfer": {
+    "correct": 0,
+    "total": 0
+   },
+   "probes": [],
+   "videos": [],
+   "switches": 0,
+   "selfCaught": 0,
+   "fullyKnown": null
+  }
+ ],
+ "fullyKnown": {
+  "FLOSS": true,
+  "LONGV": false,
+  "BOSSYR": false,
+  "IGHLE": false,
+  "HEART": false
+ },
+ "revisions": [
+  {
+   "type": "auto",
+   "date": "2026-09-14",
+   "ruleId": "FLOSS",
+   "word": "doll",
+   "replayDate": null,
+   "words": null
+  },
+  {
+   "type": "quicklook",
+   "date": "2026-09-14",
+   "ruleId": "FLOSS",
+   "word": null,
+   "replayDate": "2026-09-08",
+   "words": null
+  },
+  {
+   "type": "oldrule",
+   "date": "2026-09-14",
+   "ruleId": "FLOSS",
+   "word": null,
+   "replayDate": null,
+   "words": [
+    {
+     "word": "hill",
+     "source": "oldrule",
+     "ruleId": "FLOSS",
+     "mark": true
+    },
+    {
+     "word": "bell",
+     "source": "oldrule",
+     "ruleId": "FLOSS",
+     "mark": true
+    },
+    {
+     "word": "hiss",
+     "source": "oldrule",
+     "ruleId": "FLOSS",
+     "mark": false
+    }
+   ]
+  }
+ ],
+ "switchPresses": [
+  {
+   "date": "2026-09-08",
+   "from": 1,
+   "to": 2
+  }
+ ],
+ "dateJumps": [],
+ "totals": {
+  "sessions": 6,
+  "minutes": 71,
+  "videosWatched": 1
+ }
+}
+
+================ REVISION CALENDAR ================
+[
+ {
+  "date": "2026-09-07",
+  "weekId": "FLOSS",
+  "ruleName": "The FLOSS rule",
+  "emoji": "🦷",
+  "dayType": "learn",
+  "ways": [
+   1
+  ],
+  "videos": [],
+  "words": [
+   "doll",
+   "off",
+   "dress",
+   "bell",
+   "huff"
+  ],
+  "countsForStreak": true
+ },
+ {
+  "date": "2026-09-08",
+  "weekId": "FLOSS",
+  "ruleName": "The FLOSS rule",
+  "emoji": "🦷",
+  "dayType": "learn",
+  "ways": [
+   2
+  ],
+  "videos": [
+   "Floss Dance"
+  ],
+  "words": [
+   "puff",
+   "buzz",
+   "hiss",
+   "bass",
+   "kiss"
+  ],
+  "countsForStreak": true
+ },
+ {
+  "date": "2026-09-10",
+  "weekId": "FLOSS",
+  "ruleName": "The FLOSS rule",
+  "emoji": "🦷",
+  "dayType": "learn",
+  "ways": [
+   3
+  ],
+  "videos": [],
+  "words": [
+   "cliff",
+   "toss",
+   "puff",
+   "fuzz",
+   "fill"
+  ],
+  "countsForStreak": true
+ },
+ {
+  "date": "2026-09-11",
+  "weekId": "FLOSS",
+  "ruleName": "The FLOSS rule",
+  "emoji": "🦷",
+  "dayType": "learn",
+  "ways": [
+   4
+  ],
+  "videos": [],
+  "words": [
+   "puff",
+   "cliff",
+   "miss",
+   "fill",
+   "hiss"
+  ],
+  "countsForStreak": true
+ },
+ {
+  "date": "2026-09-12",
+  "weekId": "FLOSS",
+  "ruleName": "The FLOSS rule",
+  "emoji": "🦷",
+  "dayType": "probe",
+  "ways": [],
+  "videos": [],
+  "words": [
+   "doll",
+   "mess",
+   "cuff",
+   "jazz",
+   "well",
+   "boss",
+   "sniff",
+   "spill",
+   "class",
+   "fizz"
+  ],
+  "countsForStreak": true
+ },
+ {
+  "date": "2026-09-14",
+  "weekId": "LONGV",
+  "ruleName": "Long vowels",
+  "emoji": "✨",
+  "dayType": "learn",
+  "ways": [
+   1
+  ],
+  "videos": [],
+  "words": [
+   "doll",
+   "mail",
+   "hope",
+   "rope",
+   "ride"
+  ],
+  "countsForStreak": true
+ }
+]
+
+================ sessions.csv ================
+date,weekId,dayType,status,minutes,countsForStreak,waysDone,switches,wordsCorrect,wordsTotal,transferCorrect,transferTotal,probeCorrect,probeTotal,selfCaught
+2026-09-07,FLOSS,learn,complete,10.8,true,1,0,7,7,2,2,,,1
+2026-09-08,FLOSS,learn,complete,10.8,true,2,1,7,7,2,2,,,0
+2026-09-10,FLOSS,learn,complete,10.8,true,3,0,8,9,2,2,,,0
+2026-09-11,FLOSS,learn,complete,16.5,true,4,0,7,7,2,2,,,0
+2026-09-12,FLOSS,probe,complete,8.2,true,,0,9,10,0,0,9,10,2
+2026-09-14,LONGV,learn,complete,13.8,true,1,0,7,7,2,2,,,0
+
+ALL ASSERTIONS PASSED
