@@ -1,0 +1,2720 @@
+{
+  "child": {
+    "name": "Anya",
+    "age": 7
+  },
+  "guide": {
+    "name": "Pip",
+    "hello": [
+      "Hello Anya! Ready to play?",
+      "Hi Anya! Let's spell today.",
+      "Pip is here! Let's go!"
+    ],
+    "done": [
+      "You did it! See you tomorrow.",
+      "Your flower is growing!",
+      "Great writing today, Anya."
+    ],
+    "warm": [
+      "Well done! Your paper is checked.",
+      "Nice work with your grown-up!"
+    ]
+  },
+  "settings": {
+    "session_minutes": 15,
+    "min_session_minutes": 10,
+    "min_probe_minutes": 0,
+    "word_show_seconds": 3,
+    "daily_words": 5,
+    "streak_milestones": [
+      5,
+      10,
+      20
+    ],
+    "ear_items_daily": 2,
+    "ear_items_review": 6,
+    "sentence_picks_review": 3,
+    "sentences_to_write_review": 2
+  },
+  "weeks": [
+    {
+      "rule_id": "FLOSS",
+      "week": 1,
+      "rule_name": "The FLOSS rule",
+      "rule_text": "Short vowel, one beat, ends in f, l, s or z: double it!",
+      "rule_short": "Double f, l, s, z",
+      "emoji": "🦷",
+      "dates": {
+        "start": "2026-09-07",
+        "end": "2026-09-12"
+      },
+      "taught": [
+        "bell",
+        "dress",
+        "buzz",
+        "hill",
+        "off",
+        "miss",
+        "puff",
+        "fill",
+        "kiss",
+        "fuzz"
+      ],
+      "daily_transfer": [
+        "cliff",
+        "bass",
+        "huff",
+        "toss",
+        "doll",
+        "hiss"
+      ],
+      "probe": [
+        "doll",
+        "mess",
+        "cuff",
+        "jazz",
+        "well",
+        "boss",
+        "sniff",
+        "spill",
+        "class",
+        "fizz"
+      ],
+      "way1_script": [
+        {
+          "kind": "say",
+          "title": "Look at this word",
+          "text": "Grown-up: Say 'bell'. Show Anya the word. Ask: how many Ls do you see?",
+          "demo": {
+            "type": "show",
+            "word": "bell"
+          }
+        },
+        {
+          "kind": "cover",
+          "title": "Cover one L",
+          "text": "Cover the second L with your finger. Does it still say bell? Yes! So why two? Because it is SHORT, ONE BEAT, and ends in L. Double it!",
+          "demo": {
+            "type": "cover",
+            "word": "bell",
+            "hide": [
+              3
+            ]
+          }
+        },
+        {
+          "kind": "cover",
+          "title": "Now try off",
+          "text": "Same trick. Short o, one beat, ends in f. Double the f!",
+          "demo": {
+            "type": "cover",
+            "word": "off",
+            "hide": [
+              2
+            ]
+          }
+        },
+        {
+          "kind": "cover",
+          "title": "Now try kiss",
+          "text": "Short i, one beat, ends in s. Double the s!",
+          "demo": {
+            "type": "cover",
+            "word": "kiss",
+            "hide": [
+              3
+            ]
+          }
+        },
+        {
+          "kind": "cover",
+          "title": "Now try buzz",
+          "text": "Short u, one beat, ends in z. Double the z! Say the rule together: short vowel, one beat, ends in f-l-s-z, double it.",
+          "demo": {
+            "type": "cover",
+            "word": "buzz",
+            "hide": [
+              3
+            ]
+          }
+        },
+        {
+          "kind": "breakers",
+          "title": "Rule breakers",
+          "text": "Some words break the rule. Read them together: of, if, bus, gas, yes, us, this keep ONE letter. And help, milk: no doubling when another letter sits between the vowel and the end. We just remember the breakers.",
+          "demo": {
+            "type": "breakers"
+          }
+        },
+        {
+          "kind": "write",
+          "title": "Your turn",
+          "text": "Grown-up: say each word. Anya writes it on paper.",
+          "words": [
+            "hill",
+            "miss"
+          ]
+        }
+      ],
+      "way2_videos": [
+        {
+          "title": "Floss Rule Song",
+          "url": "https://www.youtube.com/watch?v=P0ybAXXRFzk",
+          "quiz": [
+            {
+              "q": "Which one is right?",
+              "options": [
+                "buz",
+                "buzz",
+                "bzz"
+              ],
+              "answer": "buzz"
+            },
+            {
+              "q": "How many Fs in off?",
+              "options": [
+                "one",
+                "two",
+                "three"
+              ],
+              "answer": "two"
+            },
+            {
+              "q": "Which word follows the rule?",
+              "options": [
+                "hit",
+                "him",
+                "hill"
+              ],
+              "answer": "hill"
+            },
+            {
+              "q": "Which word breaks the rule (one s)?",
+              "options": [
+                "kiss",
+                "bus",
+                "miss"
+              ],
+              "answer": "bus"
+            }
+          ]
+        },
+        {
+          "title": "Alphablocks: FF LL SS",
+          "url": "https://www.youtube.com/watch?v=bcePwg_LLmk",
+          "quiz": [
+            {
+              "q": "Which word gets ff?",
+              "options": [
+                "puff",
+                "pup",
+                "pun"
+              ],
+              "answer": "puff"
+            },
+            {
+              "q": "Which word gets ll?",
+              "options": [
+                "fin",
+                "fill",
+                "fig"
+              ],
+              "answer": "fill"
+            },
+            {
+              "q": "Which word gets ss?",
+              "options": [
+                "mix",
+                "mat",
+                "miss"
+              ],
+              "answer": "miss"
+            },
+            {
+              "q": "Which one is right?",
+              "options": [
+                "off",
+                "of",
+                "ov"
+              ],
+              "answer": "of"
+            }
+          ]
+        }
+      ],
+      "way3_words": [
+        {
+          "word": "bell",
+          "tiles": [
+            "b",
+            "e",
+            "ll"
+          ]
+        },
+        {
+          "word": "dress",
+          "tiles": [
+            "d",
+            "r",
+            "e",
+            "ss"
+          ]
+        },
+        {
+          "word": "buzz",
+          "tiles": [
+            "b",
+            "u",
+            "zz"
+          ]
+        },
+        {
+          "word": "off",
+          "tiles": [
+            "o",
+            "ff"
+          ]
+        },
+        {
+          "word": "bus",
+          "tiles": [
+            "b",
+            "u",
+            "s"
+          ],
+          "note": "Rule breaker: one s."
+        }
+      ],
+      "way4_game": {
+        "type": "sort",
+        "labels": [
+          "Double it!",
+          "No double"
+        ],
+        "yes": [
+          "bell",
+          "off",
+          "kiss",
+          "buzz",
+          "hill",
+          "dress"
+        ],
+        "no": [
+          "bed",
+          "of",
+          "kit",
+          "bus",
+          "hip",
+          "drum"
+        ],
+        "breakers_round": true
+      },
+      "watch_for": "'bus' and 'of' are exceptions. Say so plainly: 'These two are rule-breakers. We just remember them.' The Rule breakers slide lists the rest (if, gas, yes, us, this).",
+      "exceptions": [
+        {
+          "word": "of",
+          "why": "of has one f, and it even sounds like v!"
+        },
+        {
+          "word": "if",
+          "why": "if keeps one f."
+        },
+        {
+          "word": "bus",
+          "why": "bus has one s."
+        },
+        {
+          "word": "gas",
+          "why": "gas has one s."
+        },
+        {
+          "word": "yes",
+          "why": "yes has one s."
+        },
+        {
+          "word": "us",
+          "why": "us has one s."
+        },
+        {
+          "word": "this",
+          "why": "this has one s."
+        },
+        {
+          "word": "help",
+          "why": "No double: the l is not right after the vowel.",
+          "group": "nearmiss"
+        },
+        {
+          "word": "milk",
+          "why": "No double: the k is not right after the vowel.",
+          "group": "nearmiss"
+        }
+      ],
+      "confusables": {
+        "bell": [
+          "bel",
+          "bal"
+        ],
+        "dress": [
+          "dres",
+          "driss"
+        ],
+        "buzz": [
+          "buz",
+          "bazz"
+        ],
+        "hill": [
+          "hil",
+          "hel"
+        ],
+        "off": [
+          "of",
+          "uff"
+        ],
+        "miss": [
+          "mis",
+          "muss"
+        ],
+        "puff": [
+          "puf",
+          "piff"
+        ],
+        "fill": [
+          "fil",
+          "fyll"
+        ],
+        "kiss": [
+          "kis",
+          "kess"
+        ],
+        "fuzz": [
+          "fuz",
+          "fazz"
+        ],
+        "cliff": [
+          "clif",
+          "cleff"
+        ],
+        "bass": [
+          "bas",
+          "bess"
+        ],
+        "huff": [
+          "huf",
+          "hoff"
+        ],
+        "toss": [
+          "tos",
+          "tass"
+        ],
+        "doll": [
+          "dol",
+          "dall"
+        ],
+        "hiss": [
+          "hiz",
+          "hess"
+        ],
+        "of": [
+          "off",
+          "ov"
+        ],
+        "if": [
+          "iff",
+          "ef"
+        ],
+        "bus": [
+          "buss",
+          "bas"
+        ],
+        "gas": [
+          "gass",
+          "ges"
+        ],
+        "yes": [
+          "yess",
+          "yas"
+        ],
+        "us": [
+          "uss",
+          "as"
+        ],
+        "this": [
+          "thiss",
+          "thes"
+        ],
+        "help": [
+          "hellp",
+          "halp"
+        ],
+        "milk": [
+          "millk",
+          "melk"
+        ],
+        "mess": [
+          "mes",
+          "mass"
+        ],
+        "well": [
+          "wel",
+          "wull"
+        ],
+        "boss": [
+          "bos",
+          "buss"
+        ],
+        "class": [
+          "clas",
+          "cless"
+        ],
+        "fizz": [
+          "fiz",
+          "fezz"
+        ]
+      },
+      "review_sentences": [
+        {
+          "text": "The bell is off.",
+          "words": [
+            "bell",
+            "off"
+          ]
+        },
+        {
+          "text": "Yes, the bus will huff and puff.",
+          "words": [
+            "yes",
+            "bus",
+            "huff",
+            "puff"
+          ]
+        },
+        {
+          "text": "This is a kiss for us.",
+          "words": [
+            "this",
+            "kiss",
+            "us"
+          ]
+        },
+        {
+          "text": "Miss Hill has a big doll.",
+          "words": [
+            "miss",
+            "hill",
+            "doll"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "LONGV",
+      "week": 2,
+      "rule_name": "Long vowels",
+      "rule_text": "Silent e makes the vowel say its name. Teams: ai in the middle, ay at the end, oa, ee.",
+      "rule_short": "Magic e and vowel teams",
+      "emoji": "✨",
+      "dates": {
+        "start": "2026-09-14",
+        "end": "2026-09-19"
+      },
+      "taught": [
+        "cake",
+        "train",
+        "boat",
+        "cheese",
+        "kite",
+        "rope",
+        "cube",
+        "seed",
+        "mail",
+        "road"
+      ],
+      "daily_transfer": [
+        "game",
+        "rain",
+        "goat",
+        "tree",
+        "ride",
+        "hope"
+      ],
+      "probe": [
+        "lake",
+        "chain",
+        "coat",
+        "green",
+        "bike",
+        "home",
+        "tune",
+        "feed",
+        "tail",
+        "soap"
+      ],
+      "way1_script": [
+        {
+          "kind": "flip",
+          "title": "Magic e",
+          "text": "Say 'cap'. Now add a magic e at the end. The a says its name: cape! The e is silent but it is bossy.",
+          "demo": {
+            "type": "flip",
+            "from": "cap",
+            "to": "cape"
+          }
+        },
+        {
+          "kind": "flip",
+          "title": "kit to kite",
+          "text": "Say 'kit'. Add the e. Now the i says its name: kite!",
+          "demo": {
+            "type": "flip",
+            "from": "kit",
+            "to": "kite"
+          }
+        },
+        {
+          "kind": "flip",
+          "title": "rob to robe",
+          "text": "Say 'rob'. Add the e. Now the o says its name: robe!",
+          "demo": {
+            "type": "flip",
+            "from": "rob",
+            "to": "robe"
+          }
+        },
+        {
+          "kind": "flip",
+          "title": "cub to cube",
+          "text": "Say 'cub'. Add the e. Now the u says its name: cube!",
+          "demo": {
+            "type": "flip",
+            "from": "cub",
+            "to": "cube"
+          }
+        },
+        {
+          "kind": "columns",
+          "title": "Vowel teams",
+          "text": "Vowels can also hold hands. ai lives in the middle (train). ay lives at the end (play). oa says o (boat). ee says e (cheese).",
+          "demo": {
+            "type": "columns",
+            "cols": [
+              {
+                "label": "ai",
+                "words": [
+                  "train",
+                  "mail"
+                ]
+              },
+              {
+                "label": "ay",
+                "words": [
+                  "play",
+                  "day"
+                ]
+              },
+              {
+                "label": "oa",
+                "words": [
+                  "boat",
+                  "road"
+                ]
+              },
+              {
+                "label": "ee",
+                "words": [
+                  "cheese",
+                  "seed"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "kind": "breakers",
+          "title": "Rule breakers",
+          "text": "Some words have a magic e that does NOT work: have, give, live (words can't end in v). come, some, done, love: the o says u. And said: ai says e. Rule breakers! We keep them in our heart.",
+          "demo": {
+            "type": "breakers"
+          }
+        },
+        {
+          "kind": "write",
+          "title": "Your turn",
+          "text": "Grown-up: say each word. Anya writes it on paper.",
+          "words": [
+            "cake",
+            "boat"
+          ]
+        }
+      ],
+      "way2_videos": [
+        {
+          "title": "Silent E (Jack Hartmann)",
+          "url": "https://www.youtube.com/watch?v=mxVWScxsOsc",
+          "quiz": [
+            {
+              "q": "What does silent e do?",
+              "options": [
+                "Makes the vowel say its name",
+                "Makes a loud sound",
+                "Nothing"
+              ],
+              "answer": "Makes the vowel say its name"
+            },
+            {
+              "q": "cap + e = ?",
+              "options": [
+                "cup",
+                "cape",
+                "cat"
+              ],
+              "answer": "cape"
+            },
+            {
+              "q": "Which word has a silent e?",
+              "options": [
+                "kit",
+                "kin",
+                "kite"
+              ],
+              "answer": "kite"
+            },
+            {
+              "q": "Which word breaks the magic e rule?",
+              "options": [
+                "have",
+                "cake",
+                "kite"
+              ],
+              "answer": "have"
+            }
+          ]
+        },
+        {
+          "title": "When Two Vowels Go Walking",
+          "url": "https://www.youtube.com/watch?v=GdmcWQCbqY8",
+          "quiz": [
+            {
+              "q": "When two vowels go walking, who does the talking?",
+              "options": [
+                "The first one",
+                "The second one",
+                "Nobody"
+              ],
+              "answer": "The first one"
+            },
+            {
+              "q": "Which word has ai?",
+              "options": [
+                "tran",
+                "train",
+                "tren"
+              ],
+              "answer": "train"
+            },
+            {
+              "q": "Which word has oa?",
+              "options": [
+                "boat",
+                "bot",
+                "bat"
+              ],
+              "answer": "boat"
+            },
+            {
+              "q": "In 'come', what does the o say?",
+              "options": [
+                "its name",
+                "u",
+                "nothing"
+              ],
+              "answer": "u"
+            }
+          ]
+        }
+      ],
+      "way3_words": [
+        {
+          "word": "cake",
+          "tiles": [
+            "c",
+            "a_e",
+            "k"
+          ],
+          "note": "a_e is one split tile: the e reaches back to the a."
+        },
+        {
+          "word": "train",
+          "tiles": [
+            "t",
+            "r",
+            "ai",
+            "n"
+          ]
+        },
+        {
+          "word": "boat",
+          "tiles": [
+            "b",
+            "oa",
+            "t"
+          ]
+        },
+        {
+          "word": "cheese",
+          "tiles": [
+            "ch",
+            "ee",
+            "se"
+          ]
+        },
+        {
+          "word": "have",
+          "tiles": [
+            "h",
+            "a",
+            "ve"
+          ],
+          "note": "Rule breaker: a stays short."
+        }
+      ],
+      "way4_game": {
+        "type": "where",
+        "prompt": "Where does the long a live?",
+        "zones": {
+          "head": "start",
+          "tummy": "middle",
+          "feet": "end"
+        },
+        "items": [
+          {
+            "word": "play",
+            "zone": "feet"
+          },
+          {
+            "word": "day",
+            "zone": "feet"
+          },
+          {
+            "word": "stay",
+            "zone": "feet"
+          },
+          {
+            "word": "tray",
+            "zone": "feet"
+          },
+          {
+            "word": "train",
+            "zone": "tummy"
+          },
+          {
+            "word": "rain",
+            "zone": "tummy"
+          },
+          {
+            "word": "mail",
+            "zone": "tummy"
+          },
+          {
+            "word": "paint",
+            "zone": "tummy"
+          },
+          {
+            "word": "ape",
+            "zone": "head"
+          },
+          {
+            "word": "ate",
+            "zone": "head"
+          }
+        ],
+        "breakers_round": true
+      },
+      "watch_for": "Do not add ea vs ee this week. If she asks, say 'ee is our team this week'.",
+      "exceptions": [
+        {
+          "word": "have",
+          "why": "The e is only there because words can't end in v. The a stays short."
+        },
+        {
+          "word": "give",
+          "why": "Same trick: the i stays short."
+        },
+        {
+          "word": "live",
+          "why": "The i stays short (I live here)."
+        },
+        {
+          "word": "love",
+          "why": "The o says u, not its name."
+        },
+        {
+          "word": "come",
+          "why": "The o says u. A rule breaker!"
+        },
+        {
+          "word": "some",
+          "why": "The o says u. Another rule breaker."
+        },
+        {
+          "word": "done",
+          "why": "The o says u here too."
+        },
+        {
+          "word": "said",
+          "why": "ai says e here, not a. Just remember it."
+        }
+      ],
+      "confusables": {
+        "cake": [
+          "cak",
+          "caik"
+        ],
+        "train": [
+          "trane",
+          "trayn"
+        ],
+        "boat": [
+          "bote",
+          "bowt"
+        ],
+        "cheese": [
+          "chese",
+          "cheez"
+        ],
+        "kite": [
+          "kight",
+          "kyte"
+        ],
+        "rope": [
+          "rop",
+          "roap"
+        ],
+        "cube": [
+          "cueb",
+          "kube"
+        ],
+        "seed": [
+          "sede",
+          "sead"
+        ],
+        "mail": [
+          "mayl",
+          "mael"
+        ],
+        "road": [
+          "rowd",
+          "roed"
+        ],
+        "game": [
+          "gaim",
+          "gam"
+        ],
+        "rain": [
+          "rane",
+          "rayn"
+        ],
+        "goat": [
+          "gote",
+          "gowt"
+        ],
+        "tree": [
+          "tre",
+          "trea"
+        ],
+        "ride": [
+          "ryde",
+          "ried"
+        ],
+        "hope": [
+          "hoap",
+          "hoep"
+        ],
+        "have": [
+          "hav",
+          "haev"
+        ],
+        "give": [
+          "giv",
+          "gyve"
+        ],
+        "live": [
+          "liv",
+          "lyve"
+        ],
+        "love": [
+          "luv",
+          "lov"
+        ],
+        "come": [
+          "cum",
+          "coam"
+        ],
+        "some": [
+          "som",
+          "sume"
+        ],
+        "done": [
+          "dun",
+          "doan"
+        ],
+        "said": [
+          "sed",
+          "sayd"
+        ],
+        "lake": [
+          "laik",
+          "lak"
+        ],
+        "green": [
+          "grean",
+          "gren"
+        ],
+        "bike": [
+          "byke",
+          "bick"
+        ],
+        "home": [
+          "hoam",
+          "hom"
+        ]
+      },
+      "review_sentences": [
+        {
+          "text": "I hope the rain will stop.",
+          "words": [
+            "hope",
+            "rain"
+          ]
+        },
+        {
+          "text": "The goat sat on the road.",
+          "words": [
+            "goat",
+            "road"
+          ]
+        },
+        {
+          "text": "Come and have some cake.",
+          "words": [
+            "come",
+            "have",
+            "some",
+            "cake"
+          ]
+        },
+        {
+          "text": "We ride the train to the lake.",
+          "words": [
+            "ride",
+            "train",
+            "lake"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "BOSSYR",
+      "week": 3,
+      "rule_name": "Bossy r",
+      "rule_text": "Bossy r changes the vowel: ar, or, ir, ur.",
+      "rule_short": "ar or ir ur",
+      "emoji": "🏴‍☠️",
+      "dates": {
+        "start": "2026-09-21",
+        "end": "2026-09-26"
+      },
+      "taught": [
+        "car",
+        "dark",
+        "bird",
+        "first",
+        "turn",
+        "hurt",
+        "fork",
+        "born",
+        "farm",
+        "stir"
+      ],
+      "daily_transfer": [
+        "bark",
+        "shirt",
+        "fur",
+        "port",
+        "jar",
+        "sir"
+      ],
+      "probe": [
+        "card",
+        "star",
+        "dirt",
+        "third",
+        "curl",
+        "burn",
+        "corn",
+        "sort",
+        "harm",
+        "girl"
+      ],
+      "way1_script": [
+        {
+          "kind": "say",
+          "title": "Pirate arr!",
+          "text": "When r stands next to a vowel, r is the boss. a + r says ARR like a pirate. car, dark, farm.",
+          "demo": {
+            "type": "show",
+            "word": "car",
+            "highlight": "ar",
+            "color": "#e0474c"
+          }
+        },
+        {
+          "kind": "say",
+          "title": "or says or",
+          "text": "o + r says OR, like fork. fork, born.",
+          "demo": {
+            "type": "show",
+            "word": "fork",
+            "highlight": "or",
+            "color": "#f28c28"
+          }
+        },
+        {
+          "kind": "say",
+          "title": "ir says er",
+          "text": "i + r says ER. bird, first, stir are ir words.",
+          "demo": {
+            "type": "show",
+            "word": "bird",
+            "highlight": "ir",
+            "color": "#2e9e5b"
+          }
+        },
+        {
+          "kind": "say",
+          "title": "ur says er too",
+          "text": "u + r ALSO says ER. turn, hurt are ur words. Two spellings, one sound: we just learn which words are which.",
+          "demo": {
+            "type": "show",
+            "word": "turn",
+            "highlight": "ur",
+            "color": "#2f6fdb"
+          }
+        },
+        {
+          "kind": "columns",
+          "title": "Four columns",
+          "text": "Sort them together: which column does each word go in?",
+          "demo": {
+            "type": "columns",
+            "cols": [
+              {
+                "label": "ar",
+                "words": [
+                  "car",
+                  "dark",
+                  "farm"
+                ],
+                "color": "#e0474c"
+              },
+              {
+                "label": "or",
+                "words": [
+                  "fork",
+                  "born"
+                ],
+                "color": "#f28c28"
+              },
+              {
+                "label": "ir",
+                "words": [
+                  "bird",
+                  "first",
+                  "stir"
+                ],
+                "color": "#2e9e5b"
+              },
+              {
+                "label": "ur",
+                "words": [
+                  "turn",
+                  "hurt"
+                ],
+                "color": "#2f6fdb"
+              }
+            ]
+          }
+        },
+        {
+          "kind": "breakers",
+          "title": "Rule breakers",
+          "text": "Watch out for w. After w, ar says or (war, warm) and or says er (word, work, worm). And er is a third spelling of the er sound (her).",
+          "demo": {
+            "type": "breakers"
+          }
+        },
+        {
+          "kind": "write",
+          "title": "Your turn",
+          "text": "Grown-up: say each word. Anya writes it on paper.",
+          "words": [
+            "car",
+            "bird"
+          ]
+        }
+      ],
+      "way2_videos": [
+        {
+          "title": "AR song",
+          "url": "https://www.youtube.com/watch?v=Z9yrw-F4BNk",
+          "quiz": [
+            {
+              "q": "Which word has ar?",
+              "options": [
+                "car",
+                "cat",
+                "cot"
+              ],
+              "answer": "car"
+            },
+            {
+              "q": "What does ar say?",
+              "options": [
+                "arr like a pirate",
+                "ee",
+                "oo"
+              ],
+              "answer": "arr like a pirate"
+            },
+            {
+              "q": "Which one is right?",
+              "options": [
+                "fam",
+                "farm",
+                "frm"
+              ],
+              "answer": "farm"
+            },
+            {
+              "q": "After w, what does 'or' say in 'work'?",
+              "options": [
+                "er",
+                "or",
+                "ar"
+              ],
+              "answer": "er"
+            }
+          ]
+        },
+        {
+          "title": "OR song",
+          "url": "https://www.youtube.com/watch?v=S4WosJrDecE",
+          "quiz": [
+            {
+              "q": "Which word has or?",
+              "options": [
+                "fok",
+                "fak",
+                "fork"
+              ],
+              "answer": "fork"
+            },
+            {
+              "q": "Which one is right?",
+              "options": [
+                "born",
+                "bin",
+                "ban"
+              ],
+              "answer": "born"
+            },
+            {
+              "q": "What does or say?",
+              "options": [
+                "or",
+                "ar",
+                "ur"
+              ],
+              "answer": "or"
+            },
+            {
+              "q": "Which word breaks the rule?",
+              "options": [
+                "car",
+                "war",
+                "far"
+              ],
+              "answer": "war"
+            }
+          ]
+        },
+        {
+          "title": "IR song",
+          "url": "https://www.youtube.com/watch?v=m80-EARttw8",
+          "quiz": [
+            {
+              "q": "Which word has ir?",
+              "options": [
+                "bud",
+                "bird",
+                "bad"
+              ],
+              "answer": "bird"
+            },
+            {
+              "q": "Which one is right?",
+              "options": [
+                "first",
+                "fist",
+                "fast"
+              ],
+              "answer": "first"
+            },
+            {
+              "q": "What does ir say?",
+              "options": [
+                "er",
+                "ar",
+                "or"
+              ],
+              "answer": "er"
+            },
+            {
+              "q": "What does 'war' sound like?",
+              "options": [
+                "wor",
+                "wur",
+                "wer"
+              ],
+              "answer": "wor"
+            }
+          ]
+        },
+        {
+          "title": "UR song",
+          "url": "https://www.youtube.com/watch?v=Fs2LQjamFqg",
+          "quiz": [
+            {
+              "q": "Which word has ur?",
+              "options": [
+                "tun",
+                "tin",
+                "turn"
+              ],
+              "answer": "turn"
+            },
+            {
+              "q": "Which one is right?",
+              "options": [
+                "hut",
+                "hurt",
+                "hat"
+              ],
+              "answer": "hurt"
+            },
+            {
+              "q": "What does ur say?",
+              "options": [
+                "ar",
+                "or",
+                "er"
+              ],
+              "answer": "er"
+            },
+            {
+              "q": "Which is a rule breaker?",
+              "options": [
+                "turn",
+                "worm",
+                "burn"
+              ],
+              "answer": "worm"
+            }
+          ]
+        },
+        {
+          "title": "Bossy R Pirate",
+          "url": "https://www.youtube.com/watch?v=A18DQSnvG4E",
+          "quiz": [
+            {
+              "q": "What does bossy r do?",
+              "options": [
+                "Changes the vowel sound",
+                "Says nothing",
+                "Makes it silent"
+              ],
+              "answer": "Changes the vowel sound"
+            },
+            {
+              "q": "Which word has bossy r?",
+              "options": [
+                "fan",
+                "farm",
+                "fun"
+              ],
+              "answer": "farm"
+            },
+            {
+              "q": "ar sounds like...",
+              "options": [
+                "a cow",
+                "a pirate",
+                "a bell"
+              ],
+              "answer": "a pirate"
+            },
+            {
+              "q": "Which word has ar that says or?",
+              "options": [
+                "farm",
+                "warm",
+                "harm"
+              ],
+              "answer": "warm"
+            }
+          ]
+        }
+      ],
+      "way3_words": [
+        {
+          "word": "car",
+          "tiles": [
+            "c",
+            "ar"
+          ],
+          "colors": {
+            "ar": "#e0474c"
+          }
+        },
+        {
+          "word": "fork",
+          "tiles": [
+            "f",
+            "or",
+            "k"
+          ],
+          "colors": {
+            "or": "#f28c28"
+          }
+        },
+        {
+          "word": "bird",
+          "tiles": [
+            "b",
+            "ir",
+            "d"
+          ],
+          "colors": {
+            "ir": "#2e9e5b"
+          }
+        },
+        {
+          "word": "turn",
+          "tiles": [
+            "t",
+            "ur",
+            "n"
+          ],
+          "colors": {
+            "ur": "#2f6fdb"
+          }
+        },
+        {
+          "word": "work",
+          "tiles": [
+            "w",
+            "or",
+            "k"
+          ],
+          "colors": {
+            "or": "#f28c28"
+          },
+          "note": "Rule breaker: or says er after w."
+        }
+      ],
+      "way4_game": {
+        "type": "hunt",
+        "prompt": "Take a photo of a book page. Circle the bossy r words with your finger!",
+        "targets": [
+          "ar",
+          "or",
+          "ir",
+          "ur"
+        ],
+        "breakers_round": true
+      },
+      "watch_for": "Keep most 'er' words out this week; 'her' is shown once as the third spelling of the er sound. Watch the w words: war/warm (ar says or), word/work/worm (or says er).",
+      "exceptions": [
+        {
+          "word": "war",
+          "why": "After w, ar says or."
+        },
+        {
+          "word": "warm",
+          "why": "After w, ar says or."
+        },
+        {
+          "word": "word",
+          "why": "After w, or says er!"
+        },
+        {
+          "word": "work",
+          "why": "After w, or says er!"
+        },
+        {
+          "word": "worm",
+          "why": "After w, or says er!"
+        },
+        {
+          "word": "her",
+          "why": "er is a third way to spell the er sound.",
+          "group": "nearmiss"
+        }
+      ],
+      "confusables": {
+        "car": [
+          "cor",
+          "cur"
+        ],
+        "dark": [
+          "dork",
+          "durk"
+        ],
+        "bird": [
+          "burd",
+          "berd"
+        ],
+        "first": [
+          "furst",
+          "ferst"
+        ],
+        "turn": [
+          "tirn",
+          "tun"
+        ],
+        "hurt": [
+          "hirt",
+          "hert"
+        ],
+        "fork": [
+          "fark",
+          "furk"
+        ],
+        "born": [
+          "bawn",
+          "bern"
+        ],
+        "farm": [
+          "ferm",
+          "fam"
+        ],
+        "stir": [
+          "stur",
+          "ster"
+        ],
+        "bark": [
+          "bork",
+          "burk"
+        ],
+        "shirt": [
+          "shurt",
+          "shert"
+        ],
+        "fur": [
+          "fer",
+          "furr"
+        ],
+        "port": [
+          "purt",
+          "pot"
+        ],
+        "jar": [
+          "jor",
+          "jur"
+        ],
+        "sir": [
+          "sur",
+          "ser"
+        ],
+        "war": [
+          "wor",
+          "wawr"
+        ],
+        "warm": [
+          "wawm",
+          "wurm"
+        ],
+        "word": [
+          "werd",
+          "wurd"
+        ],
+        "work": [
+          "werk",
+          "wurk"
+        ],
+        "worm": [
+          "werm",
+          "wurm"
+        ],
+        "her": [
+          "hur",
+          "hir"
+        ],
+        "girl": [
+          "gurl",
+          "gerl"
+        ],
+        "corn": [
+          "cawn",
+          "curn"
+        ],
+        "star": [
+          "stor",
+          "stur"
+        ]
+      },
+      "review_sentences": [
+        {
+          "text": "The bird sat on the car.",
+          "words": [
+            "bird",
+            "car"
+          ]
+        },
+        {
+          "text": "Turn the fork and do not get hurt.",
+          "words": [
+            "turn",
+            "fork",
+            "hurt"
+          ]
+        },
+        {
+          "text": "Her shirt is dark.",
+          "words": [
+            "her",
+            "shirt",
+            "dark"
+          ]
+        },
+        {
+          "text": "We work on the farm.",
+          "words": [
+            "work",
+            "farm"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "IGHLE",
+      "week": 4,
+      "rule_name": "igh and -le",
+      "rule_text": "igh says I. Little words end in -le.",
+      "rule_short": "igh and -le",
+      "emoji": "🌙",
+      "dates": {
+        "start": "2026-09-28",
+        "end": "2026-10-03"
+      },
+      "taught": [
+        "night",
+        "light",
+        "high",
+        "right",
+        "fight",
+        "little",
+        "apple",
+        "table",
+        "puddle",
+        "bottle"
+      ],
+      "daily_transfer": [
+        "fright",
+        "thigh",
+        "cattle",
+        "wiggle",
+        "kettle",
+        "tickle"
+      ],
+      "probe": [
+        "sight",
+        "bright",
+        "might",
+        "tight",
+        "middle",
+        "candle",
+        "giggle",
+        "purple",
+        "riddle",
+        "bubble"
+      ],
+      "way1_script": [
+        {
+          "kind": "say",
+          "title": "Three letters, one sound",
+          "text": "i-g-h is a team of three letters that makes ONE sound: I. The g and h are silent helpers. They hold the i's hand.",
+          "demo": {
+            "type": "show",
+            "word": "night",
+            "highlight": "igh",
+            "color": "#7b4fd6"
+          }
+        },
+        {
+          "kind": "cover",
+          "title": "Silent helpers",
+          "text": "Cover the g and h. It still says I. Now uncover them. We need them for the spelling!",
+          "demo": {
+            "type": "cover",
+            "word": "light",
+            "hide": [
+              2,
+              3
+            ]
+          }
+        },
+        {
+          "kind": "say",
+          "title": "More igh words",
+          "text": "high, right, fight. Say each one and find the igh.",
+          "demo": {
+            "type": "list",
+            "words": [
+              "high",
+              "right",
+              "fight"
+            ],
+            "highlight": "igh",
+            "color": "#7b4fd6"
+          }
+        },
+        {
+          "kind": "clap",
+          "title": "Clap lit-tle",
+          "text": "Clap the beats: lit-tle. Two claps! The last beat is a consonant plus le. Little has a double t, just like our FLOSS words.",
+          "demo": {
+            "type": "clap",
+            "syllables": [
+              "lit",
+              "tle"
+            ]
+          }
+        },
+        {
+          "kind": "clap",
+          "title": "Clap ap-ple",
+          "text": "ap-ple. Two claps! The end is p + le.",
+          "demo": {
+            "type": "clap",
+            "syllables": [
+              "ap",
+              "ple"
+            ]
+          }
+        },
+        {
+          "kind": "breakers",
+          "title": "Rule breakers",
+          "text": "The I sound has other spellings: y at the end (my, fly), just i (find), ie (pie). And some words end in el, al, il instead of le: camel, towel, animal, pencil. table has a long a, so no double letter before le.",
+          "demo": {
+            "type": "breakers"
+          }
+        },
+        {
+          "kind": "write",
+          "title": "Your turn",
+          "text": "Grown-up: say each word. Anya writes it on paper.",
+          "words": [
+            "night",
+            "little"
+          ]
+        }
+      ],
+      "way2_videos": [
+        {
+          "title": "Geraldine the Giraffe: igh",
+          "url": "https://www.youtube.com/watch?v=OYCR2RZ4ZYY",
+          "quiz": [
+            {
+              "q": "How many letters make the igh sound?",
+              "options": [
+                "one",
+                "two",
+                "three"
+              ],
+              "answer": "three"
+            },
+            {
+              "q": "Which word has igh?",
+              "options": [
+                "net",
+                "night",
+                "not"
+              ],
+              "answer": "night"
+            },
+            {
+              "q": "Which letters are the silent helpers?",
+              "options": [
+                "g and h",
+                "n and t",
+                "i and g"
+              ],
+              "answer": "g and h"
+            },
+            {
+              "q": "Which word says I without igh?",
+              "options": [
+                "night",
+                "my",
+                "light"
+              ],
+              "answer": "my"
+            }
+          ]
+        },
+        {
+          "title": "Consonant-le in the classroom",
+          "url": "https://readinguniverse.org/skill-explainer/phonics-patterns/consonant-le-skill-explainer/videos-see-consonant-le-syllables-in-the-classroom",
+          "type": "link",
+          "quiz": [
+            {
+              "q": "Which word ends in -le?",
+              "options": [
+                "lit",
+                "little",
+                "lid"
+              ],
+              "answer": "little"
+            },
+            {
+              "q": "Clap lit-tle. How many claps?",
+              "options": [
+                "one",
+                "two",
+                "three"
+              ],
+              "answer": "two"
+            },
+            {
+              "q": "Which one is right?",
+              "options": [
+                "apl",
+                "aple",
+                "apple"
+              ],
+              "answer": "apple"
+            },
+            {
+              "q": "Which word does NOT end in -le?",
+              "options": [
+                "camel",
+                "little",
+                "apple"
+              ],
+              "answer": "camel"
+            }
+          ]
+        }
+      ],
+      "way3_words": [
+        {
+          "word": "night",
+          "tiles": [
+            "n",
+            "igh",
+            "t"
+          ]
+        },
+        {
+          "word": "light",
+          "tiles": [
+            "l",
+            "igh",
+            "t"
+          ]
+        },
+        {
+          "word": "little",
+          "syllables": [
+            [
+              "l",
+              "i",
+              "t"
+            ],
+            [
+              "t",
+              "le"
+            ]
+          ],
+          "tiles": [
+            "l",
+            "i",
+            "t",
+            "t",
+            "le"
+          ]
+        },
+        {
+          "word": "apple",
+          "syllables": [
+            [
+              "a",
+              "p"
+            ],
+            [
+              "p",
+              "le"
+            ]
+          ],
+          "tiles": [
+            "a",
+            "p",
+            "p",
+            "le"
+          ]
+        },
+        {
+          "word": "camel",
+          "syllables": [
+            [
+              "c",
+              "a"
+            ],
+            [
+              "m",
+              "el"
+            ]
+          ],
+          "tiles": [
+            "c",
+            "a",
+            "m",
+            "el"
+          ],
+          "note": "Rule breaker: ends in el."
+        }
+      ],
+      "way4_game": {
+        "type": "rhyme",
+        "base": "night",
+        "targets": [
+          "light",
+          "right",
+          "fight",
+          "sight",
+          "might",
+          "tight"
+        ],
+        "distractors": [
+          "nest",
+          "nut",
+          "lamp",
+          "fish",
+          "sock",
+          "milk"
+        ],
+        "seconds": 60,
+        "breakers_round": true
+      },
+      "watch_for": "'little' has a double t. Link it back to Week 1: 'remember the FLOSS rule? Double letters again!'",
+      "exceptions": [
+        {
+          "word": "my",
+          "why": "At the end of a word, y can say I."
+        },
+        {
+          "word": "fly",
+          "why": "y says I at the end."
+        },
+        {
+          "word": "find",
+          "why": "Sometimes just i says I."
+        },
+        {
+          "word": "pie",
+          "why": "ie can say I too."
+        },
+        {
+          "word": "camel",
+          "why": "Ends in el, not le."
+        },
+        {
+          "word": "towel",
+          "why": "Ends in el, not le."
+        },
+        {
+          "word": "animal",
+          "why": "Ends in al, not le."
+        },
+        {
+          "word": "pencil",
+          "why": "Ends in il, not le."
+        },
+        {
+          "word": "table",
+          "why": "Long a, so no double letter before le.",
+          "group": "nearmiss"
+        }
+      ],
+      "confusables": {
+        "night": [
+          "nite",
+          "nihgt"
+        ],
+        "light": [
+          "lite",
+          "liht"
+        ],
+        "high": [
+          "hie",
+          "hygh"
+        ],
+        "right": [
+          "rihgt",
+          "ryt"
+        ],
+        "fight": [
+          "fite",
+          "fiht"
+        ],
+        "little": [
+          "littel",
+          "litle"
+        ],
+        "apple": [
+          "appel",
+          "aple"
+        ],
+        "table": [
+          "tabel",
+          "tabble"
+        ],
+        "puddle": [
+          "puddel",
+          "pudle"
+        ],
+        "bottle": [
+          "bottel",
+          "botle"
+        ],
+        "fright": [
+          "frite",
+          "friht"
+        ],
+        "thigh": [
+          "thie",
+          "thiy"
+        ],
+        "cattle": [
+          "cattel",
+          "catle"
+        ],
+        "wiggle": [
+          "wiggel",
+          "wigle"
+        ],
+        "kettle": [
+          "kettel",
+          "ketle"
+        ],
+        "tickle": [
+          "tickel",
+          "tikle"
+        ],
+        "my": [
+          "migh",
+          "mie"
+        ],
+        "fly": [
+          "fligh",
+          "flie"
+        ],
+        "find": [
+          "fighnd",
+          "fynd"
+        ],
+        "pie": [
+          "pigh",
+          "py"
+        ],
+        "camel": [
+          "camle",
+          "cammel"
+        ],
+        "towel": [
+          "towle",
+          "towl"
+        ],
+        "animal": [
+          "animle",
+          "anemal"
+        ],
+        "pencil": [
+          "pencle",
+          "pensil"
+        ],
+        "bright": [
+          "brite",
+          "briht"
+        ],
+        "middle": [
+          "middel",
+          "midle"
+        ],
+        "candle": [
+          "candel",
+          "cadle"
+        ]
+      },
+      "review_sentences": [
+        {
+          "text": "The light is bright at night.",
+          "words": [
+            "light",
+            "bright",
+            "night"
+          ]
+        },
+        {
+          "text": "A little apple is on the table.",
+          "words": [
+            "little",
+            "apple",
+            "table"
+          ]
+        },
+        {
+          "text": "My cat can fly high.",
+          "words": [
+            "my",
+            "fly",
+            "high"
+          ]
+        },
+        {
+          "text": "Find the pie and giggle.",
+          "words": [
+            "find",
+            "pie",
+            "giggle"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "HEART",
+      "week": 5,
+      "rule_name": "Heart words",
+      "rule_text": "Heart words: you just have to know them by heart.",
+      "rule_short": "Know them by heart",
+      "emoji": "💜",
+      "dates": {
+        "start": "2026-10-05",
+        "end": "2026-10-10"
+      },
+      "taught": [
+        "said",
+        "come",
+        "some",
+        "they",
+        "because",
+        "was",
+        "what",
+        "were",
+        "there",
+        "have"
+      ],
+      "daily_transfer": [],
+      "daily_sentences": [
+        {
+          "text": "They said hello.",
+          "words": [
+            "they",
+            "said"
+          ]
+        },
+        {
+          "text": "Come and have some.",
+          "words": [
+            "come",
+            "have",
+            "some"
+          ]
+        },
+        {
+          "text": "What was that?",
+          "words": [
+            "what",
+            "was"
+          ]
+        },
+        {
+          "text": "We were there.",
+          "words": [
+            "were",
+            "there"
+          ]
+        },
+        {
+          "text": "I came because it was fun.",
+          "words": [
+            "because",
+            "was"
+          ]
+        },
+        {
+          "text": "Some of them have come.",
+          "words": [
+            "some",
+            "have",
+            "come"
+          ]
+        }
+      ],
+      "probe": [],
+      "probe_sentences": [
+        {
+          "text": "They said we were there.",
+          "words": [
+            "they",
+            "said",
+            "were",
+            "there"
+          ]
+        },
+        {
+          "text": "Some of them have come because it was fun.",
+          "words": [
+            "some",
+            "have",
+            "come",
+            "because",
+            "was"
+          ]
+        },
+        {
+          "text": "What was that?",
+          "words": [
+            "what"
+          ]
+        },
+        {
+          "text": "They have come to play.",
+          "words": [
+            "they",
+            "have",
+            "come"
+          ]
+        },
+        {
+          "text": "There is some cake.",
+          "words": [
+            "there",
+            "some"
+          ]
+        }
+      ],
+      "way1_script": [
+        {
+          "kind": "say",
+          "title": "Heart words",
+          "text": "Some words do not follow the rules. We keep them in our heart. Here is the routine: 1 tap the sounds, 2 put them in boxes, 3 write the normal parts, 4 draw a heart over the naughty part.",
+          "demo": {
+            "type": "show",
+            "word": "said"
+          }
+        },
+        {
+          "kind": "heart",
+          "title": "Today's word 1",
+          "text": "Tap the sounds. Which part is naughty? Draw a heart over it.",
+          "demo": {
+            "type": "heart",
+            "pair_index": 0
+          }
+        },
+        {
+          "kind": "heart",
+          "title": "Today's word 2",
+          "text": "Tap the sounds. Which part is naughty? Draw a heart over it.",
+          "demo": {
+            "type": "heart",
+            "pair_index": 1
+          }
+        },
+        {
+          "kind": "breakers",
+          "title": "Rule breakers",
+          "text": "Sound-alike traps: there / their (their = belongs to them), were / where (where = which place), some / sum (a maths sum). And home follows the magic e rule, but come does not!",
+          "demo": {
+            "type": "breakers"
+          }
+        },
+        {
+          "kind": "write",
+          "title": "Your turn",
+          "text": "Grown-up: say each word. Anya writes it on paper and draws the heart.",
+          "words": "pair"
+        }
+      ],
+      "way1_pairs_by_day": [
+        [
+          {
+            "word": "said",
+            "tiles": [
+              "s",
+              "ai",
+              "d"
+            ],
+            "heart": [
+              "ai"
+            ]
+          },
+          {
+            "word": "they",
+            "tiles": [
+              "th",
+              "ey"
+            ],
+            "heart": [
+              "ey"
+            ]
+          }
+        ],
+        [
+          {
+            "word": "come",
+            "tiles": [
+              "c",
+              "o",
+              "me"
+            ],
+            "heart": [
+              "o"
+            ]
+          },
+          {
+            "word": "some",
+            "tiles": [
+              "s",
+              "o",
+              "me"
+            ],
+            "heart": [
+              "o"
+            ]
+          }
+        ],
+        [
+          {
+            "word": "was",
+            "tiles": [
+              "w",
+              "a",
+              "s"
+            ],
+            "heart": [
+              "a",
+              "s"
+            ]
+          },
+          {
+            "word": "because",
+            "tiles": [
+              "b",
+              "e",
+              "c",
+              "au",
+              "se"
+            ],
+            "heart": [
+              "au"
+            ]
+          }
+        ],
+        [
+          {
+            "word": "what",
+            "tiles": [
+              "wh",
+              "a",
+              "t"
+            ],
+            "heart": [
+              "a"
+            ]
+          },
+          {
+            "word": "were",
+            "tiles": [
+              "w",
+              "ere"
+            ],
+            "heart": [
+              "ere"
+            ]
+          }
+        ],
+        [
+          {
+            "word": "there",
+            "tiles": [
+              "th",
+              "ere"
+            ],
+            "heart": [
+              "ere"
+            ]
+          },
+          {
+            "word": "have",
+            "tiles": [
+              "h",
+              "a",
+              "ve"
+            ],
+            "heart": [
+              "a",
+              "ve"
+            ]
+          }
+        ]
+      ],
+      "way2_videos": [
+        {
+          "title": "Heart word routine (resources page)",
+          "url": "https://literacylearn.com/free-heart-word-resources/",
+          "type": "link",
+          "checkbox": "We did the routine",
+          "quiz": [
+            {
+              "q": "Which part of 'said' is the heart part?",
+              "options": [
+                "s",
+                "ai",
+                "d"
+              ],
+              "answer": "ai"
+            },
+            {
+              "q": "Which one is right?",
+              "options": [
+                "thay",
+                "they",
+                "thai"
+              ],
+              "answer": "they"
+            },
+            {
+              "q": "In 'come', which letter is naughty?",
+              "options": [
+                "c",
+                "o",
+                "m"
+              ],
+              "answer": "o"
+            },
+            {
+              "q": "Which one means 'belongs to them'?",
+              "options": [
+                "there",
+                "their"
+              ],
+              "answer": "their"
+            }
+          ]
+        }
+      ],
+      "way3_words": [
+        {
+          "word": "said",
+          "tiles": [
+            "s",
+            "ai",
+            "d"
+          ],
+          "heart": [
+            "ai"
+          ]
+        },
+        {
+          "word": "they",
+          "tiles": [
+            "th",
+            "ey"
+          ],
+          "heart": [
+            "ey"
+          ]
+        },
+        {
+          "word": "come",
+          "tiles": [
+            "c",
+            "o",
+            "me"
+          ],
+          "heart": [
+            "o"
+          ]
+        },
+        {
+          "word": "was",
+          "tiles": [
+            "w",
+            "a",
+            "s"
+          ],
+          "heart": [
+            "a",
+            "s"
+          ]
+        },
+        {
+          "word": "their",
+          "tiles": [
+            "th",
+            "eir"
+          ],
+          "heart": [
+            "eir"
+          ],
+          "note": "Sounds like there."
+        }
+      ],
+      "way4_game": {
+        "type": "hearthunt",
+        "prompt": "Take a photo of your own writing. Tap every heart word you find!",
+        "words": [
+          "said",
+          "come",
+          "some",
+          "they",
+          "because",
+          "was",
+          "what",
+          "were",
+          "there",
+          "have"
+        ],
+        "breakers_round": true
+      },
+      "watch_for": "'because' mnemonic: Big Elephants Can Always Understand Small Elephants. Only if still needed by Wednesday.",
+      "exceptions": [
+        {
+          "word": "their",
+          "why": "Sounds like there, but means 'belongs to them'.",
+          "homophone": "there"
+        },
+        {
+          "word": "where",
+          "why": "Sounds like were, but asks 'which place?'",
+          "homophone": "were"
+        },
+        {
+          "word": "sum",
+          "why": "Sounds like some, but it is a maths sum.",
+          "homophone": "some"
+        },
+        {
+          "word": "home",
+          "why": "home follows the magic e rule. come does not!",
+          "group": "nearmiss"
+        }
+      ],
+      "confusables": {
+        "said": [
+          "sed",
+          "sayd"
+        ],
+        "come": [
+          "cum",
+          "kome"
+        ],
+        "some": [
+          "sum",
+          "som"
+        ],
+        "they": [
+          "thay",
+          "tha"
+        ],
+        "because": [
+          "becuz",
+          "becos"
+        ],
+        "was": [
+          "wuz",
+          "woz"
+        ],
+        "what": [
+          "wot",
+          "whot"
+        ],
+        "were": [
+          "wer",
+          "wur"
+        ],
+        "there": [
+          "thair",
+          "ther"
+        ],
+        "have": [
+          "hav",
+          "haf"
+        ],
+        "their": [
+          "thier",
+          "thair"
+        ],
+        "where": [
+          "whair",
+          "wher"
+        ],
+        "sum": [
+          "sume",
+          "som"
+        ],
+        "home": [
+          "hoam",
+          "hom"
+        ]
+      },
+      "review_sentences": [
+        {
+          "text": "They said we were there.",
+          "words": [
+            "they",
+            "said",
+            "were",
+            "there"
+          ]
+        },
+        {
+          "text": "What was that?",
+          "words": [
+            "what",
+            "was"
+          ]
+        },
+        {
+          "text": "Their dog can come home.",
+          "words": [
+            "their",
+            "come",
+            "home"
+          ]
+        },
+        {
+          "text": "Where were you?",
+          "words": [
+            "where",
+            "were"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "MIXED",
+      "week": 6,
+      "rule_name": "Mixed week",
+      "rule_text": "All the rules together. Which rule does this word follow?",
+      "rule_short": "All rules",
+      "emoji": "🌈",
+      "dates": {
+        "start": "2026-10-12",
+        "end": "2026-10-17"
+      },
+      "mixed": true,
+      "taught": [],
+      "daily_transfer": [],
+      "probe": [],
+      "probe_by_rule": {
+        "FLOSS": [
+          "bill",
+          "less",
+          "fluff",
+          "moss",
+          "grass",
+          "stuff"
+        ],
+        "LONGV": [
+          "gate",
+          "paint",
+          "float",
+          "sleep",
+          "mice",
+          "bone"
+        ],
+        "BOSSYR": [
+          "park",
+          "storm",
+          "skirt",
+          "church",
+          "hard",
+          "fort"
+        ],
+        "IGHLE": [
+          "flight",
+          "sigh",
+          "slight",
+          "rattle",
+          "jungle",
+          "simple"
+        ],
+        "HEART": [
+          "does",
+          "been",
+          "gone",
+          "friend",
+          "one",
+          "who"
+        ]
+      },
+      "way1_script": [],
+      "way2_videos": [],
+      "way3_words": [],
+      "way4_game": null,
+      "watch_for": "No new rule. Before each word she taps which rule it belongs to. Do not correct the tap; just note it.",
+      "exceptions": [],
+      "confusables": {},
+      "review_sentences": [
+        {
+          "text": "The bus will stop at the farm.",
+          "words": [
+            "bus",
+            "farm"
+          ]
+        },
+        {
+          "text": "Some cake is on the table.",
+          "words": [
+            "some",
+            "cake",
+            "table"
+          ]
+        },
+        {
+          "text": "Her little bird can fly.",
+          "words": [
+            "her",
+            "little",
+            "fly"
+          ]
+        },
+        {
+          "text": "They said the light was off.",
+          "words": [
+            "they",
+            "said",
+            "light",
+            "was",
+            "off"
+          ]
+        }
+      ]
+    }
+  ]
+}
