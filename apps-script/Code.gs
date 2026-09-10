@@ -13,7 +13,7 @@ function doPost(e) {
     (data.days || []).map(function (d) {
       var tr = (d.words || []).filter(function (w) { return w.source === 'transfer' || w.source === 'sentence'; });
       var pc = d.parentCheck || {};
-      return [d.id || d.date, d.date, d.seq || 1, d.bonus ? 'bonus' : (['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.dayIdx] || ''), !!d.ahead, d.weekId, d.dayType, d.status, (d.activeMs / 60000).toFixed(1), !!d.countsForStreak,
+      return [d.id || d.date, d.date, d.seq || 1, d.bonus ? 'bonus' : d.redo ? 'redo:' + d.redoPart : (['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.dayIdx] || ''), !!d.ahead, d.weekId, d.dayType, d.status, (d.activeMs / 60000).toFixed(1), !!d.countsForStreak,
         ((d.learn || {}).waysDone || []).map(function (w) { return w.way; }).join(' '), ((d.learn || {}).switches || []).length,
         pc.correct == null ? '' : pc.correct, pc.total == null ? '' : pc.total,
         tr.filter(function (w) { return w.mark; }).length, tr.length,

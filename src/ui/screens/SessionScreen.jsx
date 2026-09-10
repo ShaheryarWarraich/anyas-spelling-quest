@@ -29,7 +29,7 @@ export default function SessionScreen({ app, session, home, onHome, onNext }) {
     const id = setInterval(() => { if (document.visibilityState === 'visible') session.tick(1000); }, 1000);
     return () => clearInterval(id);
   }, [session]);
-  useEffect(() => { if (day.step === 'learn' && day.learn.currentWay === 2) app.pickVideo(session.info.weekEntry, day.dayIdx).then(setVideo); }, [day.step, day.learn.currentWay]);
+  useEffect(() => { if (day.step === 'learn' && day.learn.currentWay === 2) { const chosen = day.videoUrl && (week.way2_videos || []).find(v => v.url === day.videoUrl); chosen ? setVideo(chosen) : app.pickVideo(session.info.weekEntry, day.dayIdx).then(setVideo); } }, [day.step, day.learn.currentWay]);
 
   useEffect(() => { if (day.step === 'done') app.peekNext().then(setNext); }, [day.step]);
   const seed = Number(day.date.replace(/-/g, '')) + (day.learn.waysDone.length || 0);
@@ -40,7 +40,7 @@ export default function SessionScreen({ app, session, home, onHome, onNext }) {
       {day.dayType === 'learn' && <RuleCard week={week} />}
       {day.dayType === 'probe' && <div className="rulecard"><div className="name">⭐ Show what you know!</div><div className="text">Write the words, listen and pick, then write two sentences.</div></div>}
       {day.dayType === 'mixed' && <RuleCard week={week} />}
-      {(day.seq || 1) > 1 ? <div className="card"><div className="muted small">One more lesson! You are on a roll.</div></div> : home.yesterday && <div className="card"><div className="muted small">{home.yesterday.text}</div></div>}
+      {day.redo ? <div className="card"><div className="muted small">Doing it again. Practice makes it stick!</div></div> : (day.seq || 1) > 1 ? <div className="card"><div className="muted small">One more lesson! You are on a roll.</div></div> : home.yesterday && <div className="card"><div className="muted small">{home.yesterday.text}</div></div>}
       <button className="btn primary wide" onClick={() => session.finishWelcome()}>Let's go! ➜</button>
     </div>
   );
@@ -112,8 +112,8 @@ export default function SessionScreen({ app, session, home, onHome, onNext }) {
       <h1>Your flower grew!</h1>
       <Garden flowers={flowers} bloomLast nextMilestone={home.streak.nextMilestone} />
       <Guide text={pick(app.content.guide.done, seed)} stickers={stickers} size={150} />
-      {!(next && day.dayType !== 'probe') && <div className="card"><div>{home.tomorrow?.text}</div></div>}
-      {day.dayType === 'probe' ? <button className="btn primary wide" onClick={() => setAfter('recap')}>Watch your week ➜</button> : <>
+      {!(next && !(day.dayType === 'probe' && !day.redo)) && <div className="card"><div>{home.tomorrow?.text}</div></div>}
+      {day.dayType === 'probe' && !day.redo ? <button className="btn primary wide" onClick={() => setAfter('recap')}>Watch your week ➜</button> : <>
         {next && <button className="btn primary wide" onClick={onNext}>▶ Next lesson: {next.text}</button>}
         <button className={`btn ${next ? 'secondary' : 'primary'} wide`} onClick={onHome}>Home</button>
       </>}

@@ -5,6 +5,7 @@ import HomeScreen from './ui/screens/HomeScreen.jsx';
 import SessionScreen from './ui/screens/SessionScreen.jsx';
 import RevisionScreen from './ui/screens/RevisionScreen.jsx';
 import ParentScreen from './ui/screens/ParentScreen.jsx';
+import RedoScreen from './ui/screens/RedoScreen.jsx';
 import RuleBadge from './art/Badge.jsx';
 import Guide from './ui/components/Guide.jsx';
 import { primeAudio } from './ui/audio.js';
@@ -41,9 +42,10 @@ export default function App() {
   if (!app || !home) return <div className="screen center"><Guide text="Loading…" /></div>;
   if (view.name === 'session' && session) return <SessionScreen key={session.day.id} app={app} session={session} home={home} onHome={goHome} onNext={() => play({ next: true })} />;
   if (view.name === 'revision') return <RevisionScreen app={app} home={home} onHome={goHome} />;
+  if (view.name === 'redo') return <RedoScreen app={app} home={home} onHome={goHome} onStart={part => play({ redo: part })} />;
   if (view.name === 'parent') return <ParentScreen app={app} onHome={goHome} />;
   if (view.name === 'badge') return (
     <div className="screen center fade"><h1>You finished {view.week.rule_name}!</h1><RuleBadge week={view.week} /><Guide text="A new badge for your shelf!" stickers={home.stickers.map(s => s.id)} mood="wow" /><button className="btn primary wide" onClick={goHome}>Yay! ➜</button></div>
   );
-  return <HomeScreen app={app} home={home} onPlay={() => play()} onNext={() => play({ next: true })} onBonus={() => play({ bonus: true })} onRemember={() => setView({ name: 'revision' })} onParent={() => setView({ name: 'parent' })} onBadge={week => setView({ name: 'badge', week })} />;
+  return <HomeScreen app={app} home={home} onPlay={() => play()} onNext={() => play({ next: true })} onBonus={() => play({ bonus: true })} onRedo={() => setView({ name: 'redo' })} onRemember={() => setView({ name: 'revision' })} onParent={() => setView({ name: 'parent' })} onBadge={week => setView({ name: 'badge', week })} />;
 }

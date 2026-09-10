@@ -15,13 +15,14 @@ const db = await openDB(indexedDB);
 const open = () => createApp({ db, content, now });
 const log = (...a) => console.log(...a);
 
-async function runDay({ way, doSwitch = false, hardstopBeforeCheck = false, wrong = [], selfCaught = 0, expectStreakBefore }) {
+async function runDay({ way, doSwitch = false, hardstopBeforeCheck = false, wrong = [], selfCaught = 0, expectStreakBefore, next = false }) {
   const app = await open();
   const home = await app.getHome();
   log(`\n=== ${home.today} (${home.info.dayType}) streak before: ${home.streak.count} ${home.streak.state}; ${home.yesterday?.text || 'no yesterday'}`);
   if (expectStreakBefore) assert.equal(home.streak.state, expectStreakBefore, 'streak state before session');
-  const s = await app.getSession();
+  const s = await app.getSession(undefined, { next });
   assert.ok(s, 'session exists');
+  if (next) log(`  (same day, next lesson: ${s.day.id})`);
   assert.equal(s.step, 'welcome');
   await s.tick(30000); await s.finishWelcome();
   if (s.day.dayType === 'learn') {
@@ -68,9 +69,10 @@ async function runDay({ way, doSwitch = false, hardstopBeforeCheck = false, wron
 setDay(2026, 9, 7); await runDay({ way: 1, selfCaught: 1 });                                        // Mon: Way 1
 setDay(2026, 9, 8); await runDay({ way: 1, doSwitch: true, expectStreakBefore: 'active' });          // Tue: Way 1 -> switch to Way 2
 setDay(2026, 9, 9); { const app = await open(); const h = await app.getHome(); log(`\n=== ${h.today} MISSED (no session opened) — streak ${h.streak.count} ${h.streak.state}`); }
-setDay(2026, 9, 10); await runDay({ way: 3, wrong: ['dress'], expectStreakBefore: 'paused' });       // Thu: Way 3, streak paused, resumes
-setDay(2026, 9, 11); await runDay({ way: 4, hardstopBeforeCheck: true, expectStreakBefore: 'active' }); // Fri: Way 4, hard stop
-setDay(2026, 9, 12); { const d = await runDay({ way: null, wrong: ['jazz'], selfCaught: 2 }); assert.equal(d.dayType, 'probe'); assert.equal(d.probeScore.correct, 9); assert.equal(d.ear.length, 6); assert.equal(d.pick.length, 3); assert.equal(d.sentences.length, 2); assert.equal(d.parentCheck.total, 12, 'probe words + 2 sentences checked');
+setDay(2026, 9, 10); await runDay({ way: 2, wrong: ['dress'], expectStreakBefore: 'paused' });       // Thu: continues with the missed Wed lesson (Way 2); streak paused, resumes
+setDay(2026, 9, 11); await runDay({ way: 3, hardstopBeforeCheck: true, expectStreakBefore: 'active' }); // Fri: Thu lesson (Way 3), hard stop
+setDay(2026, 9, 12); await runDay({ way: 4 });                                                         // Sat: Fri lesson (Way 4)...
+setDay(2026, 9, 12); { const d = await runDay({ way: null, wrong: ['jazz'], selfCaught: 2, next: true }); // ...then straight on to Show what you know assert.equal(d.dayType, 'probe'); assert.equal(d.probeScore.correct, 9); assert.equal(d.ear.length, 6); assert.equal(d.pick.length, 3); assert.equal(d.sentences.length, 2); assert.equal(d.parentCheck.total, 12, 'probe words + 2 sentences checked');
   const app = await open(); const recap = await app.weeklyRecap(app.info().weekEntry); log('  weekly recap:', JSON.stringify({ rule: recap.week.rule_name, days: recap.days, ways: recap.ways, videos: recap.videos, flowers: recap.flowers })); }
 setDay(2026, 9, 13); { const app = await open(); const h = await app.getHome(); assert.equal(h.info.dayType, 'rest'); assert.equal(await app.getSession(), null); log(`\n=== ${h.today} Sunday rest day — streak ${h.streak.count} ${h.streak.state} (Sunday never counts as missed)`);
   assert.equal(h.info.bonus.weekEntry.weekId, 'FLOSS', 'Sunday bonus uses the week just finished');
@@ -134,7 +136,7 @@ const cal = await app.revisionCalendar();
 assert.equal(dash.streak.count, 7, 'seven counted days (Wed missed, Sunday bonus)');
 assert.equal(dash.switchPresses.length, 1);
 assert.equal(dash.weeks[0].fullyKnown, true, 'FLOSS fully known: >=2 ways and probe >= 8');
-assert.equal(cal.length, 8, 'seven days plus the extra Monday lesson');
+assert.equal(cal.length, 9, 'Mon Tue Thu Fri Sat Sat#2 Sun Mon Mon#2');
 assert.ok(dash.weeks[0].sessions.some(s => s.bonus && s.date === '2026-09-13'), 'bonus day listed under FLOSS in the dashboard');
 console.log('\n================ PARENT DASHBOARD ================');
 console.log(JSON.stringify(dash, null, 1));

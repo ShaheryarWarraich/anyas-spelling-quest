@@ -19,7 +19,7 @@ export function buildDashboard(content, schedule, dump, today) {
     const wd = days.filter(d => d.weekId === e.weekId && (d.weekIteration || 1) === e.iteration).sort((a, b) => a.date.localeCompare(b.date) || (a.seq || 1) - (b.seq || 1));
     const wdDates = new Set(wd.map(d => d.date));
     const sessions = wd.map(d => ({
-      id: d.id || d.date, seq: d.seq || 1, slot: d.bonus ? null : d.dayIdx, ahead: !!d.ahead, date: d.date, dayType: d.dayType, bonus: !!d.bonus, status: d.status, minutes: +(d.activeMs / 60000).toFixed(1), countsForStreak: !!d.countsForStreak,
+      id: d.id || d.date, seq: d.seq || 1, slot: d.bonus || d.redo ? null : d.dayIdx, ahead: !!d.ahead, redo: !!d.redo, redoPart: d.redoPart || null, date: d.date, dayType: d.dayType, bonus: !!d.bonus, status: d.status, minutes: +(d.activeMs / 60000).toFixed(1), countsForStreak: !!d.countsForStreak,
       ways: (d.learn?.waysDone || []).map(w => w.way), switches: (d.learn?.switches || []).length,
       transfer: score(d.words.filter(w => ['transfer', 'sentence'].includes(w.source))),
       taught: score(d.words.filter(w => w.source === 'taught')),

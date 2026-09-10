@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview --host",
     "audio": "bash scripts/gen-audio.sh",
-    "test:sim": "node test/migrate.mjs && node test/simulate.mjs",
+    "test:sim": "node test/migrate.mjs && node test/progress.mjs && node test/simulate.mjs",
     "deploy": "bash scripts/deploy.sh"
   },
   "dependencies": {

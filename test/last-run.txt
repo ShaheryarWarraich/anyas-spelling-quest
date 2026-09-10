@@ -1,4 +1,21 @@
 MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
+played 2026-09-07 FLOSS Mon
+played 2026-09-08 FLOSS Tue
+played 2026-09-10 FLOSS Wed
+played 2026-09-10#2 FLOSS Thu
+played 2026-09-10#3 FLOSS Fri (ahead)
+played 2026-09-10#4 FLOSS Sat (ahead)
+
+Thu 10 Sep after the FLOSS badge -> home offers: "a new rule, Long vowels"
+started 2026-09-10#5 LONGV Mon (ahead) -> words: mail, bass, game, rope, goat
+
+Redo menu for FLOSS: 🧑‍🏫 Learn it with a grown-up | 🎬 Watch: Floss Rule Song | 🎬 Watch: Alphablocks: FF LL SS | 🔲 Sound boxes | 🎲 Play: the Sort game | ⭐ Show what you know
+redo lessons played: 2026-09-10#6 FLOSS Wed REDO way2-1 · 2026-09-10#7 FLOSS Thu REDO way3 · 2026-09-10#8 FLOSS Sat REDO probe | plan still next: Learn it with a grown-up
+Whole FLOSS again (mid Long vowels) -> FLOSS > LONGV > FLOSS* > BOSSYR > IGHLE > HEART > MIXED
+
+Sun 13 Sep: Play anyway offers Long vowels
+
+PROGRESS + REDO: ALL ASSERTIONS PASSED
 
 === 2026-09-07 (learn) streak before: 0 none; no yesterday
   Way 1 done; way words: hill, miss
@@ -20,31 +37,41 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
 === 2026-09-09 MISSED (no session opened) — streak 2 active
 
 === 2026-09-10 (learn) streak before: 2 paused; Last time you did the Floss Rule Song!
-  Way 3 done; way words: bell, dress, buzz, off, bus
+  watched video: Alphablocks: FF LL SS
+  Way 2 done; way words: hill, miss
   flow: welcome > learn > ear > write > check > done
   ear check: dress(r)✓ milk(e)·
   words today: cliff[transfer], of[exception], puff[taught], fuzz[taught], fill[taught]
-  parent check done (9/10, self-caught 0); minutes 11.3; counts: true; streak now 3 active
-  done screen preview -> Tomorrow: play the Sort game!
+  parent check done (7/7, self-caught 0); minutes 11.3; counts: true; streak now 3 active
+  done screen preview -> Tomorrow: Sound boxes!
 
-=== 2026-09-11 (learn) streak before: 3 active; Yesterday you did Sound boxes!
-  Way 4 done; way words: hill, miss
+=== 2026-09-11 (learn) streak before: 3 active; Yesterday you did the Alphablocks: FF LL SS!
+  Way 3 done; way words: bell, dress, buzz, off, bus
   flow: welcome > learn > ear > write > check > done
   ear check: bus(e)✓ hill(r)·
   words today: puff[taught], toss[transfer], miss[taught], fill[taught], if[exception]
   HARD STOP at 15 minutes (mid-activity) -> "Done for today"
-  parent check done (7/7, self-caught 0); minutes 15.0; counts: true; streak now 4 active
-  done screen preview -> Tomorrow: show what you know!
+  parent check done (10/10, self-caught 0); minutes 15.0; counts: true; streak now 4 active
+  done screen preview -> Tomorrow: play the Sort game!
 
-=== 2026-09-12 (probe) streak before: 4 active; Yesterday you played the Sort game!
+=== 2026-09-12 (probe) streak before: 4 active; Yesterday you did Sound boxes!
+  Way 4 done; way words: hill, miss
+  flow: welcome > learn > ear > write > check > done
+  ear check: buzz(r)✓ yes(e)·
+  words today: puff[taught], hill[taught], bus[exception], cliff[transfer], fill[taught]
+  parent check done (7/7, self-caught 0); minutes 11.3; counts: true; streak now 5 active
+  done screen preview -> Tomorrow is a rest day. Have fun!
+
+=== 2026-09-12 (probe) streak before: 5 active; Yesterday you did Sound boxes!
+  (same day, next lesson: 2026-09-12#2)
   flow: welcome > write > ear > pick > sentences > check > done
   words today: doll[probe], mess[probe], cuff[probe], jazz[probe], well[probe], boss[probe], sniff[probe], spill[probe], class[probe], fizz[probe]
-  ear check: bus(e)✓ puff(r)· miss(r)✓ toss(r)✓ yes(e)✓ kiss(r)✓
-  which sentence?: [this] ✓ [off] ✓ [yes] ✓
-  write sentences: Miss Hill has a big doll. / This is a kiss for us.
+  ear check: if(e)✓ bus(e)· hiss(r)✓ miss(r)✓ cliff(r)✓ bass(r)✓
+  which sentence?: [off] ✓ [miss] ✓ [this] ✓
+  write sentences: Yes, the bus will huff and puff. / The bell is off.
   parent check done (11/12, self-caught 2); minutes 11.7; counts: true; streak now 5 active
   done screen preview -> Tomorrow is a rest day. Have fun!
-  weekly recap: {"rule":"The FLOSS rule","days":["2026-09-07","2026-09-08","2026-09-10","2026-09-11","2026-09-12"],"ways":[1,2,3,4],"videos":["Floss Rule Song"],"flowers":["2026-09-07","2026-09-08","2026-09-10","2026-09-11","2026-09-12"]}
+  weekly recap: {"rule":"The FLOSS rule","days":["2026-09-07","2026-09-08","2026-09-10","2026-09-11","2026-09-12"],"ways":[1,2,3,4],"videos":["Floss Rule Song","Alphablocks: FF LL SS"],"flowers":["2026-09-07","2026-09-08","2026-09-10","2026-09-11","2026-09-12"]}
 
 === 2026-09-13 Sunday rest day — streak 5 active (Sunday never counts as missed)
   BONUS "Play anyway" session on Sunday: kiss, doll, hill, huff, dress -> logged as bonus day (FLOSS), streak now 6
@@ -58,7 +85,7 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
   revision word drawn: doll (from FLOSS)
   quick look 2026-09-08 -> rule The FLOSS rule, ways 2, videos Floss Rule Song, words puff,buzz,hiss,bass,kiss
   old rules shelf: FLOSS
-  old-rule mini session FLOSS: doll,fill,buzz
+  old-rule mini session FLOSS: kiss,fill,cliff
 
 === 2026-09-14 SECOND LESSON (no lock): 2026-09-14#2 = LONGV Tue lesson, words off, seed, game, kite, goat; streak still 7; home offers next: the Silent E (Jack Hartmann) video; Tomorrow: the Silent E (Jack Hartmann) video!
 === 2026-09-15 opens on the Wed lesson (Way 2) because Tuesday's was played ahead; streak 7 active
@@ -97,6 +124,8 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
      "seq": 1,
      "slot": 0,
      "ahead": false,
+     "redo": false,
+     "redoPart": null,
      "date": "2026-09-07",
      "dayType": "learn",
      "bonus": false,
@@ -155,6 +184,8 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
      "seq": 1,
      "slot": 1,
      "ahead": false,
+     "redo": false,
+     "redoPart": null,
      "date": "2026-09-08",
      "dayType": "learn",
      "bonus": false,
@@ -224,8 +255,10 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
     {
      "id": "2026-09-10",
      "seq": 1,
-     "slot": 3,
+     "slot": 2,
      "ahead": false,
+     "redo": false,
+     "redoPart": null,
      "date": "2026-09-10",
      "dayType": "learn",
      "bonus": false,
@@ -233,7 +266,7 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
      "minutes": 11.3,
      "countsForStreak": true,
      "ways": [
-      3
+      2
      ],
      "switches": 0,
      "transfer": {
@@ -281,28 +314,13 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
      "ruleTaps": [],
      "wayWords": [
       {
-       "word": "bell",
-       "way": 3,
+       "word": "hill",
+       "way": 2,
        "mark": true
       },
       {
-       "word": "dress",
-       "way": 3,
-       "mark": false
-      },
-      {
-       "word": "buzz",
-       "way": 3,
-       "mark": true
-      },
-      {
-       "word": "off",
-       "way": 3,
-       "mark": true
-      },
-      {
-       "word": "bus",
-       "way": 3,
+       "word": "miss",
+       "way": 2,
        "mark": true
       }
      ]
@@ -310,8 +328,10 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
     {
      "id": "2026-09-11",
      "seq": 1,
-     "slot": 4,
+     "slot": 3,
      "ahead": false,
+     "redo": false,
+     "redoPart": null,
      "date": "2026-09-11",
      "dayType": "learn",
      "bonus": false,
@@ -319,7 +339,7 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
      "minutes": 15,
      "countsForStreak": true,
      "ways": [
-      4
+      3
      ],
      "switches": 0,
      "transfer": {
@@ -367,6 +387,94 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
      "ruleTaps": [],
      "wayWords": [
       {
+       "word": "bell",
+       "way": 3,
+       "mark": true
+      },
+      {
+       "word": "dress",
+       "way": 3,
+       "mark": true
+      },
+      {
+       "word": "buzz",
+       "way": 3,
+       "mark": true
+      },
+      {
+       "word": "off",
+       "way": 3,
+       "mark": true
+      },
+      {
+       "word": "bus",
+       "way": 3,
+       "mark": true
+      }
+     ]
+    },
+    {
+     "id": "2026-09-12",
+     "seq": 1,
+     "slot": 4,
+     "ahead": false,
+     "redo": false,
+     "redoPart": null,
+     "date": "2026-09-12",
+     "dayType": "learn",
+     "bonus": false,
+     "status": "complete",
+     "minutes": 11.3,
+     "countsForStreak": true,
+     "ways": [
+      4
+     ],
+     "switches": 0,
+     "transfer": {
+      "correct": 1,
+      "total": 1
+     },
+     "taught": {
+      "correct": 3,
+      "total": 3
+     },
+     "revision": [],
+     "probe": null,
+     "selfCaught": 0,
+     "exceptions": {
+      "correct": 1,
+      "total": 1
+     },
+     "ear": {
+      "correct": 1,
+      "total": 2
+     },
+     "pick": {
+      "correct": 0,
+      "total": 0
+     },
+     "earItems": [
+      {
+       "word": "buzz",
+       "source": "rule",
+       "chosen": "buzz",
+       "correct": true
+      },
+      {
+       "word": "yes",
+       "source": "exception",
+       "chosen": "yas",
+       "correct": false
+      }
+     ],
+     "pickItems": [],
+     "sentences": {
+      "correct": 0,
+      "total": 0
+     },
+     "ruleTaps": [],
+     "wayWords": [
+      {
        "word": "hill",
        "way": 4,
        "mark": true
@@ -379,10 +487,12 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
      ]
     },
     {
-     "id": "2026-09-12",
-     "seq": 1,
+     "id": "2026-09-12#2",
+     "seq": 2,
      "slot": 5,
      "ahead": false,
+     "redo": false,
+     "redoPart": null,
      "date": "2026-09-12",
      "dayType": "probe",
      "bonus": false,
@@ -425,16 +535,22 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
      },
      "earItems": [
       {
-       "word": "bus",
+       "word": "if",
        "source": "exception",
-       "chosen": "bus",
+       "chosen": "if",
        "correct": true
       },
       {
-       "word": "puff",
-       "source": "rule",
-       "chosen": "puf",
+       "word": "bus",
+       "source": "exception",
+       "chosen": "bas",
        "correct": false
+      },
+      {
+       "word": "hiss",
+       "source": "rule",
+       "chosen": "hiss",
+       "correct": true
       },
       {
        "word": "miss",
@@ -443,31 +559,19 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
        "correct": true
       },
       {
-       "word": "toss",
+       "word": "cliff",
        "source": "rule",
-       "chosen": "toss",
+       "chosen": "cliff",
        "correct": true
       },
       {
-       "word": "yes",
-       "source": "exception",
-       "chosen": "yes",
-       "correct": true
-      },
-      {
-       "word": "kiss",
+       "word": "bass",
        "source": "rule",
-       "chosen": "kiss",
+       "chosen": "bass",
        "correct": true
       }
      ],
      "pickItems": [
-      {
-       "text": "This is a kiss for us.",
-       "target": "this",
-       "chosen": "This is a kiss for us.",
-       "correct": true
-      },
       {
        "text": "The bell is off.",
        "target": "off",
@@ -475,9 +579,15 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
        "correct": true
       },
       {
-       "text": "Yes, the bus will huff and puff.",
-       "target": "yes",
-       "chosen": "Yes, the bus will huff and puff.",
+       "text": "Miss Hill has a big doll.",
+       "target": "miss",
+       "chosen": "Miss Hill has a big doll.",
+       "correct": true
+      },
+      {
+       "text": "This is a kiss for us.",
+       "target": "this",
+       "chosen": "This is a kiss for us.",
        "correct": true
       }
      ],
@@ -493,6 +603,8 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
      "seq": 1,
      "slot": null,
      "ahead": false,
+     "redo": false,
+     "redoPart": null,
      "date": "2026-09-13",
      "dayType": "learn",
      "bonus": true,
@@ -547,7 +659,7 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
      ]
     }
    ],
-   "sessionCount": 6,
+   "sessionCount": 7,
    "waysDone": [
     1,
     2,
@@ -555,20 +667,20 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
     4
    ],
    "weekTransfer": {
-    "correct": 8,
-    "total": 8
+    "correct": 9,
+    "total": 9
    },
    "weekEar": {
-    "correct": 8,
-    "total": 12
+    "correct": 9,
+    "total": 14
    },
    "weekPick": {
     "correct": 3,
     "total": 3
    },
    "weekExceptions": {
-    "correct": 2,
-    "total": 2
+    "correct": 3,
+    "total": 3
    },
    "weekSentences": {
     "correct": 2,
@@ -614,6 +726,33 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
        "correct": true
       }
      ]
+    },
+    {
+     "date": "2026-09-10",
+     "title": "Alphablocks: FF LL SS",
+     "watched": true,
+     "quizTaps": [
+      {
+       "q": "Which word gets ff?",
+       "chosen": "puff",
+       "correct": true
+      },
+      {
+       "q": "Which word gets ll?",
+       "chosen": "fill",
+       "correct": true
+      },
+      {
+       "q": "Which word gets ss?",
+       "chosen": "miss",
+       "correct": true
+      },
+      {
+       "q": "Which one is right?",
+       "chosen": "of",
+       "correct": true
+      }
+     ]
     }
    ],
    "switches": 1,
@@ -633,6 +772,8 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
      "seq": 1,
      "slot": 0,
      "ahead": false,
+     "redo": false,
+     "redoPart": null,
      "date": "2026-09-14",
      "dayType": "learn",
      "bonus": false,
@@ -697,6 +838,8 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
      "seq": 2,
      "slot": 1,
      "ahead": true,
+     "redo": false,
+     "redoPart": null,
      "date": "2026-09-14",
      "dayType": "learn",
      "bonus": false,
@@ -774,6 +917,8 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
      "seq": 1,
      "slot": 2,
      "ahead": true,
+     "redo": false,
+     "redoPart": null,
      "date": "2026-09-15",
      "dayType": "learn",
      "bonus": false,
@@ -1040,7 +1185,7 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
    "replayDate": null,
    "words": [
     {
-     "word": "doll",
+     "word": "kiss",
      "source": "oldrule",
      "ruleId": "FLOSS",
      "mark": true
@@ -1052,7 +1197,7 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
      "mark": true
     },
     {
-     "word": "buzz",
+     "word": "cliff",
      "source": "oldrule",
      "ruleId": "FLOSS",
      "mark": false
@@ -1095,9 +1240,9 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
   }
  ],
  "totals": {
-  "sessions": 8,
-  "minutes": 95.7,
-  "videosWatched": 1
+  "sessions": 9,
+  "minutes": 107,
+  "videosWatched": 2
  }
 }
 
@@ -1156,9 +1301,11 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
   "emoji": "🦷",
   "dayType": "learn",
   "ways": [
-   3
+   2
   ],
-  "videos": [],
+  "videos": [
+   "Alphablocks: FF LL SS"
+  ],
   "words": [
    "cliff",
    "of",
@@ -1177,7 +1324,7 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
   "emoji": "🦷",
   "dayType": "learn",
   "ways": [
-   4
+   3
   ],
   "videos": [],
   "words": [
@@ -1192,6 +1339,27 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
  {
   "id": "2026-09-12",
   "seq": 1,
+  "date": "2026-09-12",
+  "weekId": "FLOSS",
+  "ruleName": "The FLOSS rule",
+  "emoji": "🦷",
+  "dayType": "learn",
+  "ways": [
+   4
+  ],
+  "videos": [],
+  "words": [
+   "puff",
+   "hill",
+   "bus",
+   "cliff",
+   "fill"
+  ],
+  "countsForStreak": true
+ },
+ {
+  "id": "2026-09-12#2",
+  "seq": 2,
   "date": "2026-09-12",
   "weekId": "FLOSS",
   "ruleName": "The FLOSS rule",
@@ -1282,9 +1450,10 @@ MIGRATION v1 -> v2 OK: 2026-09-07, 2026-09-08
 id,date,seq,slot,ahead,weekId,dayType,status,minutes,countsForStreak,waysDone,switches,wordsCorrect,wordsTotal,transferCorrect,transferTotal,probeCorrect,probeTotal,selfCaught,exceptionCorrect,exceptionTotal,earCorrect,earTotal,pickCorrect,pickTotal,sentencesCorrect,sentencesTotal,bonus
 2026-09-07,2026-09-07,1,Mon,false,FLOSS,learn,complete,10.8,true,1,0,7,7,2,2,,,1,0,0,0,0,0,0,0,0,false
 2026-09-08,2026-09-08,1,Tue,false,FLOSS,learn,complete,11.3,true,2,1,7,7,2,2,,,0,0,0,1,2,0,0,0,0,false
-2026-09-10,2026-09-10,1,Thu,false,FLOSS,learn,complete,11.3,true,3,0,9,10,1,1,,,0,1,1,1,2,0,0,0,0,false
-2026-09-11,2026-09-11,1,Fri,false,FLOSS,learn,complete,15.0,true,4,0,7,7,1,1,,,0,1,1,1,2,0,0,0,0,false
-2026-09-12,2026-09-12,1,Sat,false,FLOSS,probe,complete,11.7,true,,0,11,12,0,0,9,10,2,0,0,5,6,3,3,2,2,false
+2026-09-10,2026-09-10,1,Wed,false,FLOSS,learn,complete,11.3,true,2,0,7,7,1,1,,,0,1,1,1,2,0,0,0,0,false
+2026-09-11,2026-09-11,1,Thu,false,FLOSS,learn,complete,15.0,true,3,0,10,10,1,1,,,0,1,1,1,2,0,0,0,0,false
+2026-09-12,2026-09-12,1,Fri,false,FLOSS,learn,complete,11.3,true,4,0,7,7,1,1,,,0,1,1,1,2,0,0,0,0,false
+2026-09-12#2,2026-09-12,2,Sat,false,FLOSS,probe,complete,11.7,true,,0,11,12,0,0,9,10,2,0,0,5,6,3,3,2,2,false
 2026-09-13,2026-09-13,1,bonus,false,FLOSS,learn,complete,10.8,true,1,0,7,7,2,2,,,0,0,0,0,0,0,0,0,0,true
 2026-09-14,2026-09-14,1,Mon,false,LONGV,learn,complete,13.8,true,1,0,7,7,2,2,,,0,0,0,0,0,0,0,0,0,false
 2026-09-14#2,2026-09-14,2,Tue,true,LONGV,learn,complete,10.8,true,1,0,7,7,2,2,,,0,0,0,2,2,0,0,0,0,false

@@ -2,7 +2,7 @@ import { toISO, addDays, isSunday, weekday, diffDays } from './dates.js';
 import { getDayInfo, buildSchedule, nextWeekEntry, slotInfo } from './schedule.js';
 import { computeStreak } from './streak.js';
 import { pickDailyWords } from './words.js';
-import { finishedRules, oldRuleWords } from './revision.js';
+import { oldRuleWords } from './revision.js';
 import { Session } from './session.js';
 import { earItems, sentencePicks, sentencesToWrite } from './review.js';
 import { buildDashboard, fullyKnownMap } from './dashboard.js';
@@ -54,18 +54,63 @@ export async function createApp({ db, content, now = () => new Date() }) {
     async saveDay(day) { await db.put('sessions', day); },
     async sessionsOn(dateStr) { return (await this.days()).filter(d => d.date === dateStr); },
 
-    // The next lesson to play: the first plan slot (week + day) that is planned for fromDate or later and not yet played.
-    // No lock: once a lesson is done she can go straight on to the next one. Slots planned for past days she missed are skipped.
+    // The next lesson: the first lesson in plan order that she hasn't played. Progress drives the plan, not the calendar:
+    // finish a rule early and the next rule opens at once; miss a day and she carries on where she left off.
+    // Bonus and redo lessons never use up a plan lesson. A lesson abandoned on an earlier day is offered again.
     async nextSlot(fromDate = this.today(), sessions) {
       const all = sessions || await this.days();
-      const played = new Set(all.filter(d => !d.bonus).map(d => `${d.weekId}|${d.weekIteration || 1}|${d.dayIdx}`));
+      const today = this.today();
+      const played = new Set(all.filter(d => !d.bonus && !d.redo && (['complete', 'stopped'].includes(d.status) || d.date === today))
+        .map(d => `${d.weekId}|${d.weekIteration || 1}|${d.dayIdx}`));
       const sched = this.schedule();
-      for (const e of sched) for (let i = 0; i < 6; i++) {
-        if (addDays(e.start, i) < fromDate) continue;
-        if (!played.has(`${e.weekId}|${e.iteration}|${i}`)) return slotInfo(sched, e, i, fromDate);
-      }
+      for (const e of sched) for (let i = 0; i < 6; i++) if (!played.has(`${e.weekId}|${e.iteration}|${i}`)) return slotInfo(sched, e, i, fromDate);
       return null;
     },
+    // Sunday "Play anyway" uses the rule she last played (or the one she's about to start).
+    async bonusEntry(all) {
+      all = all || await this.days();
+      const sched = this.schedule();
+      const last = [...all].reverse().find(d => !d.bonus && !d.redo && ['complete', 'stopped'].includes(d.status));
+      if (last) { const e = sched.find(x => x.weekId === last.weekId && x.iteration === (last.weekIteration || 1)); if (e) return e; }
+      const n = await this.nextSlot(this.today(), all); return n ? n.weekEntry : null;
+    },
+    // ---- "Do a rule again" (child, home screen) ----
+    redoRules(days, fullyKnown = {}) {
+      const done = s => ['complete', 'stopped'].includes(s.status);
+      const started = new Set(days.filter(d => !d.bonus && done(d)).map(d => d.weekId));
+      const finished = new Set(days.filter(d => d.dayType === 'probe' && done(d)).map(d => d.weekId));
+      return content.weeks.filter(w => started.has(w.rule_id) || fullyKnown[w.rule_id])
+        .map(w => ({ ruleId: w.rule_id, name: w.rule_name, emoji: w.emoji, finished: finished.has(w.rule_id) || !!fullyKnown[w.rule_id] }));
+    },
+    redoParts(ruleId) {
+      const week = content.weeks.find(w => w.rule_id === ruleId); if (!week) return [];
+      const parts = [];
+      if (week.mixed) parts.push({ id: 'mixed', mixed: true, label: 'All the rules together', icon: '🌈' });
+      else {
+        parts.push({ id: 'way1', way: 1, label: 'Learn it with a grown-up', icon: '🧑‍🏫' });
+        (week.way2_videos || []).forEach((v, i) => parts.push({ id: `way2-${i}`, way: 2, videoUrl: v.url, label: `Watch: ${v.title}`, icon: '🎬' }));
+        if ((week.way3_words || []).length) parts.push({ id: 'way3', way: 3, label: 'Sound boxes', icon: '🔲' });
+        if (week.way4_game) parts.push({ id: 'way4', way: 4, label: `Play: ${gameName(week.way4_game)}`, icon: '🎲' });
+      }
+      parts.push({ id: 'probe', probe: true, label: 'Show what you know', icon: '⭐' });
+      return parts.map(p => ({ ...p, ruleId }));
+    },
+    // Put a whole rule (all 6 lessons) back into her plan. Between rules it comes next; mid-rule it comes after the rule she's on.
+    async insertRepeat(ruleId, by = 'parent') {
+      const all = await this.days(); const sched = this.schedule();
+      const slot = await this.nextSlot(this.today(), all);
+      let startDate, startsNext = true;
+      if (!slot) startDate = addDays(sched[sched.length - 1].end, 2);
+      else if (slot.dayIdx === 0) startDate = slot.weekEntry.start;
+      else {
+        const i = sched.findIndex(e => e.weekId === slot.weekEntry.weekId && e.iteration === slot.weekEntry.iteration);
+        startDate = sched[i + 1] ? sched[i + 1].start : addDays(slot.weekEntry.end, 2); startsNext = false;
+      }
+      await this.saveProfile({ repeats: [...(this.profile.repeats || []), { ruleId, startDate, by, markedAt: this.nowISO() }] });
+      await this.logEvent('repeat_week', { ruleId, startDate, by });
+      return { startDate, startsNext };
+    },
+    async redoWholeRule(ruleId) { return this.insertRepeat(ruleId, 'child'); },
     describeSlot(slot) {
       if (!slot) return null;
       const week = slot.weekEntry.week;
@@ -85,7 +130,7 @@ export async function createApp({ db, content, now = () => new Date() }) {
       const sched = this.schedule();
       const entry = sched.find(e => e.weekId === rec.weekId && e.iteration === (rec.weekIteration || 1)) || this.info(rec.date).weekEntry;
       if (rec.bonus) return { ...slotInfo(sched, entry, 0, rec.date), dayType: rec.dayType, bonus: true, defaultWay: 1 };
-      return slotInfo(sched, entry, rec.dayIdx, rec.date);
+      return { ...slotInfo(sched, entry, rec.dayIdx, rec.date), redo: !!rec.redo };
     },
     async streak() { return computeStreak(await this.days(), this.today(), content.settings.streak_milestones); },
     stickersFor(streak) { return STICKERS.filter(s => streak.count >= s.at); },
@@ -93,18 +138,24 @@ export async function createApp({ db, content, now = () => new Date() }) {
     // Open the app: resume the latest lesson of the day (opening twice never duplicates).
     // { next: true } starts the next unplayed lesson even if one is already done today.
     // { bonus: true } on a Sunday starts the rest-day bonus lesson.
-    async getSession(dateStr = this.today(), { bonus = false, next = false } = {}) {
+    async getSession(dateStr = this.today(), { bonus = false, next = false, redo = null } = {}) {
       const all = await this.days();
       const todays = all.filter(d => d.date === dateStr);
       const latest = todays[todays.length - 1];
-      if (latest && !next) return new Session(this, latest, this.infoForRecord(latest));
+      if (latest && !next && !redo) return new Session(this, latest, this.infoForRecord(latest));
       const cal = this.info(dateStr);
+      const sched = this.schedule();
       let info;
-      if (cal.dayType === 'rest' && !next) {
-        if (!bonus || !cal.bonus) return null;
-        info = { ...cal, ...cal.bonus, bonus: true };
+      if (redo) {
+        // Redo one part of a rule. Lesson slots map to Ways: Tue = Way 1, Wed = Way 2, Thu = Way 3, Fri = Way 4, Sat = Show what you know.
+        const entry = sched.find(e => e.weekId === redo.ruleId); if (!entry) return null;
+        info = { ...slotInfo(sched, entry, redo.probe ? 5 : redo.mixed ? 1 : redo.way, dateStr), redo: true };
+      } else if (cal.dayType === 'rest' && !next) {
+        if (!bonus) return null;
+        const be = await this.bonusEntry(all); if (!be) return null;
+        info = { ...slotInfo(sched, be, 0, dateStr), dayType: be.week.mixed ? 'mixed' : 'learn', defaultWay: 1, bonus: true };
       } else {
-        if (!next && (cal.dayType === 'before' || cal.dayType === 'after')) return null;
+        if (!next && cal.dayType === 'before') return null;
         info = await this.nextSlot(dateStr, all);
         if (!info) return null;
       }
@@ -115,7 +166,8 @@ export async function createApp({ db, content, now = () => new Date() }) {
       const words = pickDailyWords({ content, info, days: all, revisions });
       const day = {
         id, seq, date: dateStr, weekId: info.weekEntry.weekId, weekIteration: info.weekEntry.iteration, ruleId: info.weekEntry.weekId,
-        dayType: info.dayType, dayIdx: info.dayIdx, ahead: !info.bonus && !!info.slotDate && info.slotDate > dateStr,
+        dayType: info.dayType, dayIdx: info.dayIdx, ahead: !info.bonus && !info.redo && !!info.slotDate && info.slotDate > dateStr,
+        redo: !!info.redo, redoPart: redo ? redo.id : null, videoUrl: redo && redo.videoUrl ? redo.videoUrl : null,
         status: 'started', step: 'welcome', startedAt: this.nowISO(), activeMs: 0,
         learn: { currentWay: info.defaultWay, waysDone: [], switches: [] }, wayWords: [], words, wordIndex: 0, parentCheck: null, countsForStreak: false,
         bonus: !!info.bonus,
@@ -135,7 +187,8 @@ export async function createApp({ db, content, now = () => new Date() }) {
       }
       for (const w of words) if (w.source === 'revision') await db.add('revisions', { type: 'auto', date: dateStr, ruleId: w.ruleId, word: w.word, at: this.nowISO() });
       await this.saveDay(day);
-      if (seq > 1 || day.ahead) await this.logEvent('next_lesson', { date: dateStr, id, weekId: day.weekId, slot: day.dayIdx });
+      if (day.redo) await this.logEvent('redo', { date: dateStr, id, ruleId: day.weekId, part: day.redoPart });
+      else if (seq > 1 || day.ahead) await this.logEvent('next_lesson', { date: dateStr, id, weekId: day.weekId, slot: day.dayIdx });
       return new Session(this, day, info);
     },
 
@@ -160,7 +213,9 @@ export async function createApp({ db, content, now = () => new Date() }) {
       const tomorrow = await this.tomorrowPreview(today);
       const next = await this.peekNext(today);
       const fullyKnown = fullyKnownMap(content, days);
-      return { today, info, streak, todayDay, lessonsToday: todays.length, next, yesterday, tomorrow, stickers: this.stickersFor(streak), fullyKnown, dateJump: this.dateJump };
+      const redoRules = this.redoRules(days, fullyKnown);
+      const bonusRule = info.dayType === 'rest' ? ((await this.bonusEntry(days))?.week.rule_name || null) : null;
+      return { today, info, streak, todayDay, lessonsToday: todays.length, next, redoRules, bonusRule, yesterday, tomorrow, stickers: this.stickersFor(streak), fullyKnown, dateJump: this.dateJump };
     },
     async yesterdaySummary(days, today) {
       const prev = [...days].filter(d => d.date < today && ['complete', 'stopped'].includes(d.status)).pop();
@@ -203,8 +258,10 @@ export async function createApp({ db, content, now = () => new Date() }) {
       return { day: d, week, videos, ways: d.learn.waysDone.map(w => w.way), words: d.words };
     },
     async oldRules() {
-      const days = await this.days();
-      return finishedRules(content, this.schedule(), this.today(), fullyKnownMap(content, days));
+      const days = await this.days(); const fk = fullyKnownMap(content, days);
+      const probed = new Set(days.filter(d => d.dayType === 'probe' && ['complete', 'stopped'].includes(d.status)).map(d => d.weekId));
+      const seen = new Set();
+      return this.schedule().filter(e => !e.week.mixed && (probed.has(e.weekId) || fk[e.weekId]) && !seen.has(e.weekId) && seen.add(e.weekId));
     },
     startOldRule(ruleId) {
       const week = content.weeks.find(w => w.rule_id === ruleId);
@@ -227,16 +284,7 @@ export async function createApp({ db, content, now = () => new Date() }) {
 
     // ---- Parent ----
     async dashboard() { return buildDashboard(content, this.schedule(), await db.dump(), this.today()); },
-    async markRepeat(ruleId) {
-      // repeat inserted at the next Monday after the current week
-      const today = this.today();
-      const info = this.info(today);
-      const base = info.weekEntry ? info.weekEntry.end : today;
-      const monday = addDays(base, weekday(base) === 6 ? 2 : 1);
-      const repeats = [...(this.profile.repeats || []), { ruleId, startDate: monday, markedAt: this.nowISO() }];
-      await this.saveProfile({ repeats });
-      await this.logEvent('repeat_week', { ruleId, startDate: monday });
-    },
+    async markRepeat(ruleId) { return this.insertRepeat(ruleId, 'parent'); },
     async unmarkRepeat(ruleId, startDate) { await this.saveProfile({ repeats: this.profile.repeats.filter(r => !(r.ruleId === ruleId && r.startDate === startDate)) }); },
     async exportJSON() { return toJSONExport(await db.dump(), content); },
     async exportCSV() { return toCSVExport(await db.dump()); },

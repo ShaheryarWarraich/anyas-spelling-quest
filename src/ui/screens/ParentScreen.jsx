@@ -18,6 +18,7 @@ function Dashboard({ app, onHome }) {
   return (
     <div className="screen parent">
       <div className="topbar"><h1>Grown-up area</h1><button className="btn secondary" onClick={onHome}>Back to Anya</button></div>
+      <div className="small muted">App version: {typeof __BUILD__ !== 'undefined' ? __BUILD__ : 'dev'} · <button className="btn ghost" style={{ minHeight: 0, padding: '2px 6px' }} onClick={async () => { try { const r = await navigator.serviceWorker?.getRegistration(); await r?.update(); } catch {} setTimeout(() => location.reload(), 1500); }}>Check for update</button></div>
       <div className="tabs">{['overview', 'weeks', 'ear', 'videos', 'revision', 'settings'].map(t => <button key={t} className={`btn ${tab === t ? 'on' : ''}`} onClick={() => setTab(t)}>{t[0].toUpperCase() + t.slice(1)}</button>)}</div>
       {msg && <div className="parent-note">{msg}</div>}
 
@@ -43,12 +44,12 @@ function Dashboard({ app, onHome }) {
           <h2>{w.ruleName} · {w.start} → {w.end} {w.repeat && <span className="tag">repeat</span>}</h2>
           <div className="small muted">Watch for: {app.content.weeks.find(x => x.rule_id === w.weekId)?.watch_for}</div>
           <table><thead><tr><th>Date</th><th>Type</th><th>Min</th><th>Counts</th><th>Ways</th><th>Switches</th><th>Taught</th><th>Transfer</th><th>Breakers</th><th>Ear</th><th>Pick</th><th>Sentences</th><th>Revision</th><th>Probe</th><th>Self-caught</th><th>Way words</th><th>Rule taps</th></tr></thead><tbody>
-            {w.sessions.map(s => <tr key={s.id}><td>{s.date}{s.seq > 1 && <span className="small muted"> #{s.seq}</span>}</td><td>{s.dayType}{s.slot != null && <span className="small muted"> ({['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][s.slot]} lesson)</span>}{s.bonus && <span className="tag">bonus</span>}{s.ahead && <span className="tag">ahead</span>} <span className="small muted">{s.status}</span></td><td>{s.minutes}</td><td>{s.countsForStreak ? '✓' : '–'}</td><td>{s.ways.join(', ')}</td><td>{s.switches}</td><td>{pct(s.taught)}</td><td>{pct(s.transfer)}</td><td>{pct(s.exceptions)}</td><td>{pct(s.ear)}</td><td>{pct(s.pick)}</td><td>{pct(s.sentences)}</td><td>{s.revision.map(r => <span key={r.word} className={`tag ${r.mark ? 'ok' : r.mark === false ? 'no' : ''}`}>{r.word} ({r.ruleId})</span>)}</td><td>{s.probe ? `${s.probe.correct}/${s.probe.total}` : '–'}{s.probe?.byRule && Object.keys(s.probe.byRule).length > 1 && <div className="small">{Object.entries(s.probe.byRule).map(([r, v]) => `${r} ${v.correct}/${v.total}`).join(' · ')}</div>}</td><td>{s.selfCaught ?? '–'}</td><td>{s.wayWords.map(x => <span key={x.word} className={`tag ${x.mark ? 'ok' : x.mark === false ? 'no' : ''}`}>{x.word}</span>)}</td><td>{s.ruleTaps.map(t => <span key={t.word} className={`tag ${t.tapped === t.ruleId ? 'ok' : 'no'}`}>{t.word}: {t.tapped || '–'}</span>)}</td></tr>)}
+            {w.sessions.map(s => <tr key={s.id}><td>{s.date}{s.seq > 1 && <span className="small muted"> #{s.seq}</span>}</td><td>{s.dayType}{s.slot != null && <span className="small muted"> ({['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][s.slot]} lesson)</span>}{s.bonus && <span className="tag">bonus</span>}{s.redo && <span className="tag">redo · {s.redoPart}</span>}{s.ahead && <span className="tag">ahead</span>} <span className="small muted">{s.status}</span></td><td>{s.minutes}</td><td>{s.countsForStreak ? '✓' : '–'}</td><td>{s.ways.join(', ')}</td><td>{s.switches}</td><td>{pct(s.taught)}</td><td>{pct(s.transfer)}</td><td>{pct(s.exceptions)}</td><td>{pct(s.ear)}</td><td>{pct(s.pick)}</td><td>{pct(s.sentences)}</td><td>{s.revision.map(r => <span key={r.word} className={`tag ${r.mark ? 'ok' : r.mark === false ? 'no' : ''}`}>{r.word} ({r.ruleId})</span>)}</td><td>{s.probe ? `${s.probe.correct}/${s.probe.total}` : '–'}{s.probe?.byRule && Object.keys(s.probe.byRule).length > 1 && <div className="small">{Object.entries(s.probe.byRule).map(([r, v]) => `${r} ${v.correct}/${v.total}`).join(' · ')}</div>}</td><td>{s.selfCaught ?? '–'}</td><td>{s.wayWords.map(x => <span key={x.word} className={`tag ${x.mark ? 'ok' : x.mark === false ? 'no' : ''}`}>{x.word}</span>)}</td><td>{s.ruleTaps.map(t => <span key={t.word} className={`tag ${t.tapped === t.ruleId ? 'ok' : 'no'}`}>{t.word}: {t.tapped || '–'}</span>)}</td></tr>)}
             {w.sessions.length === 0 && <tr><td colSpan="17" className="muted">No sessions yet.</td></tr>}
           </tbody></table>
           <div style={{ marginTop: 10 }}>{w.repeat
             ? <button className="btn secondary" onClick={async () => { await app.unmarkRepeat(w.weekId, w.start); setMsg(`Repeat of ${w.ruleName} removed.`); reload(); }}>Remove this repeat</button>
-            : <button className="btn secondary" onClick={async () => { await app.markRepeat(w.weekId); setMsg(`${w.ruleName} will repeat after the current week.`); reload(); }}>Repeat this week</button>}</div>
+            : <button className="btn secondary" onClick={async () => { const r = await app.markRepeat(w.weekId); setMsg(`${w.ruleName} will repeat ${r.startsNext ? 'next' : 'after the rule she is on now'}.`); reload(); }}>Repeat this week</button>}</div>
         </div>
       ))}
 
@@ -80,7 +81,7 @@ function Repeats({ app, d, setMsg, reload }) {
       <h2>Repeats planned</h2>
       {d.repeats.map(r => (
         <div key={r.ruleId + r.startDate} className="row" style={{ justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid #eee' }}>
-          <span><b>{name(r.ruleId)}</b> repeats from {r.startDate} (later weeks shift by 7 days)</span>
+          <span><b>{name(r.ruleId)}</b> repeats{r.by === 'child' ? ' (Anya chose this)' : ''}; plan order slot {r.startDate}</span>
           <button className="btn secondary" onClick={async () => { await app.unmarkRepeat(r.ruleId, r.startDate); setMsg(`Repeat of ${name(r.ruleId)} removed.`); reload(); }}>Remove repeat</button>
         </div>
       ))}
