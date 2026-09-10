@@ -9,11 +9,11 @@ function doPost(e) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
 
   writeSheet_(ss, 'Sessions',
-    ['date', 'weekId', 'dayType', 'status', 'minutes', 'countsForStreak', 'waysDone', 'switches', 'wordsCorrect', 'wordsTotal', 'transferCorrect', 'transferTotal', 'probeCorrect', 'probeTotal', 'selfCaught', 'exceptionCorrect', 'exceptionTotal', 'earCorrect', 'earTotal', 'pickCorrect', 'pickTotal', 'sentencesCorrect', 'sentencesTotal', 'bonus', 'startedAt', 'completedAt'],
+    ['id', 'date', 'seq', 'slot', 'ahead', 'weekId', 'dayType', 'status', 'minutes', 'countsForStreak', 'waysDone', 'switches', 'wordsCorrect', 'wordsTotal', 'transferCorrect', 'transferTotal', 'probeCorrect', 'probeTotal', 'selfCaught', 'exceptionCorrect', 'exceptionTotal', 'earCorrect', 'earTotal', 'pickCorrect', 'pickTotal', 'sentencesCorrect', 'sentencesTotal', 'bonus', 'startedAt', 'completedAt'],
     (data.days || []).map(function (d) {
       var tr = (d.words || []).filter(function (w) { return w.source === 'transfer' || w.source === 'sentence'; });
       var pc = d.parentCheck || {};
-      return [d.date, d.weekId, d.dayType, d.status, (d.activeMs / 60000).toFixed(1), !!d.countsForStreak,
+      return [d.id || d.date, d.date, d.seq || 1, d.bonus ? 'bonus' : (['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.dayIdx] || ''), !!d.ahead, d.weekId, d.dayType, d.status, (d.activeMs / 60000).toFixed(1), !!d.countsForStreak,
         ((d.learn || {}).waysDone || []).map(function (w) { return w.way; }).join(' '), ((d.learn || {}).switches || []).length,
         pc.correct == null ? '' : pc.correct, pc.total == null ? '' : pc.total,
         tr.filter(function (w) { return w.mark; }).length, tr.length,

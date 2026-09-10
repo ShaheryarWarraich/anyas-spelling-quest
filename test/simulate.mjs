@@ -98,13 +98,43 @@ log(`  revision word drawn: ${rev.word} (from ${rev.ruleId})`);
   log(`  old-rule mini session FLOSS: ${mini.words.map(w => w.word)}`);
 }
 
+// ---- No lock: after finishing a lesson she can go straight on to the next one ----
+{
+  const app = await open();
+  const nx = await app.peekNext();
+  assert.equal(nx.weekEntry.weekId, 'LONGV'); assert.equal(nx.dayIdx, 1, 'next lesson after Week 2 Monday is the Tuesday lesson');
+  const s = await app.getSession(undefined, { next: true });
+  assert.equal(s.day.id, '2026-09-14#2'); assert.equal(s.day.seq, 2); assert.equal(s.day.dayIdx, 1); assert.ok(s.day.ahead, 'marked as played ahead of plan');
+  assert.equal(s.day.learn.currentWay, 1, 'Tuesday lesson = Way 1 again');
+  assert.notDeepEqual(s.day.words.map(w => w.word), (await app.getDay('2026-09-14')).words.map(w => w.word), 'second lesson gets different words');
+  const re = await (await open()).getSession(); assert.equal(re.day.id, '2026-09-14#2', 'reopening resumes the second lesson, no duplicate');
+  await s.tick(30000); await s.finishWelcome(); await s.tick(6 * 60000); await s.completeWay(1, { kind: 'ruletap', correct: true }, ['cake', 'boat']);
+  if (s.step === 'ear') { for (let i = 0; i < s.day.ear.length; i++) await s.answerEar(i, s.day.ear[i].word); await s.advance(); }
+  while (s.step === 'write') { await s.tick(40000); await s.nextWord(); } await s.tick(60000);
+  await s.parentCheck({ marks: s.checkList.map(() => true), selfCaught: 0 });
+  const st = await app.streak();
+  assert.equal(st.count, 7, 'a second lesson on the same day does not add a second flower');
+  const home = await app.getHome();
+  assert.equal(home.lessonsToday, 2); assert.equal(home.next.dayIdx, 2, 'home now offers the Wednesday lesson');
+  log(`\n=== 2026-09-14 SECOND LESSON (no lock): ${s.day.id} = ${s.day.weekId} ${['Mon','Tue','Wed','Thu','Fri','Sat'][s.day.dayIdx]} lesson, words ${s.day.words.map(w => w.word).join(', ')}; streak still ${st.count}; home offers next: ${home.next.text}; ${home.tomorrow.text}`);
+}
+{
+  setDay(2026, 9, 15);
+  const app = await open(); const h = await app.getHome();
+  const t = await app.getSession();
+  assert.equal(t.day.dayIdx, 2, 'Tuesday: the Tuesday lesson was already done, so she gets the Wednesday lesson');
+  assert.equal(t.day.learn.currentWay, 2);
+  log(`=== 2026-09-15 opens on the ${['Mon','Tue','Wed','Thu','Fri','Sat'][t.day.dayIdx]} lesson (Way ${t.day.learn.currentWay}) because Tuesday's was played ahead; streak ${h.streak.count} ${h.streak.state}`);
+  setDay(2026, 9, 14);
+}
+
 const app = await open();
 const dash = await app.dashboard();
 const cal = await app.revisionCalendar();
 assert.equal(dash.streak.count, 7, 'seven counted days (Wed missed, Sunday bonus)');
 assert.equal(dash.switchPresses.length, 1);
 assert.equal(dash.weeks[0].fullyKnown, true, 'FLOSS fully known: >=2 ways and probe >= 8');
-assert.equal(cal.length, 7);
+assert.equal(cal.length, 8, 'seven days plus the extra Monday lesson');
 assert.ok(dash.weeks[0].sessions.some(s => s.bonus && s.date === '2026-09-13'), 'bonus day listed under FLOSS in the dashboard');
 console.log('\n================ PARENT DASHBOARD ================');
 console.log(JSON.stringify(dash, null, 1));

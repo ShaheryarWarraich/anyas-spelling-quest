@@ -1,5 +1,5 @@
 import { toISO, addDays, isSunday, weekday, diffDays } from './dates.js';
-import { getDayInfo, buildSchedule, nextWeekEntry } from './schedule.js';
+import { getDayInfo, buildSchedule, nextWeekEntry, slotInfo } from './schedule.js';
 import { computeStreak } from './streak.js';
 import { pickDailyWords } from './words.js';
 import { finishedRules, oldRuleWords } from './revision.js';
@@ -48,44 +48,94 @@ export async function createApp({ db, content, now = () => new Date() }) {
 
     info(dateStr = this.today()) { return getDayInfo(content, this.profile, dateStr); },
     schedule() { return buildSchedule(content, this.profile); },
-    async days() { return (await db.all('days')).sort((a, b) => a.date.localeCompare(b.date)); },
-    async getDay(dateStr) { return db.get('days', dateStr); },
-    async saveDay(day) { await db.put('days', day); },
+    // Sessions: one record per lesson played. The first lesson of a day has id = date; more lessons that day get date#2, date#3...
+    async days() { return (await db.all('sessions')).sort((a, b) => a.date.localeCompare(b.date) || (a.seq || 1) - (b.seq || 1)); },
+    async getDay(id) { return db.get('sessions', id); },
+    async saveDay(day) { await db.put('sessions', day); },
+    async sessionsOn(dateStr) { return (await this.days()).filter(d => d.date === dateStr); },
+
+    // The next lesson to play: the first plan slot (week + day) that is planned for fromDate or later and not yet played.
+    // No lock: once a lesson is done she can go straight on to the next one. Slots planned for past days she missed are skipped.
+    async nextSlot(fromDate = this.today(), sessions) {
+      const all = sessions || await this.days();
+      const played = new Set(all.filter(d => !d.bonus).map(d => `${d.weekId}|${d.weekIteration || 1}|${d.dayIdx}`));
+      const sched = this.schedule();
+      for (const e of sched) for (let i = 0; i < 6; i++) {
+        if (addDays(e.start, i) < fromDate) continue;
+        if (!played.has(`${e.weekId}|${e.iteration}|${i}`)) return slotInfo(sched, e, i, fromDate);
+      }
+      return null;
+    },
+    describeSlot(slot) {
+      if (!slot) return null;
+      const week = slot.weekEntry.week;
+      if (slot.dayType === 'probe') return 'show what you know';
+      if (slot.dayType === 'mixed') return 'all the rules together';
+      if (slot.dayIdx === 0) return `a new rule, ${week.rule_name}`;
+      if (slot.defaultWay === 4 && week.way4_game) return 'play ' + gameName(week.way4_game);
+      return WAY_NAMES[slot.defaultWay];
+    },
+    async peekNext(dateStr = this.today()) {
+      const slot = await this.nextSlot(dateStr); if (!slot) return null;
+      let text = this.describeSlot(slot);
+      if (slot.defaultWay === 2 && slot.dayType === 'learn' && slot.dayIdx !== 0) { const v = await this.pickVideo(slot.weekEntry, slot.dayIdx); if (v) text = `the ${v.title} video`; }
+      return { ...slot, text };
+    },
+    infoForRecord(rec) {
+      const sched = this.schedule();
+      const entry = sched.find(e => e.weekId === rec.weekId && e.iteration === (rec.weekIteration || 1)) || this.info(rec.date).weekEntry;
+      if (rec.bonus) return { ...slotInfo(sched, entry, 0, rec.date), dayType: rec.dayType, bonus: true, defaultWay: 1 };
+      return slotInfo(sched, entry, rec.dayIdx, rec.date);
+    },
     async streak() { return computeStreak(await this.days(), this.today(), content.settings.streak_milestones); },
     stickersFor(streak) { return STICKERS.filter(s => streak.count >= s.at); },
 
-    // Start or resume today's session. Opening twice in one day resumes the same record.
-    async getSession(dateStr = this.today(), { bonus = false } = {}) {
-      let info = this.info(dateStr);
-      let day = await this.getDay(dateStr);
-      const isBonus = info.dayType === 'rest' && !!info.bonus && (bonus || !!day);
-      if (isBonus) info = { ...info, ...info.bonus, bonus: true };
-      else if (!['learn', 'probe', 'mixed'].includes(info.dayType)) return null;
-      if (!day) {
-        const days = await this.days(); const revisions = await db.all('revisions');
-        const words = pickDailyWords({ content, info, days, revisions });
-        day = {
-          date: dateStr, weekId: info.weekEntry.weekId, weekIteration: info.weekEntry.iteration, ruleId: info.weekEntry.weekId,
-          dayType: info.dayType, dayIdx: info.dayIdx, status: 'started', step: 'welcome', startedAt: this.nowISO(), activeMs: 0,
-          learn: { currentWay: info.defaultWay, waysDone: [], switches: [] }, wayWords: [], words, wordIndex: 0, parentCheck: null, countsForStreak: false,
-          bonus: isBonus || false,
-        };
-        // Verbal-to-written checks: a short ear check on learn days (from day 2); the full review on Saturday.
-        const st = content.settings; const week = info.weekEntry.week;
-        if (info.dayType === 'probe') {
-          day.ear = earItems(content, week, st.ear_items_review ?? 6, dateStr, { exclude: new Set(words.map(w => w.word)) });
-          day.pick = sentencePicks(content, week, st.sentence_picks_review ?? 3, dateStr);
-          day.sentences = week.probe_sentences ? [] : sentencesToWrite(week, st.sentences_to_write_review ?? 2, dateStr, day.pick.map(p => p.text));
-          day.sentenceIndex = 0;
-          day.flow = ['welcome', 'write', 'ear', 'pick', ...(day.sentences.length ? ['sentences'] : []), 'check', 'done'];
-        } else {
-          day.ear = (info.dayType === 'learn' && (info.dayIdx ?? 0) >= 1) ? earItems(content, week, st.ear_items_daily ?? 2, dateStr) : [];
-          day.pick = []; day.sentences = []; day.sentenceIndex = 0;
-          day.flow = ['welcome', ...(info.dayType === 'learn' ? ['learn'] : []), ...(day.ear.length ? ['ear'] : []), 'write', 'check', 'done'];
-        }
-        for (const w of words) if (w.source === 'revision') await db.add('revisions', { type: 'auto', date: dateStr, ruleId: w.ruleId, word: w.word, at: this.nowISO() });
-        await this.saveDay(day);
+    // Open the app: resume the latest lesson of the day (opening twice never duplicates).
+    // { next: true } starts the next unplayed lesson even if one is already done today.
+    // { bonus: true } on a Sunday starts the rest-day bonus lesson.
+    async getSession(dateStr = this.today(), { bonus = false, next = false } = {}) {
+      const all = await this.days();
+      const todays = all.filter(d => d.date === dateStr);
+      const latest = todays[todays.length - 1];
+      if (latest && !next) return new Session(this, latest, this.infoForRecord(latest));
+      const cal = this.info(dateStr);
+      let info;
+      if (cal.dayType === 'rest' && !next) {
+        if (!bonus || !cal.bonus) return null;
+        info = { ...cal, ...cal.bonus, bonus: true };
+      } else {
+        if (!next && (cal.dayType === 'before' || cal.dayType === 'after')) return null;
+        info = await this.nextSlot(dateStr, all);
+        if (!info) return null;
       }
+      const seq = todays.length + 1;
+      const id = seq === 1 ? dateStr : `${dateStr}#${seq}`;
+      info.seed = id;
+      const revisions = await db.all('revisions');
+      const words = pickDailyWords({ content, info, days: all, revisions });
+      const day = {
+        id, seq, date: dateStr, weekId: info.weekEntry.weekId, weekIteration: info.weekEntry.iteration, ruleId: info.weekEntry.weekId,
+        dayType: info.dayType, dayIdx: info.dayIdx, ahead: !info.bonus && !!info.slotDate && info.slotDate > dateStr,
+        status: 'started', step: 'welcome', startedAt: this.nowISO(), activeMs: 0,
+        learn: { currentWay: info.defaultWay, waysDone: [], switches: [] }, wayWords: [], words, wordIndex: 0, parentCheck: null, countsForStreak: false,
+        bonus: !!info.bonus,
+      };
+      // Verbal-to-written checks: a short ear check on learn days (from day 2); the full review on Saturday.
+      const st = content.settings; const week = info.weekEntry.week;
+      if (info.dayType === 'probe') {
+        day.ear = earItems(content, week, st.ear_items_review ?? 6, id, { exclude: new Set(words.map(w => w.word)) });
+        day.pick = sentencePicks(content, week, st.sentence_picks_review ?? 3, id);
+        day.sentences = week.probe_sentences ? [] : sentencesToWrite(week, st.sentences_to_write_review ?? 2, id, day.pick.map(p => p.text));
+        day.sentenceIndex = 0;
+        day.flow = ['welcome', 'write', 'ear', 'pick', ...(day.sentences.length ? ['sentences'] : []), 'check', 'done'];
+      } else {
+        day.ear = (info.dayType === 'learn' && (info.dayIdx ?? 0) >= 1) ? earItems(content, week, st.ear_items_daily ?? 2, id) : [];
+        day.pick = []; day.sentences = []; day.sentenceIndex = 0;
+        day.flow = ['welcome', ...(info.dayType === 'learn' ? ['learn'] : []), ...(day.ear.length ? ['ear'] : []), 'write', 'check', 'done'];
+      }
+      for (const w of words) if (w.source === 'revision') await db.add('revisions', { type: 'auto', date: dateStr, ruleId: w.ruleId, word: w.word, at: this.nowISO() });
+      await this.saveDay(day);
+      if (seq > 1 || day.ahead) await this.logEvent('next_lesson', { date: dateStr, id, weekId: day.weekId, slot: day.dayIdx });
       return new Session(this, day, info);
     },
 
@@ -104,11 +154,13 @@ export async function createApp({ db, content, now = () => new Date() }) {
       const info = this.info(today);
       const days = await this.days();
       const streak = computeStreak(days, today, content.settings.streak_milestones);
-      const todayDay = days.find(d => d.date === today) || null;
+      const todays = days.filter(d => d.date === today);
+      const todayDay = todays[todays.length - 1] || null;
       const yesterday = await this.yesterdaySummary(days, today);
       const tomorrow = await this.tomorrowPreview(today);
+      const next = await this.peekNext(today);
       const fullyKnown = fullyKnownMap(content, days);
-      return { today, info, streak, todayDay, yesterday, tomorrow, stickers: this.stickersFor(streak), fullyKnown, dateJump: this.dateJump };
+      return { today, info, streak, todayDay, lessonsToday: todays.length, next, yesterday, tomorrow, stickers: this.stickersFor(streak), fullyKnown, dateJump: this.dateJump };
     },
     async yesterdaySummary(days, today) {
       const prev = [...days].filter(d => d.date < today && ['complete', 'stopped'].includes(d.status)).pop();
@@ -128,16 +180,10 @@ export async function createApp({ db, content, now = () => new Date() }) {
     },
     async tomorrowPreview(today) {
       const t = addDays(today, 1);
-      const info = this.info(t);
-      if (info.dayType === 'rest') return { date: t, text: 'Tomorrow is a rest day. Have fun!' };
-      if (info.dayType === 'probe') return { date: t, text: 'Tomorrow: show what you know!' };
-      if (info.dayType === 'mixed') return { date: t, text: 'Tomorrow: all the rules together!' };
-      if (info.dayType !== 'learn') return { date: t, text: 'See you soon!' };
-      let text = `Tomorrow: ${WAY_NAMES[info.defaultWay]}!`;
-      if (info.defaultWay === 2) { const v = await this.pickVideo(info.weekEntry, info.dayIdx); if (v) text = `Tomorrow: the ${v.title} video!`; }
-      if (info.defaultWay === 4 && info.weekEntry.week.way4_game) text = `Tomorrow: play ${gameName(info.weekEntry.week.way4_game)}!`;
-      if (info.weekEntry.start === t) text = `Tomorrow: a new rule, ${info.weekEntry.week.rule_name}!`;
-      return { date: t, text };
+      if (isSunday(t)) return { date: t, text: 'Tomorrow is a rest day. Have fun!' };
+      if (this.info(t).dayType === 'before') return { date: t, text: 'See you soon!' };
+      const n = await this.peekNext(t);
+      return { date: t, text: n ? `Tomorrow: ${n.text}!` : 'See you soon!' };
     },
 
     // ---- Revision mode ----
@@ -146,14 +192,14 @@ export async function createApp({ db, content, now = () => new Date() }) {
       const videos = await db.all('videos');
       return days.map(d => {
         const week = content.weeks.find(w => w.rule_id === d.weekId);
-        return { date: d.date, weekId: d.weekId, ruleName: week.rule_name, emoji: week.emoji, dayType: d.dayType, ways: d.learn.waysDone.map(w => w.way), videos: videos.filter(v => v.date === d.date && v.watched).map(v => v.title), words: d.words.map(w => w.word), countsForStreak: !!d.countsForStreak };
+        return { id: d.id || d.date, seq: d.seq || 1, date: d.date, weekId: d.weekId, ruleName: week.rule_name, emoji: week.emoji, dayType: d.dayType, ways: d.learn.waysDone.map(w => w.way), videos: videos.filter(v => v.date === d.date && v.watched).map(v => v.title), words: d.words.map(w => w.word), countsForStreak: !!d.countsForStreak };
       });
     },
-    async quickLook(dateStr) {
-      const d = await this.getDay(dateStr); if (!d) return null;
+    async quickLook(id) {
+      const d = await this.getDay(id); if (!d) return null;
       const week = content.weeks.find(w => w.rule_id === d.weekId);
-      const videos = (await db.all('videos')).filter(v => v.date === dateStr && v.watched);
-      await db.add('revisions', { type: 'quicklook', date: this.today(), replayDate: dateStr, ruleId: d.weekId, at: this.nowISO() });
+      const videos = (await db.all('videos')).filter(v => v.date === d.date && v.weekId === d.weekId && v.watched);
+      await db.add('revisions', { type: 'quicklook', date: this.today(), replayDate: id, ruleId: d.weekId, at: this.nowISO() });
       return { day: d, week, videos, ways: d.learn.waysDone.map(w => w.way), words: d.words };
     },
     async oldRules() {
@@ -168,14 +214,15 @@ export async function createApp({ db, content, now = () => new Date() }) {
       words.forEach((w, i) => { w.mark = !!marks[i]; });
       await db.add('revisions', { type: 'oldrule', date: this.today(), ruleId, words, selfCaught, activeMs, at: this.nowISO() });
       // counts toward today's session time if done the same day
-      let day = await this.getDay(this.today());
+      const todays = await this.sessionsOn(this.today()); const day = todays[todays.length - 1];
       if (day) { day.activeMs += activeMs; day.revisionMs = (day.revisionMs || 0) + activeMs; if (day.status === 'complete') day.countsForStreak = day.activeMs >= (day.dayType === 'probe' ? (content.settings.min_probe_minutes ?? 0) : (content.settings.min_session_minutes ?? 10)) * 60000; await this.saveDay(day); }
     },
     async weeklyRecap(weekEntry) {
-      const days = (await this.days()).filter(d => d.weekId === weekEntry.weekId && d.date >= addDays(weekEntry.start, -1) && d.date <= addDays(weekEntry.end, 1));
-      const videos = (await db.all('videos')).filter(v => v.watched && v.date >= weekEntry.start && v.date <= weekEntry.end);
+      const days = (await this.days()).filter(d => d.weekId === weekEntry.weekId && (d.weekIteration || 1) === weekEntry.iteration);
+      const dates = new Set(days.map(d => d.date));
+      const videos = (await db.all('videos')).filter(v => v.watched && v.weekId === weekEntry.weekId && dates.has(v.date));
       const ways = [...new Set(days.flatMap(d => d.learn.waysDone.map(w => w.way)))].sort();
-      return { week: weekEntry.week, days: days.map(d => d.date), ways, videos: videos.map(v => v.title), flowers: days.filter(d => d.status === 'complete').map(d => d.date) };
+      return { week: weekEntry.week, days: [...dates], ways, videos: [...new Set(videos.map(v => v.title))], flowers: [...new Set(days.filter(d => d.status === 'complete').map(d => d.date))] };
     },
 
     // ---- Parent ----

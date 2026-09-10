@@ -42,6 +42,11 @@ export function getDayInfo(content, profile, dateStr) {
   const dayType = dayIdx === 5 ? 'probe' : (entry.week.mixed ? 'mixed' : 'learn');
   return { dayType, dateStr, dayIdx, weekEntry: entry, schedule: sched, defaultWay: dayIdx < 5 ? DEFAULT_WAY_BY_DAY[dayIdx] : null };
 }
+// A plan slot = one lesson: week entry + day index (0 Mon .. 5 Sat). Its planned date is start + dayIdx.
+export function slotInfo(schedule, entry, dayIdx, dateStr) {
+  const dayType = dayIdx === 5 ? 'probe' : (entry.week.mixed ? 'mixed' : 'learn');
+  return { dayType, dateStr, dayIdx, weekEntry: entry, schedule, defaultWay: dayIdx < 5 ? DEFAULT_WAY_BY_DAY[dayIdx] : null, slotDate: addDays(entry.start, dayIdx) };
+}
 function findWeekAround(sched, dateStr) {
   // On a Sunday, the "current" week is the one that just ended (for previews use the next one).
   return sched.find(e => dateStr >= addDays(e.start, -1) && dateStr <= addDays(e.end, 1)) || null;

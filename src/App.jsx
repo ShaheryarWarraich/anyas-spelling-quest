@@ -39,11 +39,11 @@ export default function App() {
 
   if (error) return <div className="screen center"><h1>Oops</h1><div className="muted">{error}</div></div>;
   if (!app || !home) return <div className="screen center"><Guide text="Loading…" /></div>;
-  if (view.name === 'session' && session) return <SessionScreen app={app} session={session} home={home} onHome={goHome} />;
+  if (view.name === 'session' && session) return <SessionScreen key={session.day.id} app={app} session={session} home={home} onHome={goHome} onNext={() => play({ next: true })} />;
   if (view.name === 'revision') return <RevisionScreen app={app} home={home} onHome={goHome} />;
   if (view.name === 'parent') return <ParentScreen app={app} onHome={goHome} />;
   if (view.name === 'badge') return (
     <div className="screen center fade"><h1>You finished {view.week.rule_name}!</h1><RuleBadge week={view.week} /><Guide text="A new badge for your shelf!" stickers={home.stickers.map(s => s.id)} mood="wow" /><button className="btn primary wide" onClick={goHome}>Yay! ➜</button></div>
   );
-  return <HomeScreen app={app} home={home} onPlay={() => play()} onBonus={() => play({ bonus: true })} onRemember={() => setView({ name: 'revision' })} onParent={() => setView({ name: 'parent' })} onBadge={week => setView({ name: 'badge', week })} />;
+  return <HomeScreen app={app} home={home} onPlay={() => play()} onNext={() => play({ next: true })} onBonus={() => play({ bonus: true })} onRemember={() => setView({ name: 'revision' })} onParent={() => setView({ name: 'parent' })} onBadge={week => setView({ name: 'badge', week })} />;
 }

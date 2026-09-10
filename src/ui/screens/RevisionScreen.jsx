@@ -26,9 +26,9 @@ export default function RevisionScreen({ app, home, onHome }) {
       {cal.length === 0 && <div className="muted">Nothing yet. Come back after your first day!</div>}
       <div className="path">
         {cal.map((d, i) => (
-          <div key={d.date} className="pathday" onClick={() => setView({ type: 'quick', date: d.date })}>
+          <div key={d.id} className="pathday" onClick={() => setView({ type: 'quick', date: d.id })}>
             <Flower i={i} size={34} />
-            <div>{prettyDate(d.date)}</div>
+            <div>{prettyDate(d.date)}{d.seq > 1 ? ` · ${d.seq}` : ''}</div>
             <div className="small muted">{d.emoji} {d.dayType === 'probe' ? 'Show what you know' : d.ways.length ? 'Way ' + d.ways.join('+') : d.ruleName}</div>
           </div>
         ))}
@@ -47,7 +47,7 @@ function QuickLook({ app, date, stickers, onDone }) {
   if (!data) return null;
   const { week, day, ways, videos, words } = data;
   const slides = [];
-  slides.push({ secs: 8, body: <div className="col"><h1>{prettyDate(date)}</h1>{day.dayType === 'probe' ? <div className="rulecard"><div className="name">⭐ Show what you know</div></div> : <RuleCard week={week} />}</div> });
+  slides.push({ secs: 8, body: <div className="col"><h1>{prettyDate(day.date)}</h1>{day.dayType === 'probe' ? <div className="rulecard"><div className="name">⭐ Show what you know</div></div> : <RuleCard week={week} />}</div> });
   for (const w of ways) {
     if (w === 1) for (const s of week.way1_script.filter(s => s.kind !== 'write').slice(0, 4)) slides.push({ secs: 8, body: <div className="col"><h2>{s.title}</h2>{s.demo?.word && <Letters word={s.demo.word} highlight={s.demo.highlight} color={s.demo.color} />}{s.demo?.from && <Letters word={s.demo.to} />}{s.demo?.cols && <div className="row">{s.demo.cols.map(c => <div key={c.label} className="tapcard">{c.label}: {c.words.join(', ')}</div>)}</div>}{s.demo?.syllables && <Letters word={s.demo.syllables.join('-')} />}<div className="parent-note">{s.text}</div></div> });
     if (w === 2) { const v = videos[0] || week.way2_videos[0]; const id = v && (v.url.match(/[?&]v=([\w-]+)/) || [])[1]; slides.push({ secs: 60, body: <div className="col"><h2>🎬 {v?.title}</h2>{id && navigator.onLine ? <div className="video-wrap"><iframe src={`https://www.youtube.com/embed/${id}?rel=0&playsinline=1`} allow="autoplay; encrypted-media" allowFullScreen title={v.title} /></div> : <div className="muted">Needs the internet to play.</div>}</div> }); }

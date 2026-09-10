@@ -12,13 +12,14 @@ export function fullyKnownMap(content, days) {
   return out;
 }
 export function buildDashboard(content, schedule, dump, today) {
-  const { days, videos, revisions, events, profile } = dump;
+  const { sessions: days, videos, revisions, events, profile } = dump;
   const p = profile[0] || {};
   const fullyKnown = fullyKnownMap(content, days);
   const weeks = schedule.map(e => {
-    const wd = days.filter(d => d.weekId === e.weekId && d.date >= addDays(e.start, -1) && d.date <= addDays(e.end, 1));
+    const wd = days.filter(d => d.weekId === e.weekId && (d.weekIteration || 1) === e.iteration).sort((a, b) => a.date.localeCompare(b.date) || (a.seq || 1) - (b.seq || 1));
+    const wdDates = new Set(wd.map(d => d.date));
     const sessions = wd.map(d => ({
-      date: d.date, dayType: d.dayType, bonus: !!d.bonus, status: d.status, minutes: +(d.activeMs / 60000).toFixed(1), countsForStreak: !!d.countsForStreak,
+      id: d.id || d.date, seq: d.seq || 1, slot: d.bonus ? null : d.dayIdx, ahead: !!d.ahead, date: d.date, dayType: d.dayType, bonus: !!d.bonus, status: d.status, minutes: +(d.activeMs / 60000).toFixed(1), countsForStreak: !!d.countsForStreak,
       ways: (d.learn?.waysDone || []).map(w => w.way), switches: (d.learn?.switches || []).length,
       transfer: score(d.words.filter(w => ['transfer', 'sentence'].includes(w.source))),
       taught: score(d.words.filter(w => w.source === 'taught')),
@@ -39,13 +40,13 @@ export function buildDashboard(content, schedule, dump, today) {
       weekId: e.weekId, ruleName: e.week.rule_name, start: e.start, end: e.end, repeat: e.repeat, iteration: e.iteration,
       sessions, sessionCount: sessions.length, waysDone, weekTransfer, weekEar, weekPick, weekExceptions, weekSentences,
       probes: sessions.filter(s => s.probe).map(s => ({ date: s.date, ...s.probe })),
-      videos: videos.filter(v => v.date >= e.start && v.date <= e.end).map(v => ({ date: v.date, title: v.title, watched: v.watched, quizTaps: v.quizTaps || [] })),
+      videos: videos.filter(v => v.weekId === e.weekId && wdDates.has(v.date)).map(v => ({ date: v.date, title: v.title, watched: v.watched, quizTaps: v.quizTaps || [] })),
       switches: sessions.reduce((a, s) => a + s.switches, 0),
       selfCaught: sessions.reduce((a, s) => a + (s.selfCaught || 0), 0),
       fullyKnown: e.week.mixed ? null : !!fullyKnown[e.weekId],
     };
   });
-  const done = days.filter(d => d.countsForStreak).map(d => d.date).sort();
+  const done = [...new Set(days.filter(d => d.countsForStreak).map(d => d.date))].sort();
   return {
     today, child: content.child.name, startDate: p.startDate, repeats: p.repeats || [], lastSync: p.lastSync || null,
     streak: { count: done.length, lastDone: done[done.length - 1] || null, days: done },

@@ -5,7 +5,8 @@ import { pickRevisionWord } from './revision.js';
 export function pickDailyWords({ content, info, days, revisions }) {
   const { weekEntry, dayType, dateStr, schedule } = info;
   const week = weekEntry.week;
-  const rnd = mulberry32(seedFrom('words' + dateStr));
+  const seed = info.seed || dateStr;
+  const rnd = mulberry32(seedFrom('words' + seed));
   const n = content.settings.daily_words || 5;
 
   if (dayType === 'probe') return probeWords(content, week, rnd);
@@ -26,7 +27,7 @@ export function pickDailyWords({ content, info, days, revisions }) {
   for (const s of week.way1_script || []) if (Array.isArray(s.words)) s.words.forEach(x => recent.add(x));
   const fresh = (list) => { const s = shuffle(list, rnd); return [...s.filter(x => !recent.has(x)), ...s.filter(x => recent.has(x))]; };
   let taughtN = 3, transferN = 2;
-  const revision = pickRevisionWord(content, schedule, weekEntry, revisions, dateStr);
+  const revision = pickRevisionWord(content, schedule, weekEntry, revisions, seed);
   if (revision) taughtN = 2;
   const taught = fresh(week.taught).slice(0, taughtN).map(word => ({ word, source: 'taught', ruleId: week.rule_id }));
   let transfer;
@@ -49,7 +50,7 @@ export function pickDailyWords({ content, info, days, revisions }) {
 
 function shownThisWeek(days, weekEntry) {
   const s = new Set();
-  for (const d of days) if (d.date >= weekEntry.start && d.date <= weekEntry.end) for (const w of d.words || []) s.add(w.word);
+  for (const d of days) if (d.weekId === weekEntry.weekId && (d.weekIteration || 1) === weekEntry.iteration) for (const w of d.words || []) s.add(w.word);
   return s;
 }
 

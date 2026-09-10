@@ -6,6 +6,7 @@ A tablet-first, offline-capable PWA that turns a 6-week spelling plan into a 10�
 
 1. **One grown-up check per day, not two.** Each Way ends with 2–4 paper words; those join the day's 5 words in a single "Show your paper to a grown-up" check (one PIN entry, one list, tagged "Way N word"). Way words never count toward the transfer score.
 2. **Streak minimum minutes applies to learn days only.** A day counts for the streak when the parent check is done and active time ≥ `min_session_minutes` (10). The Saturday probe has no Learn step and naturally runs 6–8 minutes, so `min_probe_minutes` is 0 (both in `anya.json` → `settings`). The child's flower blooms on every completed day regardless; the ≥10-minute rule only affects the parent's streak count.
+3b. **No daily lock.** When a lesson is finished, home and the done screen offer **Play the next lesson**: the first lesson in the plan that is planned for today or later and not yet played. She can do as many as she likes in a day (each has its own 15-minute stop). Lessons played early are tagged *ahead* for the parent, and on the following days the app skips lessons already played, so she simply moves through the plan faster. Missed past days are still skipped, never made up. Extra lessons on one day add no extra flower: the garden is one flower per day.
 3a. **Rest days have a "Play anyway" button.** It runs a full session logged as a *bonus* day (flower and streak count included) without changing the weekday plan. Before the plan starts it uses Week 1's rule; later Sundays reuse the week just finished.
 3. **The streak is a count that pauses.** Because it never resets, the streak = number of counted days. "Paused" just means the previous weekday was missed; the next session continues the same count. Sundays are skipped, never missed.
 4. **Hard stop at 15 minutes** shows "Done for today" mid-activity. If words were already written, that screen has a small "Grown-up: check the paper" button so the day can still be checked and counted.
@@ -71,14 +72,14 @@ After editing, reload the app (or rebuild). The audio generator only creates fil
 ## What is stored (IndexedDB `anya-spelling-quest`)
 
 - `profile`: name, PIN hash, plan start date, repeats, settings (sheet URL), last opened date.
-- `days`: one record per calendar day: week, day type, step, active ms, Way(s) done, switches, words shown (with source/mark/rule tap), parent check, probe score, counts-for-streak.
+- `sessions`: one record per lesson played (id = date for the first lesson of a day, then date#2, date#3). Older installs stored one record per day in a `days` store; the app migrates them automatically on first open (`test/migrate.mjs` proves it). Each record holds: week, day type, step, active ms, Way(s) done, switches, words shown (with source/mark/rule tap), parent check, probe score, counts-for-streak.
 - `videos`: watch records with quiz taps. `revisions`: auto revision words served, quick looks, old-rule mini sessions. `events`: switch presses, hard stops, date jumps, repeat marks.
 
 Export (Grown-ups → Settings) gives the full JSON or six CSVs (`sessions`, `words`, `ear-checks`, `videos`, `revisions`, `events`). Optional Google Sheet sync: see `apps-script/SETUP.md`.
 
 ## Headless simulation
 
-`npm run test:sim` runs the real core against an in-memory IndexedDB, re-opening the app each day: Week 1 Mon (Way 1) → Tue (Way 1, presses "Try another way" → Way 2, watches the Floss Dance) → Wed missed → Thu (Way 3, streak paused then resumes) → Fri (Way 4, 15-minute hard stop mid-activity, then checked) → Sat (probe 9/10, recap) → Sun (rest) → Week 2 Mon (revision word drawn from FLOSS, quick look, old-rule mini session). It asserts memory across reopens, streak pause, hard stop, and the revision draw, then prints the parent dashboard, the Revision calendar and `sessions.csv`. Latest output: `test/last-run.txt`.
+`npm run test:sim` first checks the old-to-new database migration, then runs the real core against an in-memory IndexedDB, re-opening the app each day: Week 1 Mon (Way 1) → Tue (Way 1, presses "Try another way" → Way 2, watches the Floss Dance) → Wed missed → Thu (Way 3, streak paused then resumes) → Fri (Way 4, 15-minute hard stop mid-activity, then checked) → Sat (probe 9/10, recap) → Sun (rest) → Week 2 Mon (revision word drawn from FLOSS, quick look, old-rule mini session). It asserts memory across reopens, streak pause, hard stop, and the revision draw, then prints the parent dashboard, the Revision calendar and `sessions.csv`. Latest output: `test/last-run.txt`.
 
 ## Project layout
 

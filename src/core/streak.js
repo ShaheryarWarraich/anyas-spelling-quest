@@ -3,7 +3,7 @@ import { addDays, isSunday } from './dates.js';
 // A day counts for the streak when the parent check is done AND active time >= min minutes.
 // The streak never resets: a missed weekday PAUSES it; Sundays are rest days.
 export function computeStreak(days, todayStr, milestones = [5, 10, 20]) {
-  const done = days.filter(d => d.countsForStreak).map(d => d.date).sort();
+  const done = [...new Set(days.filter(d => d.countsForStreak).map(d => d.date))].sort();
   const count = done.length;
   const lastDone = done[count - 1] || null;
   let state = 'none';

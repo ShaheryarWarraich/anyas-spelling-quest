@@ -17,10 +17,11 @@ import { playWord } from '../audio.js';
 const pick = (arr, seed) => arr[seed % arr.length];
 
 // The daily spine: Welcome -> Learn (a Way) -> Write 5 words -> Check with a grown-up -> Done. Hard stop at 15 min.
-export default function SessionScreen({ app, session, home, onHome }) {
+export default function SessionScreen({ app, session, home, onHome, onNext }) {
   const [, force] = useReducer(x => x + 1, 0);
   const [after, setAfter] = useState(null); // 'warm' | 'recap'
   const [video, setVideo] = useState(null);
+  const [next, setNext] = useState(null); // what the next lesson would be, shown on the done screen
   const day = session.day; const week = session.info.weekEntry.week; const stickers = home.stickers.map(s => s.id);
   useEffect(() => session.subscribe(force), [session]);
   // 1-second ticker while visible
@@ -30,6 +31,7 @@ export default function SessionScreen({ app, session, home, onHome }) {
   }, [session]);
   useEffect(() => { if (day.step === 'learn' && day.learn.currentWay === 2) app.pickVideo(session.info.weekEntry, day.dayIdx).then(setVideo); }, [day.step, day.learn.currentWay]);
 
+  useEffect(() => { if (day.step === 'done') app.peekNext().then(setNext); }, [day.step]);
   const seed = Number(day.date.replace(/-/g, '')) + (day.learn.waysDone.length || 0);
 
   if (day.step === 'welcome') return (
@@ -38,7 +40,7 @@ export default function SessionScreen({ app, session, home, onHome }) {
       {day.dayType === 'learn' && <RuleCard week={week} />}
       {day.dayType === 'probe' && <div className="rulecard"><div className="name">⭐ Show what you know!</div><div className="text">Write the words, listen and pick, then write two sentences.</div></div>}
       {day.dayType === 'mixed' && <RuleCard week={week} />}
-      {home.yesterday && <div className="card"><div className="muted small">{home.yesterday.text}</div></div>}
+      {(day.seq || 1) > 1 ? <div className="card"><div className="muted small">One more lesson! You are on a roll.</div></div> : home.yesterday && <div className="card"><div className="muted small">{home.yesterday.text}</div></div>}
       <button className="btn primary wide" onClick={() => session.finishWelcome()}>Let's go! ➜</button>
     </div>
   );
@@ -46,7 +48,7 @@ export default function SessionScreen({ app, session, home, onHome }) {
   if (day.step === 'learn') {
     const way = day.learn.currentWay;
     const onDone = (endCheck, words) => session.completeWay(way, endCheck, words);
-    const common = { app, week, dayIdx: day.dayIdx, dateStr: day.date, onDone, stickers };
+    const common = { app, week, dayIdx: day.dayIdx, dateStr: day.id || day.date, onDone, stickers };
     let body = null;
     if (way === 1) body = <Way1Lesson {...common} />;
     else if (way === 2) body = video ? <Way2Video {...common} video={video} onSwitch={() => session.switchWay()} /> : <div className="screen center"><h1>Finding today's video…</h1></div>;
@@ -88,7 +90,7 @@ export default function SessionScreen({ app, session, home, onHome }) {
     const written = (day.wayWords || []).length + day.words.filter(x => x.shown).length + (day.sentences || []).filter(x => x.shown).length;
     return (
       <div className="screen center">
-        <Guide text="Done for today! Great work." stickers={stickers} mood="sleepy" size={180} />
+        <Guide text="Time for a break! Great work." stickers={stickers} mood="sleepy" size={180} />
         <Garden flowers={home.streak.flowers} nextMilestone={home.streak.nextMilestone} />
         <button className="btn primary wide" onClick={onHome}>Home</button>
         {written > 0 && !day.parentCheck && <button className="btn ghost" onClick={() => setAfter('check')}>Grown-up: check the paper</button>}
@@ -110,8 +112,11 @@ export default function SessionScreen({ app, session, home, onHome }) {
       <h1>Your flower grew!</h1>
       <Garden flowers={flowers} bloomLast nextMilestone={home.streak.nextMilestone} />
       <Guide text={pick(app.content.guide.done, seed)} stickers={stickers} size={150} />
-      <div className="card"><div>{home.tomorrow?.text}</div></div>
-      {day.dayType === 'probe' ? <button className="btn primary wide" onClick={() => setAfter('recap')}>Watch your week ➜</button> : <button className="btn primary wide" onClick={onHome}>Home</button>}
+      {!(next && day.dayType !== 'probe') && <div className="card"><div>{home.tomorrow?.text}</div></div>}
+      {day.dayType === 'probe' ? <button className="btn primary wide" onClick={() => setAfter('recap')}>Watch your week ➜</button> : <>
+        {next && <button className="btn primary wide" onClick={onNext}>▶ Next lesson: {next.text}</button>}
+        <button className={`btn ${next ? 'secondary' : 'primary'} wide`} onClick={onHome}>Home</button>
+      </>}
     </div>
   );
 }
