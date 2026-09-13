@@ -93,7 +93,13 @@ assert.equal((await app.streak()).count, 4, 'Mon, Tue, Thu, Sun = 4 flowers');
   const a = await createApp({ db: fresh, content, now: () => new Date(clock) });
   let h = await a.getHome();
   assert.equal(h.next.weekEntry.weekId, 'FLOSS'); assert.equal(h.nextRule.rule_id, 'LONGV', 'home offers "Go to the next rule (Long vowels)"');
+  // A FLOSS lesson is already started (home says "Keep going"): the next-rule button must still be there and must close it.
+  const started = await a.getSession(); await started.tick(60000); await started.finishWelcome();
+  h = await a.getHome();
+  assert.equal(h.todayDay.status, 'started'); assert.equal(h.nextRule.rule_id, 'LONGV', 'button offered while a FLOSS lesson is in progress');
   const landed = await a.skipToNextRule();
+  assert.equal((await a.getDay(started.day.id)).status, 'skipped', 'unfinished FLOSS lesson closed');
+  assert.equal((await a.getHome()).todayDay, null, 'home no longer says Keep going on FLOSS');
   assert.equal(landed.weekEntry.weekId, 'LONGV'); assert.equal(landed.dayIdx, 0);
   h = await a.getHome();
   assert.deepEqual(h.badgeRules, ['FLOSS'], 'FLOSS badge shows again'); assert.deepEqual(h.redoRules.map(r => [r.ruleId, r.finished]), [['FLOSS', true]], 'FLOSS can be redone');
@@ -109,7 +115,7 @@ assert.equal((await app.streak()).count, 4, 'Mon, Tue, Thu, Sun = 4 flowers');
   const backup = JSON.parse(JSON.stringify(await a.exportJSON()));
   const other = await createApp({ db: await openDB(indexedDB, 'restore-test'), content, now: () => new Date(clock) });
   const n = await other.importJSON(backup);
-  assert.equal(n, 1); assert.equal((await other.nextSlot()).weekEntry.weekId, 'LONGV'); assert.equal((await other.nextSlot()).dayIdx, 1, 'restored device continues at Long vowels lesson 2');
+  assert.equal(n, 2); assert.equal((await other.nextSlot()).weekEntry.weekId, 'LONGV'); assert.equal((await other.nextSlot()).dayIdx, 1, 'restored device continues at Long vowels lesson 2');
   assert.ok(await other.verifyPin('3690'), 'PIN unchanged by restore');
   console.log('Restore from JSON backup: OK,', n, 'lesson(s); next =', (await other.peekNext()).text);
 }

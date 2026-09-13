@@ -60,7 +60,7 @@ export async function createApp({ db, content, now = () => new Date() }) {
     async nextSlot(fromDate = this.today(), sessions) {
       const all = sessions || await this.days();
       const today = this.today();
-      const played = new Set(all.filter(d => !d.bonus && !d.redo && (['complete', 'stopped'].includes(d.status) || d.date === today))
+      const played = new Set(all.filter(d => !d.bonus && !d.redo && (['complete', 'stopped'].includes(d.status) || (d.date === today && d.status !== 'skipped')))
         .map(d => `${d.weekId}|${d.weekIteration || 1}|${d.dayIdx}`));
       const doneRules = new Set((this.profile.doneRules || []).map(r => `${r.ruleId}|${r.iteration || 1}`));
       const sched = this.schedule();
@@ -83,6 +83,8 @@ export async function createApp({ db, content, now = () => new Date() }) {
     },
     // Skip the rest of the rule she's on and go to the next rule.
     async skipToNextRule() {
+      // Close any unfinished lesson (of any rule) first, so home doesn't keep offering "Keep going" on it.
+      for (const d of await this.days()) if (d.status === 'started') { d.status = 'skipped'; d.skippedAt = this.nowISO(); await this.saveDay(d); }
       const slot = await this.nextSlot(); if (!slot) return null;
       await this.markRuleDone(slot.weekEntry.weekId, slot.weekEntry.iteration, 'skip-to-next');
       return this.nextSlot();
@@ -181,7 +183,7 @@ export async function createApp({ db, content, now = () => new Date() }) {
     async getSession(dateStr = this.today(), { next = false, redo = null } = {}) {
       const all = await this.days();
       const todays = all.filter(d => d.date === dateStr);
-      const latest = todays[todays.length - 1];
+      const latest = [...todays].reverse().find(d => d.status !== 'skipped');
       if (latest && !next && !redo) return new Session(this, latest, this.infoForRecord(latest));
       const sched = this.schedule();
       let info;
@@ -241,7 +243,7 @@ export async function createApp({ db, content, now = () => new Date() }) {
       const info = this.info(today);
       const days = await this.days();
       const streak = computeStreak(days, today, content.settings.streak_milestones);
-      const todays = days.filter(d => d.date === today);
+      const todays = days.filter(d => d.date === today && d.status !== 'skipped');
       const todayDay = todays[todays.length - 1] || null;
       const yesterday = await this.yesterdaySummary(days, today);
       const tomorrow = await this.tomorrowPreview(today);
@@ -250,7 +252,8 @@ export async function createApp({ db, content, now = () => new Date() }) {
       const redoRules = this.redoRules(days, fullyKnown);
       const marked = this.doneRuleIds();
       const badgeRules = content.weeks.filter(w => fullyKnown[w.rule_id] || marked.has(w.rule_id)).map(w => w.rule_id);
-      const sched = this.schedule(); const ni = next ? sched.findIndex(e => e.weekId === next.weekEntry.weekId && e.iteration === next.weekEntry.iteration) : -1;
+      const sched = this.schedule(); const cur = todayDay && todayDay.status === 'started' && !todayDay.redo ? sched.findIndex(e => e.weekId === todayDay.weekId && e.iteration === (todayDay.weekIteration || 1)) : -1;
+      const ni = cur >= 0 ? cur : next ? sched.findIndex(e => e.weekId === next.weekEntry.weekId && e.iteration === next.weekEntry.iteration) : -1;
       const nextRule = ni >= 0 && sched[ni + 1] ? sched[ni + 1].week : null;
       return { today, info, streak, todayDay, lessonsToday: todays.length, next, nextRule, badgeRules, redoRules, yesterday, tomorrow, stickers: this.stickersFor(streak), fullyKnown, dateJump: this.dateJump };
     },

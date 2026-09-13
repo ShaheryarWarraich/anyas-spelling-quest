@@ -15,8 +15,8 @@ Whole FLOSS again (mid Long vowels) -> FLOSS > LONGV > FLOSS* > BOSSYR > IGHLE >
 
 Sun 13 Sep: plays 2026-09-13 LONGV Tue (ahead)
 
-Lost data: skip to next rule -> LONGV lesson 1, words goat, bass, cheese, ride, train
-Restore from JSON backup: OK, 1 lesson(s); next = Learn it with a grown-up
+Lost data: skip to next rule -> LONGV lesson 1, words puff, tree, ride, cheese, seed
+Restore from JSON backup: OK, 2 lesson(s); next = Learn it with a grown-up
 
 PROGRESS + REDO + LOST DATA: ALL ASSERTIONS PASSED
 === 2026-09-06 (before start) home offers: a new rule, The FLOSS rule
@@ -96,7 +96,7 @@ PROGRESS + REDO + LOST DATA: ALL ASSERTIONS PASSED
   revision word drawn: doll (from FLOSS)
   quick look 2026-09-08 -> rule The FLOSS rule, ways 2, videos Floss Rule Song, words puff,buzz,hiss,bass,kiss
   old rules shelf: FLOSS
-  old-rule mini session FLOSS: huff,toss,hiss
+  old-rule mini session FLOSS: hiss,doll,fill
 
 === 2026-09-14 SECOND LESSON (no lock): 2026-09-14#2 = LONGV Wed lesson, words off, seed, have, kite, tree; streak still 7; home offers next: Sound boxes; Tomorrow: Sound boxes!
 === 2026-09-15 opens on the Thu lesson (Way 3) because she is ahead; streak 7 active
@@ -1224,19 +1224,19 @@ PROGRESS + REDO + LOST DATA: ALL ASSERTIONS PASSED
    "replayDate": null,
    "words": [
     {
-     "word": "huff",
-     "source": "oldrule",
-     "ruleId": "FLOSS",
-     "mark": true
-    },
-    {
-     "word": "toss",
-     "source": "oldrule",
-     "ruleId": "FLOSS",
-     "mark": true
-    },
-    {
      "word": "hiss",
+     "source": "oldrule",
+     "ruleId": "FLOSS",
+     "mark": true
+    },
+    {
+     "word": "doll",
+     "source": "oldrule",
+     "ruleId": "FLOSS",
+     "mark": true
+    },
+    {
+     "word": "fill",
      "source": "oldrule",
      "ruleId": "FLOSS",
      "mark": false

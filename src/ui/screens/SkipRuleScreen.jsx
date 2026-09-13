@@ -7,7 +7,8 @@ export default function SkipRuleScreen({ app, home, onHome }) {
   const [stage, setStage] = useState('pin'); // pin | confirm | done
   const [landed, setLanded] = useState(null);
   const stickers = home.stickers.map(s => s.id);
-  const current = home.next?.weekEntry.week;
+  const current = (home.todayDay && home.todayDay.status === 'started' && !home.todayDay.redo)
+    ? app.content.weeks.find(w => w.rule_id === home.todayDay.weekId) : home.next?.weekEntry.week;
   if (stage === 'pin') return <div className="screen center"><PinPad app={app} title="Grown-up PIN" onOk={() => setStage('confirm')} onCancel={onHome} /></div>;
   if (stage === 'confirm') return (
     <div className="screen center">

@@ -39,11 +39,12 @@ export default function HomeScreen({ app, home, onPlay, onNext, onRedo, onSkipRu
       <Guide text={hello} stickers={stickers} size={170} mood="happy" />
       {main}
       {home.redoRules.length > 0 && !inProgress && <button className="btn secondary wide" onClick={onRedo}>🔁 Do a rule again</button>}
-      {home.nextRule && !inProgress && <button className="btn ghost" onClick={onSkipRule}>⏭ Go to the next rule ({home.nextRule.rule_name}) · grown-up</button>}
+      {home.nextRule && <button className="btn secondary" onClick={onSkipRule}>⏭ Go to the next rule ({home.nextRule.rule_name}) · grown-up</button>}
       <Garden flowers={streak.flowers} nextMilestone={streak.nextMilestone} />
       {badges.length > 0 && <div className="shelf">{badges.map(w => <RuleBadge key={w.rule_id} week={w} small onClick={() => onBadge(w)} />)}</div>}
       <div className="grow" />
       <button className="btn ghost small" onClick={onParent}>🔒 Grown-ups</button>
+      <div className="muted" style={{ fontSize: 12 }}>version {typeof __BUILD__ !== 'undefined' ? __BUILD__ : 'dev'}</div>
     </div>
   );
 }

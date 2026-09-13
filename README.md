@@ -39,7 +39,7 @@ npm run test:sim     # headless 7-day simulation (see below)
 npm run audio        # regenerate audio for every word in the JSON (macOS only)
 ```
 
-Which version is on the iPad? The grown-up area shows *App version* (build time) and a *Check for update* button.
+Which version is on the iPad? The version (build time) is shown in small print at the bottom of the home screen. The app updates itself: each time it opens or comes back to the front while online, it compares with the live `version.json` (kept outside the offline cache) and reloads into the new version. Her data is never touched by an update.
 
 Testing tip: add `?today=2026-09-07` to the URL to open the app as if it were that date (development only).
 
