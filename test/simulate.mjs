@@ -138,7 +138,7 @@ const dash = await app.dashboard();
 const cal = await app.revisionCalendar();
 assert.equal(dash.streak.count, 7, 'seven counted days: Mon Tue Thu Fri Sat Sun Mon (Wed missed)');
 assert.equal(dash.switchPresses.length, 1);
-assert.equal(dash.weeks[0].fullyKnown, true, 'FLOSS fully known: >=2 ways and probe >= 8');
+assert.equal(dash.weeks[0].fullyKnown, true, 'FLOSS fully known: >=2 ways and probe >= 8'); assert.equal(dash.weeks[0].fullyKnownBy, 'lessons');
 assert.equal(cal.length, 9, 'Mon Tue Thu Fri Sat Sat#2 Sun Mon Mon#2');
 assert.ok(dash.weeks[1].sessions.some(s => s.date === '2026-09-13' && !s.bonus), 'Sunday lesson listed under Long vowels as a normal lesson');
 console.log('\n================ PARENT DASHBOARD ================');

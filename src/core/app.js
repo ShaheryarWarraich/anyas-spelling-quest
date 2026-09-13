@@ -248,7 +248,7 @@ export async function createApp({ db, content, now = () => new Date() }) {
       const yesterday = await this.yesterdaySummary(days, today);
       const tomorrow = await this.tomorrowPreview(today);
       const next = await this.peekNext(today);
-      const fullyKnown = fullyKnownMap(content, days);
+      const fullyKnown = fullyKnownMap(content, days, this.doneRuleIds());
       const redoRules = this.redoRules(days, fullyKnown);
       const marked = this.doneRuleIds();
       const badgeRules = content.weeks.filter(w => fullyKnown[w.rule_id] || marked.has(w.rule_id)).map(w => w.rule_id);
@@ -296,7 +296,7 @@ export async function createApp({ db, content, now = () => new Date() }) {
       return { day: d, week, videos, ways: d.learn.waysDone.map(w => w.way), words: d.words };
     },
     async oldRules() {
-      const days = await this.days(); const fk = fullyKnownMap(content, days);
+      const days = await this.days(); const fk = fullyKnownMap(content, days, this.doneRuleIds());
       const probed = new Set(days.filter(d => d.dayType === 'probe' && ['complete', 'stopped'].includes(d.status)).map(d => d.weekId));
       const seen = new Set();
       const marked = this.doneRuleIds();

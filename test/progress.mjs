@@ -107,7 +107,12 @@ assert.equal((await app.streak()).count, 4, 'Mon, Tue, Thu, Sun = 4 flowers');
   const s2 = await a.getSession(); assert.equal(s2.day.weekId, 'LONGV'); assert.equal(s2.day.dayIdx, 0);
   const rev = s2.day.words.find(w => w.source === 'revision'); assert.ok(rev && rev.ruleId === 'FLOSS', 'Long vowels still revises FLOSS words');
   console.log('\nLost data: skip to next rule ->', s2.day.weekId, 'lesson 1, words', s2.day.words.map(w => w.word).join(', '));
+  let dash = await a.dashboard();
+  assert.equal(dash.weeks[0].fullyKnown, true); assert.equal(dash.weeks[0].fullyKnownBy, 'grown-up', 'grown-up view: FLOSS fully known, marked by you');
+  assert.equal(dash.weeks[1].fullyKnown, false);
+  console.log('Grown-up overview after Mark done: FLOSS fully known =', dash.weeks[0].fullyKnown, `(${dash.weeks[0].fullyKnownBy})`);
   await a.unmarkRuleDone('FLOSS'); assert.equal((await a.nextSlot()).weekEntry.weekId, 'FLOSS', 'undo puts FLOSS back');
+  dash = await a.dashboard(); assert.equal(dash.weeks[0].fullyKnown, false, 'undo clears fully known');
   assert.equal((await a.startFromRule('BOSSYR')).weekEntry.weekId, 'BOSSYR', 'Start here on Bossy r');
   assert.equal((await a.startFromRule('LONGV')).weekEntry.weekId, 'LONGV', 'Start here on an earlier rule reopens it');
   // Restore from export round-trip on another empty device

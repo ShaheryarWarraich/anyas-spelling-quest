@@ -31,8 +31,14 @@ function Dashboard({ app, onHome }) {
           <div className="stat">"Try another way"<b>{d.switchPresses.length}</b></div>
         </div>
         <h2>Rules</h2>
+        <div className="small muted">Use <b>Mark done</b> when she already knows a rule but its history isn't on this device. <b>Undo</b> puts it back into her lessons.</div>
         <table><thead><tr><th>Week</th><th>Rule</th><th>Dates</th><th>Sessions</th><th>Ways done</th><th>Transfer (week)</th><th>Rule breakers</th><th>Ear check</th><th>Sentence pick</th><th>Sentences written</th><th>Probe</th><th>Self-caught</th><th>Fully known</th></tr></thead><tbody>
-          {d.weeks.map(w => <tr key={w.weekId + w.start}><td>{w.iteration > 1 ? `${w.weekId} (repeat)` : w.weekId}</td><td>{w.ruleName}</td><td>{w.start} → {w.end}</td><td>{w.sessionCount}</td><td>{w.waysDone.map(x => <span className="tag ok" key={x}>Way {x}</span>)}</td><td>{pct(w.weekTransfer)}</td><td>{pct(w.weekExceptions)}</td><td>{pct(w.weekEar)}</td><td>{pct(w.weekPick)}</td><td>{pct(w.weekSentences)}</td><td>{w.probes.map(p => <span key={p.date} className="tag">{p.correct}/{p.total}</span>)}</td><td>{w.selfCaught}</td><td>{w.fullyKnown === null ? '–' : w.fullyKnown ? <span className="tag ok">yes</span> : <span className="tag">not yet</span>}</td></tr>)}
+          {d.weeks.map(w => <tr key={w.weekId + w.start}><td>{w.iteration > 1 ? `${w.weekId} (repeat)` : w.weekId}</td><td>{w.ruleName}</td><td>{w.start} → {w.end}</td><td>{w.sessionCount}</td><td>{w.waysDone.map(x => <span className="tag ok" key={x}>Way {x}</span>)}</td><td>{pct(w.weekTransfer)}</td><td>{pct(w.weekExceptions)}</td><td>{pct(w.weekEar)}</td><td>{pct(w.weekPick)}</td><td>{pct(w.weekSentences)}</td><td>{w.probes.map(p => <span key={p.date} className="tag">{p.correct}/{p.total}</span>)}</td><td>{w.selfCaught}</td><td>{w.fullyKnown === null ? '–' : <div className="col" style={{ alignItems: 'flex-start', gap: 4 }}>
+            {w.fullyKnownBy === 'lessons' ? <span className="tag ok">yes</span> : w.fullyKnownBy === 'grown-up' ? <span className="tag ok">yes · marked by you</span> : w.fullyKnown ? <span className="tag ok">yes</span> : <span className="tag">not yet</span>}
+            {w.fullyKnownBy === 'grown-up'
+              ? <button className="btn secondary" onClick={async () => { await app.unmarkRuleDone(w.weekId, w.iteration); setMsg(`${w.ruleName}: mark removed. It is back in her lessons.`); reload(); }}>Undo</button>
+              : w.fullyKnownBy !== 'lessons' && <button className="btn secondary" onClick={async () => { if (!confirm(`Mark ${w.ruleName} as done? Its lessons are skipped, it counts as fully known and she gets its badge. You can undo this.`)) return; await app.markRuleDone(w.weekId, w.iteration); setMsg(`${w.ruleName} marked done and fully known.`); reload(); }}>Mark done</button>}
+          </div>}</td></tr>)}
         </tbody></table>
         {d.dateJumps.length > 0 && <div className="parent-note"><b>Date jumps detected:</b> {d.dateJumps.map(j => `${j.from} → ${j.to}`).join(', ')}. Records are keyed by date, so nothing was lost.</div>}
         <Repeats app={app} d={d} setMsg={setMsg} reload={reload} />

@@ -1,9 +1,12 @@
 import { addDays } from './dates.js';
 // Parent-facing numbers. Never shown to the child.
-export function fullyKnownMap(content, days) {
+// A rule is fully known when she has done >= 2 Ways and scored >= 8 on its Saturday probe,
+// or when the grown-up has marked it done (e.g. her history was lost). `marked` = Set of rule ids.
+export function fullyKnownMap(content, days, marked = new Set()) {
   const out = {};
   for (const w of content.weeks) {
     if (w.mixed) continue;
+    if (marked.has(w.rule_id)) { out[w.rule_id] = true; continue; }
     const ways = new Set(days.filter(d => d.weekId === w.rule_id).flatMap(d => (d.learn?.waysDone || []).map(x => x.way)));
     const probes = days.filter(d => d.weekId === w.rule_id && d.dayType === 'probe' && d.probeScore);
     const bestProbe = Math.max(0, ...probes.map(p => p.probeScore.correct));
@@ -14,7 +17,9 @@ export function fullyKnownMap(content, days) {
 export function buildDashboard(content, schedule, dump, today) {
   const { sessions: days, videos, revisions, events, profile } = dump;
   const p = profile[0] || {};
-  const fullyKnown = fullyKnownMap(content, days);
+  const markedIds = new Set(((profile[0] || {}).doneRules || []).map(r => r.ruleId));
+  const earned = fullyKnownMap(content, days);
+  const fullyKnown = fullyKnownMap(content, days, markedIds);
   const weeks = schedule.map(e => {
     const wd = days.filter(d => d.weekId === e.weekId && (d.weekIteration || 1) === e.iteration).sort((a, b) => a.date.localeCompare(b.date) || (a.seq || 1) - (b.seq || 1));
     const wdDates = new Set(wd.map(d => d.date));
@@ -44,6 +49,7 @@ export function buildDashboard(content, schedule, dump, today) {
       switches: sessions.reduce((a, s) => a + s.switches, 0),
       selfCaught: sessions.reduce((a, s) => a + (s.selfCaught || 0), 0),
       fullyKnown: e.week.mixed ? null : !!fullyKnown[e.weekId],
+      fullyKnownBy: e.week.mixed ? null : earned[e.weekId] ? 'lessons' : ((profile[0] || {}).doneRules || []).some(r => r.ruleId === e.weekId && (r.iteration || 1) === e.iteration) ? 'grown-up' : null,
     };
   });
   const done = [...new Set(days.filter(d => d.countsForStreak).map(d => d.date))].sort();
