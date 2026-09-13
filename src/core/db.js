@@ -17,20 +17,21 @@ export function openDB(idb = globalThis.indexedDB, name = 'anya-spelling-quest')
           for (const [n, k] of opt.indexes || []) os.createIndex(n, k);
         }
       }
-      // v1 -> v2: v1 kept one record per calendar day (key = date). Copy each into `sessions` (id = date, seq 1),
-      // then drop the old store. All inside the upgrade transaction, so it is all-or-nothing.
-      if (db.objectStoreNames.contains('days')) {
-        const tx = req.transaction; const to = tx.objectStore('sessions');
-        tx.objectStore('days').openCursor().onsuccess = e => {
-          const c = e.target.result;
-          if (c) { to.put({ ...c.value, id: c.value.id || c.value.date, seq: c.value.seq || 1 }); c.continue(); }
-          else db.deleteObjectStore('days');
-        };
-      }
+      // v1 kept one record per calendar day in `days`. The old store is never deleted: it stays as a backup,
+      // and any record missing from `sessions` is copied across on every open (see healFromOldStore).
     };
-    req.onsuccess = () => resolve(wrap(req.result));
+    req.onsuccess = async () => { const w = wrap(req.result); try { await healFromOldStore(w); } catch (e) { console.warn('heal failed', e); } resolve(w); };
     req.onerror = () => reject(req.error);
   });
+}
+async function healFromOldStore(w) {
+  if (!w.raw.objectStoreNames.contains('days')) return 0;
+  const old = await new Promise((res, rej) => { const r = w.raw.transaction('days').objectStore('days').getAll(); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+  if (!old.length) return 0;
+  const have = new Set((await w.all('sessions')).map(s => s.id));
+  let n = 0;
+  for (const d of old) { const id = d.id || d.date; if (!have.has(id)) { await w.put('sessions', { ...d, id, seq: d.seq || 1 }); n++; } }
+  return n;
 }
 function wrap(raw) {
   const run = (store, mode, fn) => new Promise((resolve, reject) => {
@@ -47,7 +48,7 @@ function wrap(raw) {
     del: (s, k) => run(s, 'readwrite', os => os.delete(k)),
     all: (s) => run(s, 'readonly', os => os.getAll()),
     clear: (s) => run(s, 'readwrite', os => os.clear()),
-    stores: Object.keys(STORES),
+    stores: Object.keys(STORES), // `days` (v1 backup, if present) is deliberately not listed, so Erase leaves it alone
     async dump() { const out = {}; for (const s of Object.keys(STORES)) out[s] = await this.all(s); return out; },
   };
 }

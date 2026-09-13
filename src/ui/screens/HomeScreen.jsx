@@ -2,7 +2,7 @@ import React from 'react';
 import Guide from '../components/Guide.jsx';
 import Garden from '../components/Garden.jsx';
 import RuleBadge from '../../art/Badge.jsx';
-export default function HomeScreen({ app, home, onPlay, onNext, onRedo, onRemember, onParent, onBadge }) {
+export default function HomeScreen({ app, home, onPlay, onNext, onRedo, onSkipRule, onRemember, onParent, onBadge }) {
   const { info, streak, todayDay, next } = home;
   const stickers = home.stickers.map(s => s.id);
   const inProgress = todayDay && todayDay.status === 'started';
@@ -32,13 +32,14 @@ export default function HomeScreen({ app, home, onPlay, onNext, onRedo, onRememb
     <button className="btn primary wide" onClick={onPlay}>{next.dayType === 'probe' ? '⭐ Show what you know ➜' : '▶ Play today'}</button>
   </>;
   const hello = streak.state === 'paused' ? 'Welcome back, Anya!' : `Hello ${app.content.child.name}!`;
-  const badges = app.content.weeks.filter(w => home.fullyKnown[w.rule_id]);
+  const badges = app.content.weeks.filter(w => (home.badgeRules || []).includes(w.rule_id));
   return (
     <div className="screen">
       <div className="topbar"><h1 style={{ fontSize: '1.4rem' }}>Anya's Spelling Quest</h1><button className="btn ghost" onClick={onRemember}>💭 Remember</button></div>
       <Guide text={hello} stickers={stickers} size={170} mood="happy" />
       {main}
       {home.redoRules.length > 0 && !inProgress && <button className="btn secondary wide" onClick={onRedo}>🔁 Do a rule again</button>}
+      {home.nextRule && !inProgress && <button className="btn ghost" onClick={onSkipRule}>⏭ Go to the next rule ({home.nextRule.rule_name}) · grown-up</button>}
       <Garden flowers={streak.flowers} nextMilestone={streak.nextMilestone} />
       {badges.length > 0 && <div className="shelf">{badges.map(w => <RuleBadge key={w.rule_id} week={w} small onClick={() => onBadge(w)} />)}</div>}
       <div className="grow" />

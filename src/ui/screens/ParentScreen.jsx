@@ -89,6 +89,33 @@ function Repeats({ app, d, setMsg, reload }) {
   );
 }
 
+function RulesPanel({ app, setMsg, reload }) {
+  const [info, setInfo] = useState(null); const [, bump] = useState(0);
+  const refresh = async () => { setInfo(await app.storageInfo()); bump(x => x + 1); reload(); };
+  useEffect(() => { app.storageInfo().then(setInfo); }, []);
+  if (!info) return null;
+  const sched = app.schedule();
+  const marked = new Set((app.profile.doneRules || []).map(r => `${r.ruleId}|${r.iteration || 1}`));
+  return (
+    <div className="card" style={{ textAlign: 'left' }}>
+      <h2>Rules and progress</h2>
+      <div className="small muted">Saved on this device: <b>{info.lessons}</b> lessons{info.first ? ` (${info.first} → ${info.last})` : ''}. Storage kept permanently: {info.persisted === true ? 'yes' : info.persisted === false ? 'not granted by the browser' : 'unknown'}.</div>
+      <div className="small muted" style={{ margin: '6px 0 10px' }}>If her progress was lost, mark the rules she already finished as done, or tap <b>Start here</b> on the rule she should do next. Nothing she played is deleted.</div>
+      <table><thead><tr><th>Rule</th><th>Status</th><th></th></tr></thead><tbody>
+        {sched.map(e => { const key = `${e.weekId}|${e.iteration}`; const isMarked = marked.has(key); return (
+          <tr key={key}><td>{e.week.emoji} {e.week.rule_name}{e.repeat && <span className="tag">repeat</span>}</td>
+            <td>{isMarked ? <span className="tag ok">marked done</span> : <span className="small muted">by her lessons</span>}</td>
+            <td><div className="row" style={{ justifyContent: 'flex-start', gap: 6 }}>
+              {isMarked
+                ? <button className="btn secondary" onClick={async () => { await app.unmarkRuleDone(e.weekId, e.iteration); setMsg(`${e.week.rule_name} is back in her lessons.`); refresh(); }}>Undo done</button>
+                : <button className="btn secondary" onClick={async () => { await app.markRuleDone(e.weekId, e.iteration); setMsg(`${e.week.rule_name} marked done.`); refresh(); }}>Mark done</button>}
+              <button className="btn secondary" onClick={async () => { const n = await app.startFromRule(e.weekId); setMsg(`Her next lesson: ${n ? n.weekEntry.week.rule_name : 'none left'}.`); refresh(); }}>Start here</button>
+            </div></td></tr>); })}
+      </tbody></table>
+    </div>
+  );
+}
+
 function Settings({ app, d, setMsg, reload }) {
   const [pin, setPin] = useState(''); const [url, setUrl] = useState(app.profile.settings.sheetUrl || ''); const [start, setStart] = useState(app.profile.startDate);
   const download = async (name, text, type) => {
@@ -113,6 +140,11 @@ function Settings({ app, d, setMsg, reload }) {
         </div></div>
       <div className="card" style={{ textAlign: 'left' }}><h2>Plan start date</h2><div className="small muted">Week 1 starts on this Monday; later weeks follow. Change it to shift the whole plan.</div>
         <div className="row" style={{ justifyContent: 'flex-start' }}><input type="date" value={start} onChange={e => setStart(e.target.value)} style={{ width: 220 }} /><button className="btn secondary" onClick={async () => { await app.saveProfile({ startDate: start }); setMsg('Start date saved.'); reload(); }}>Save</button></div>
+      </div>
+      <RulesPanel app={app} setMsg={setMsg} reload={reload} />
+      <div className="card" style={{ textAlign: 'left' }}><h2>Restore from a backup</h2>
+        <div className="small muted">Pick a JSON file saved with <b>Export JSON</b>. It replaces the lessons on this device; the PIN stays the same.</div>
+        <label className="btn secondary" style={{ marginTop: 8 }}>Choose backup file<input type="file" accept="application/json,.json" hidden onChange={async ev => { const f = ev.target.files[0]; if (!f) return; try { const data = JSON.parse(await f.text()); if (!confirm(`Replace the progress on this device with the backup from ${data.exportedAt || 'this file'}?`)) return; const n = await app.importJSON(data); setMsg(`Restored ${n} lessons.`); reload(); } catch (e) { setMsg('Could not restore: ' + e.message); } ev.target.value = ''; }} /></label>
       </div>
       <div className="card" style={{ textAlign: 'left' }}><h2>Danger zone</h2><button className="btn secondary" onClick={async () => { if (confirm('Erase ALL of Anya\'s progress on this device? Export first!')) { for (const s of app.db.stores) await app.db.clear(s); location.reload(); } }}>Erase all data</button></div>
     </div>

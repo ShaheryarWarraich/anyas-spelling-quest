@@ -62,17 +62,65 @@ export async function createApp({ db, content, now = () => new Date() }) {
       const today = this.today();
       const played = new Set(all.filter(d => !d.bonus && !d.redo && (['complete', 'stopped'].includes(d.status) || d.date === today))
         .map(d => `${d.weekId}|${d.weekIteration || 1}|${d.dayIdx}`));
+      const doneRules = new Set((this.profile.doneRules || []).map(r => `${r.ruleId}|${r.iteration || 1}`));
       const sched = this.schedule();
-      for (const e of sched) for (let i = 0; i < 6; i++) if (!played.has(`${e.weekId}|${e.iteration}|${i}`)) return slotInfo(sched, e, i, fromDate);
+      for (const e of sched) {
+        if (doneRules.has(`${e.weekId}|${e.iteration}`)) continue; // grown-up marked this rule done (e.g. data was lost)
+        for (let i = 0; i < 6; i++) if (!played.has(`${e.weekId}|${e.iteration}|${i}`)) return slotInfo(sched, e, i, fromDate);
+      }
       return null;
+    },
+    // ---- Grown-up: move her along the plan (PIN) ----
+    // Mark a rule as done without playing it: its lessons are skipped, it shows as finished with its badge, and it can be redone.
+    async markRuleDone(ruleId, iteration = 1, reason = 'grown-up') {
+      const list = (this.profile.doneRules || []).filter(r => !(r.ruleId === ruleId && (r.iteration || 1) === iteration));
+      await this.saveProfile({ doneRules: [...list, { ruleId, iteration, reason, at: this.nowISO() }] });
+      await this.logEvent('rule_marked_done', { ruleId, iteration, reason });
+    },
+    async unmarkRuleDone(ruleId, iteration = 1) {
+      await this.saveProfile({ doneRules: (this.profile.doneRules || []).filter(r => !(r.ruleId === ruleId && (r.iteration || 1) === iteration)) });
+      await this.logEvent('rule_unmarked_done', { ruleId, iteration });
+    },
+    // Skip the rest of the rule she's on and go to the next rule.
+    async skipToNextRule() {
+      const slot = await this.nextSlot(); if (!slot) return null;
+      await this.markRuleDone(slot.weekEntry.weekId, slot.weekEntry.iteration, 'skip-to-next');
+      return this.nextSlot();
+    },
+    // Start from a chosen rule: every rule before it in the plan is marked done.
+    async startFromRule(ruleId) {
+      const sched = this.schedule(); const idx = sched.findIndex(e => e.weekId === ruleId); if (idx < 0) return null;
+      for (const e of sched.slice(0, idx)) await this.markRuleDone(e.weekId, e.iteration, 'start-from');
+      const later = new Set(sched.slice(idx).map(e => `${e.weekId}|${e.iteration}`));
+      const target = `${sched[idx].weekId}|${sched[idx].iteration}`;
+      await this.saveProfile({ doneRules: (this.profile.doneRules || []).filter(r => { const k = `${r.ruleId}|${r.iteration || 1}`; return k !== target && !(later.has(k) && r.reason === 'start-from'); }) });
+      return this.nextSlot();
+    },
+    doneRuleIds() { return new Set((this.profile.doneRules || []).map(r => r.ruleId)); },
+    // Restore from a JSON export. Replaces lessons, videos, revision and event history; keeps the current PIN.
+    async importJSON(data) {
+      if (!data || data.app !== 'anyas-spelling-quest' || !Array.isArray(data.days)) throw new Error('This is not a Spelling Quest backup file.');
+      for (const s of ['sessions', 'videos', 'revisions', 'events']) await db.clear(s);
+      for (const d of data.days) await db.put('sessions', { ...d, id: d.id || d.date, seq: d.seq || 1 });
+      for (const s of ['videos', 'revisions', 'events']) for (const r of data[s] || []) await db.put(s, r);
+      const p = (data.profile || [])[0];
+      if (p) { const { pinHash, id, ...rest } = p; await this.saveProfile({ ...rest, pinHash: this.profile.pinHash }); }
+      await this.logEvent('import', { sessions: data.days.length, exportedAt: data.exportedAt || null });
+      return data.days.length;
+    },
+    async storageInfo() {
+      const all = await this.days();
+      let persisted = null; try { persisted = await globalThis.navigator?.storage?.persisted?.(); } catch {}
+      return { lessons: all.length, first: all[0]?.date || null, last: all[all.length - 1]?.date || null, persisted, doneRules: this.profile.doneRules || [] };
     },
     // ---- "Do a rule again" (child, home screen) ----
     redoRules(days, fullyKnown = {}) {
       const done = s => ['complete', 'stopped'].includes(s.status);
+      const marked = this.doneRuleIds();
       const started = new Set(days.filter(d => !d.bonus && done(d)).map(d => d.weekId));
       const finished = new Set(days.filter(d => d.dayType === 'probe' && done(d)).map(d => d.weekId));
-      return content.weeks.filter(w => started.has(w.rule_id) || fullyKnown[w.rule_id])
-        .map(w => ({ ruleId: w.rule_id, name: w.rule_name, emoji: w.emoji, finished: finished.has(w.rule_id) || !!fullyKnown[w.rule_id] }));
+      return content.weeks.filter(w => started.has(w.rule_id) || fullyKnown[w.rule_id] || marked.has(w.rule_id))
+        .map(w => ({ ruleId: w.rule_id, name: w.rule_name, emoji: w.emoji, finished: finished.has(w.rule_id) || !!fullyKnown[w.rule_id] || marked.has(w.rule_id) }));
     },
     redoParts(ruleId) {
       const week = content.weeks.find(w => w.rule_id === ruleId); if (!week) return [];
@@ -200,7 +248,11 @@ export async function createApp({ db, content, now = () => new Date() }) {
       const next = await this.peekNext(today);
       const fullyKnown = fullyKnownMap(content, days);
       const redoRules = this.redoRules(days, fullyKnown);
-      return { today, info, streak, todayDay, lessonsToday: todays.length, next, redoRules, yesterday, tomorrow, stickers: this.stickersFor(streak), fullyKnown, dateJump: this.dateJump };
+      const marked = this.doneRuleIds();
+      const badgeRules = content.weeks.filter(w => fullyKnown[w.rule_id] || marked.has(w.rule_id)).map(w => w.rule_id);
+      const sched = this.schedule(); const ni = next ? sched.findIndex(e => e.weekId === next.weekEntry.weekId && e.iteration === next.weekEntry.iteration) : -1;
+      const nextRule = ni >= 0 && sched[ni + 1] ? sched[ni + 1].week : null;
+      return { today, info, streak, todayDay, lessonsToday: todays.length, next, nextRule, badgeRules, redoRules, yesterday, tomorrow, stickers: this.stickersFor(streak), fullyKnown, dateJump: this.dateJump };
     },
     async yesterdaySummary(days, today) {
       const prev = [...days].filter(d => d.date < today && ['complete', 'stopped'].includes(d.status)).pop();
@@ -244,7 +296,8 @@ export async function createApp({ db, content, now = () => new Date() }) {
       const days = await this.days(); const fk = fullyKnownMap(content, days);
       const probed = new Set(days.filter(d => d.dayType === 'probe' && ['complete', 'stopped'].includes(d.status)).map(d => d.weekId));
       const seen = new Set();
-      return this.schedule().filter(e => !e.week.mixed && (probed.has(e.weekId) || fk[e.weekId]) && !seen.has(e.weekId) && seen.add(e.weekId));
+      const marked = this.doneRuleIds();
+      return this.schedule().filter(e => !e.week.mixed && (probed.has(e.weekId) || fk[e.weekId] || marked.has(e.weekId)) && !seen.has(e.weekId) && seen.add(e.weekId));
     },
     startOldRule(ruleId) {
       const week = content.weeks.find(w => w.rule_id === ruleId);

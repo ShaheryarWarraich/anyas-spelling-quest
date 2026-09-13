@@ -26,7 +26,11 @@ await new Promise((resolve, reject) => {
 const db = await openDB(indexedDB, NAME);
 const sessions = await db.all('sessions');
 assert.equal(db.raw.version, 2);
-assert.ok(!db.raw.objectStoreNames.contains('days'), 'old store removed');
+assert.ok(db.raw.objectStoreNames.contains('days'), 'old store kept as a backup, never deleted');
 assert.deepEqual(sessions.map(s => [s.id, s.seq, s.date, s.words[0].word]), [['2026-09-07', 1, '2026-09-07', 'bell'], ['2026-09-08', 1, '2026-09-08', 'kiss']]);
 assert.equal((await db.get('profile', 'anya')).startDate, '2026-09-07', 'other stores untouched');
-console.log('MIGRATION v1 -> v2 OK:', sessions.map(s => s.id).join(', '));
+// Self-heal: if a lesson goes missing from the new store, reopening copies it back from the old one.
+await db.del('sessions', '2026-09-07'); db.raw.close();
+const db2 = await openDB(indexedDB, NAME);
+assert.deepEqual((await db2.all('sessions')).map(s => s.id), ['2026-09-07', '2026-09-08'], 'missing lesson restored from the backup store');
+console.log('MIGRATION v1 -> v2 OK (old store kept, self-heal works):', sessions.map(s => s.id).join(', '));

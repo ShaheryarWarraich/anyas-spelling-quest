@@ -85,4 +85,32 @@ s = await app.getSession(); assert.equal(s.day.weekId, 'LONGV'); assert.equal(s.
 console.log('\nSun 13 Sep: plays', label(s.day)); await play(s);
 // Streak: one flower per day regardless of how many lessons
 assert.equal((await app.streak()).count, 4, 'Mon, Tue, Thu, Sun = 4 flowers');
-console.log('\nPROGRESS + REDO: ALL ASSERTIONS PASSED');
+
+// ---- Lost data: a fresh device where she had already finished FLOSS ----
+{
+  const fresh = await openDB(indexedDB, 'lost-data-test');
+  setDay(2026, 9, 13);
+  const a = await createApp({ db: fresh, content, now: () => new Date(clock) });
+  let h = await a.getHome();
+  assert.equal(h.next.weekEntry.weekId, 'FLOSS'); assert.equal(h.nextRule.rule_id, 'LONGV', 'home offers "Go to the next rule (Long vowels)"');
+  const landed = await a.skipToNextRule();
+  assert.equal(landed.weekEntry.weekId, 'LONGV'); assert.equal(landed.dayIdx, 0);
+  h = await a.getHome();
+  assert.deepEqual(h.badgeRules, ['FLOSS'], 'FLOSS badge shows again'); assert.deepEqual(h.redoRules.map(r => [r.ruleId, r.finished]), [['FLOSS', true]], 'FLOSS can be redone');
+  assert.deepEqual((await a.oldRules()).map(e => e.weekId), ['FLOSS']);
+  const s2 = await a.getSession(); assert.equal(s2.day.weekId, 'LONGV'); assert.equal(s2.day.dayIdx, 0);
+  const rev = s2.day.words.find(w => w.source === 'revision'); assert.ok(rev && rev.ruleId === 'FLOSS', 'Long vowels still revises FLOSS words');
+  console.log('\nLost data: skip to next rule ->', s2.day.weekId, 'lesson 1, words', s2.day.words.map(w => w.word).join(', '));
+  await a.unmarkRuleDone('FLOSS'); assert.equal((await a.nextSlot()).weekEntry.weekId, 'FLOSS', 'undo puts FLOSS back');
+  assert.equal((await a.startFromRule('BOSSYR')).weekEntry.weekId, 'BOSSYR', 'Start here on Bossy r');
+  assert.equal((await a.startFromRule('LONGV')).weekEntry.weekId, 'LONGV', 'Start here on an earlier rule reopens it');
+  // Restore from export round-trip on another empty device
+  await play(await a.getSession());
+  const backup = JSON.parse(JSON.stringify(await a.exportJSON()));
+  const other = await createApp({ db: await openDB(indexedDB, 'restore-test'), content, now: () => new Date(clock) });
+  const n = await other.importJSON(backup);
+  assert.equal(n, 1); assert.equal((await other.nextSlot()).weekEntry.weekId, 'LONGV'); assert.equal((await other.nextSlot()).dayIdx, 1, 'restored device continues at Long vowels lesson 2');
+  assert.ok(await other.verifyPin('3690'), 'PIN unchanged by restore');
+  console.log('Restore from JSON backup: OK,', n, 'lesson(s); next =', (await other.peekNext()).text);
+}
+console.log('\nPROGRESS + REDO + LOST DATA: ALL ASSERTIONS PASSED');
