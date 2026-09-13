@@ -2,8 +2,7 @@ import React from 'react';
 import Guide from '../components/Guide.jsx';
 import Garden from '../components/Garden.jsx';
 import RuleBadge from '../../art/Badge.jsx';
-import { prettyDate } from '../../core/dates.js';
-export default function HomeScreen({ app, home, onPlay, onNext, onBonus, onRedo, onRemember, onParent, onBadge }) {
+export default function HomeScreen({ app, home, onPlay, onNext, onRedo, onRemember, onParent, onBadge }) {
   const { info, streak, todayDay, next } = home;
   const stickers = home.stickers.map(s => s.id);
   const inProgress = todayDay && todayDay.status === 'started';
@@ -19,7 +18,7 @@ export default function HomeScreen({ app, home, onPlay, onNext, onBonus, onRedo,
   const checkButton = needsCheck && <button className="btn secondary" onClick={onPlay}>Grown-up: check the paper</button>;
   let main;
   if (inProgress) main = <>
-    <div className="rulecard mini"><div className="name">{todayDay.bonus ? '🌿 Bonus day!' : todayDay.redo ? `🔁 ${app.content.weeks.find(w => w.rule_id === todayDay.weekId).rule_name} again` : `${app.content.weeks.find(w => w.rule_id === todayDay.weekId).emoji} ${app.content.weeks.find(w => w.rule_id === todayDay.weekId).rule_name}`}</div></div>
+    <div className="rulecard mini"><div className="name">{todayDay.bonus ? '🌿 Bonus lesson' : todayDay.redo ? `🔁 ${app.content.weeks.find(w => w.rule_id === todayDay.weekId).rule_name} again` : `${app.content.weeks.find(w => w.rule_id === todayDay.weekId).emoji} ${app.content.weeks.find(w => w.rule_id === todayDay.weekId).rule_name}`}</div></div>
     <button className="btn primary wide" onClick={onPlay}>Keep going ➜</button>
   </>;
   else if (finished) main = <>
@@ -27,19 +26,17 @@ export default function HomeScreen({ app, home, onPlay, onNext, onBonus, onRedo,
     {checkButton}
     {nextButton}
   </>;
-  else if (info.dayType === 'rest') main = <><div className="rulecard"><div className="name">🌿 Rest day</div><div className="text">No spelling today. See you tomorrow!</div></div>{home.bonusRule && <button className="btn secondary wide" onClick={onBonus}>▶ Play anyway ({home.bonusRule})</button>}</>;
-  else if (info.dayType === 'before') main = <div className="rulecard"><div className="name">🚀 The quest starts soon!</div><div className="text">First day: {prettyDate(info.weekEntry.start)}</div></div>;
   else if (!next) main = <div className="rulecard"><div className="name">🏆 You finished the whole quest!</div><div className="text">Tap Remember to play again.</div></div>;
   else main = <>
     {nextWeek && next.dayType !== 'probe' && <div className="rulecard mini"><div className="name">{nextWeek.emoji} {nextWeek.rule_name}</div></div>}
     <button className="btn primary wide" onClick={onPlay}>{next.dayType === 'probe' ? '⭐ Show what you know ➜' : '▶ Play today'}</button>
   </>;
-  const hello = info.dayType === 'rest' ? 'Rest day! Have fun, Anya.' : streak.state === 'paused' ? 'Welcome back, Anya!' : `Hello ${app.content.child.name}!`;
+  const hello = streak.state === 'paused' ? 'Welcome back, Anya!' : `Hello ${app.content.child.name}!`;
   const badges = app.content.weeks.filter(w => home.fullyKnown[w.rule_id]);
   return (
     <div className="screen">
       <div className="topbar"><h1 style={{ fontSize: '1.4rem' }}>Anya's Spelling Quest</h1><button className="btn ghost" onClick={onRemember}>💭 Remember</button></div>
-      <Guide text={hello} stickers={stickers} size={170} mood={info.dayType === 'rest' ? 'sleepy' : 'happy'} />
+      <Guide text={hello} stickers={stickers} size={170} mood="happy" />
       {main}
       {home.redoRules.length > 0 && !inProgress && <button className="btn secondary wide" onClick={onRedo}>🔁 Do a rule again</button>}
       <Garden flowers={streak.flowers} nextMilestone={streak.nextMilestone} />

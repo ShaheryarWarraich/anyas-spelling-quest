@@ -1,4 +1,4 @@
-import { toISO, addDays, isSunday, weekday, diffDays } from './dates.js';
+import { toISO, addDays, weekday, diffDays } from './dates.js';
 import { getDayInfo, buildSchedule, nextWeekEntry, slotInfo } from './schedule.js';
 import { computeStreak } from './streak.js';
 import { pickDailyWords } from './words.js';
@@ -66,14 +66,6 @@ export async function createApp({ db, content, now = () => new Date() }) {
       for (const e of sched) for (let i = 0; i < 6; i++) if (!played.has(`${e.weekId}|${e.iteration}|${i}`)) return slotInfo(sched, e, i, fromDate);
       return null;
     },
-    // Sunday "Play anyway" uses the rule she last played (or the one she's about to start).
-    async bonusEntry(all) {
-      all = all || await this.days();
-      const sched = this.schedule();
-      const last = [...all].reverse().find(d => !d.bonus && !d.redo && ['complete', 'stopped'].includes(d.status));
-      if (last) { const e = sched.find(x => x.weekId === last.weekId && x.iteration === (last.weekIteration || 1)); if (e) return e; }
-      const n = await this.nextSlot(this.today(), all); return n ? n.weekEntry : null;
-    },
     // ---- "Do a rule again" (child, home screen) ----
     redoRules(days, fullyKnown = {}) {
       const done = s => ['complete', 'stopped'].includes(s.status);
@@ -137,25 +129,19 @@ export async function createApp({ db, content, now = () => new Date() }) {
 
     // Open the app: resume the latest lesson of the day (opening twice never duplicates).
     // { next: true } starts the next unplayed lesson even if one is already done today.
-    // { bonus: true } on a Sunday starts the rest-day bonus lesson.
-    async getSession(dateStr = this.today(), { bonus = false, next = false, redo = null } = {}) {
+    // Any day of the week works: there are no days off.
+    async getSession(dateStr = this.today(), { next = false, redo = null } = {}) {
       const all = await this.days();
       const todays = all.filter(d => d.date === dateStr);
       const latest = todays[todays.length - 1];
       if (latest && !next && !redo) return new Session(this, latest, this.infoForRecord(latest));
-      const cal = this.info(dateStr);
       const sched = this.schedule();
       let info;
       if (redo) {
         // Redo one part of a rule. Lesson slots map to Ways: Tue = Way 1, Wed = Way 2, Thu = Way 3, Fri = Way 4, Sat = Show what you know.
         const entry = sched.find(e => e.weekId === redo.ruleId); if (!entry) return null;
         info = { ...slotInfo(sched, entry, redo.probe ? 5 : redo.mixed ? 1 : redo.way, dateStr), redo: true };
-      } else if (cal.dayType === 'rest' && !next) {
-        if (!bonus) return null;
-        const be = await this.bonusEntry(all); if (!be) return null;
-        info = { ...slotInfo(sched, be, 0, dateStr), dayType: be.week.mixed ? 'mixed' : 'learn', defaultWay: 1, bonus: true };
       } else {
-        if (!next && cal.dayType === 'before') return null;
         info = await this.nextSlot(dateStr, all);
         if (!info) return null;
       }
@@ -214,8 +200,7 @@ export async function createApp({ db, content, now = () => new Date() }) {
       const next = await this.peekNext(today);
       const fullyKnown = fullyKnownMap(content, days);
       const redoRules = this.redoRules(days, fullyKnown);
-      const bonusRule = info.dayType === 'rest' ? ((await this.bonusEntry(days))?.week.rule_name || null) : null;
-      return { today, info, streak, todayDay, lessonsToday: todays.length, next, redoRules, bonusRule, yesterday, tomorrow, stickers: this.stickersFor(streak), fullyKnown, dateJump: this.dateJump };
+      return { today, info, streak, todayDay, lessonsToday: todays.length, next, redoRules, yesterday, tomorrow, stickers: this.stickersFor(streak), fullyKnown, dateJump: this.dateJump };
     },
     async yesterdaySummary(days, today) {
       const prev = [...days].filter(d => d.date < today && ['complete', 'stopped'].includes(d.status)).pop();
@@ -235,8 +220,6 @@ export async function createApp({ db, content, now = () => new Date() }) {
     },
     async tomorrowPreview(today) {
       const t = addDays(today, 1);
-      if (isSunday(t)) return { date: t, text: 'Tomorrow is a rest day. Have fun!' };
-      if (this.info(t).dayType === 'before') return { date: t, text: 'See you soon!' };
       const n = await this.peekNext(t);
       return { date: t, text: n ? `Tomorrow: ${n.text}!` : 'See you soon!' };
     },

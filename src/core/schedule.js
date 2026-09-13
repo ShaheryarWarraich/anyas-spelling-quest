@@ -20,23 +20,16 @@ export function buildSchedule(content, profile = {}) {
 
 export const DEFAULT_WAY_BY_DAY = [1, 1, 2, 3, 4]; // Mon..Fri
 
-// What is today? Returns dayType: before | learn | probe | rest | after, plus the week entry.
+// What is today? Every day is a spelling day (no weekends off, no waiting for the start date).
+// dayType is 'learn' | 'probe' | 'mixed' when the date falls inside a planned week, otherwise 'open'.
+// The lesson she actually plays always comes from her progress (app.nextSlot), not from this.
 export function getDayInfo(content, profile, dateStr) {
   const sched = buildSchedule(content, profile);
-  const wd = weekday(dateStr);
-  if (wd === 0) {
-    // Rest day. A "Play anyway" bonus session uses next week's rule if the plan hasn't started yet, else the week just finished.
-    const next = sched.find(e => e.start === addDays(dateStr, 1));
-    const prev = [...sched].reverse().find(e => e.end < dateStr && !e.week.mixed);
-    const started = sched.some(e => e.start <= dateStr);
-    const bonusEntry = (!started && next) ? next : (prev || next || null);
-    const bonus = bonusEntry ? { weekEntry: bonusEntry, dayIdx: 0, dayType: bonusEntry.week.mixed ? 'mixed' : 'learn', defaultWay: 1 } : null;
-    return { dayType: 'rest', dateStr, schedule: sched, weekEntry: findWeekAround(sched, dateStr), bonus };
-  }
   const entry = sched.find(e => dateStr >= e.start && dateStr <= e.end);
   if (!entry) {
-    if (dateStr < sched[0].start) return { dayType: 'before', dateStr, schedule: sched, weekEntry: sched[0], startsIn: diffDays(dateStr, sched[0].start) };
-    return { dayType: 'after', dateStr, schedule: sched, weekEntry: sched[sched.length - 1] };
+    const before = dateStr < sched[0].start;
+    const near = before ? sched[0] : [...sched].reverse().find(e => e.start <= dateStr) || sched[sched.length - 1];
+    return { dayType: 'open', dateStr, schedule: sched, weekEntry: near };
   }
   const dayIdx = diffDays(entry.start, dateStr); // 0 Mon .. 5 Sat
   const dayType = dayIdx === 5 ? 'probe' : (entry.week.mixed ? 'mixed' : 'learn');

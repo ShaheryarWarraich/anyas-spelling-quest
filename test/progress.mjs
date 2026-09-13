@@ -78,9 +78,11 @@ assert.deepEqual(app.schedule().map(e => e.weekId), content.weeks.map(w => w.rul
 // Parent repeat still works and is also placed by progress
 q = await app.markRepeat('LONGV'); assert.equal(q.startsNext, false);
 await app.unmarkRepeat('LONGV', q.startDate);
-// Sunday: Play anyway uses the rule she is on
+// Sunday: a normal lesson day, carrying on with Long vowels
 setDay(2026, 9, 13); app = await open(); home = await app.getHome();
-assert.equal(home.bonusRule, 'Long vowels'); console.log('\nSun 13 Sep: Play anyway offers', home.bonusRule);
+assert.equal(home.next.weekEntry.weekId, 'LONGV'); assert.equal(home.next.dayIdx, 1);
+s = await app.getSession(); assert.equal(s.day.weekId, 'LONGV'); assert.equal(s.day.dayIdx, 1); assert.ok(!s.day.bonus);
+console.log('\nSun 13 Sep: plays', label(s.day)); await play(s);
 // Streak: one flower per day regardless of how many lessons
-assert.equal((await app.streak()).count, 3, 'Mon, Tue, Thu = 3 flowers');
+assert.equal((await app.streak()).count, 4, 'Mon, Tue, Thu, Sun = 4 flowers');
 console.log('\nPROGRESS + REDO: ALL ASSERTIONS PASSED');

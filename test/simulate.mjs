@@ -65,6 +65,9 @@ async function runDay({ way, doSwitch = false, hardstopBeforeCheck = false, wron
   return s2.day;
 }
 
+// Before the plan's start date (Sun 6 Sep) she can already begin: no waiting.
+{ clock = new Date(2026, 8, 6, 16, 0, 0); const app = await open(); const h = await app.getHome();
+  assert.equal(h.next.weekEntry.weekId, 'FLOSS'); assert.equal(h.next.dayIdx, 0); log(`=== 2026-09-06 (before start) home offers: ${h.next.text}`); }
 // Week 1
 setDay(2026, 9, 7); await runDay({ way: 1, selfCaught: 1 });                                        // Mon: Way 1
 setDay(2026, 9, 8); await runDay({ way: 1, doSwitch: true, expectStreakBefore: 'active' });          // Tue: Way 1 -> switch to Way 2
@@ -74,19 +77,19 @@ setDay(2026, 9, 11); await runDay({ way: 3, hardstopBeforeCheck: true, expectStr
 setDay(2026, 9, 12); await runDay({ way: 4 });                                                         // Sat: Fri lesson (Way 4)...
 setDay(2026, 9, 12); { const d = await runDay({ way: null, wrong: ['jazz'], selfCaught: 2, next: true }); // ...then straight on to Show what you know assert.equal(d.dayType, 'probe'); assert.equal(d.probeScore.correct, 9); assert.equal(d.ear.length, 6); assert.equal(d.pick.length, 3); assert.equal(d.sentences.length, 2); assert.equal(d.parentCheck.total, 12, 'probe words + 2 sentences checked');
   const app = await open(); const recap = await app.weeklyRecap(app.info().weekEntry); log('  weekly recap:', JSON.stringify({ rule: recap.week.rule_name, days: recap.days, ways: recap.ways, videos: recap.videos, flowers: recap.flowers })); }
-setDay(2026, 9, 13); { const app = await open(); const h = await app.getHome(); assert.equal(h.info.dayType, 'rest'); assert.equal(await app.getSession(), null); log(`\n=== ${h.today} Sunday rest day — streak ${h.streak.count} ${h.streak.state} (Sunday never counts as missed)`);
-  assert.equal(h.info.bonus.weekEntry.weekId, 'FLOSS', 'Sunday bonus uses the week just finished');
-  const b = await app.getSession(undefined, { bonus: true }); assert.ok(b && b.day.bonus, 'bonus session created'); assert.equal(b.day.dayType, 'learn');
-  const again = await (await open()).getSession(); assert.equal(again.day.startedAt, b.day.startedAt, 'plain reopen resumes the bonus record');
-  await b.tick(30000); await b.finishWelcome(); await b.tick(6 * 60000); await b.completeWay(1, { kind: 'ruletap', correct: true }, ['hill', 'miss']);
-  while (b.step === 'write') { await b.tick(40000); await b.nextWord(); } await b.tick(60000); assert.equal(b.step, 'check'); await b.parentCheck({ marks: b.checkList.map(() => true), selfCaught: 0 });
-  log(`  BONUS "Play anyway" session on Sunday: ${b.day.words.map(w => w.word).join(', ')} -> logged as bonus day (${b.day.weekId}), streak now ${(await app.streak()).count}`); }
-// Week 2 Monday
+// Sunday: no day off. Home offers the next plan lesson (Long vowels starts), and it counts like any other day.
+setDay(2026, 9, 13); { const app = await open(); const h = await app.getHome();
+  assert.ok(h.next, 'Sunday offers a lesson'); assert.equal(h.next.weekEntry.weekId, 'LONGV'); assert.equal(h.next.dayIdx, 0);
+  log(`\n=== ${h.today} SUNDAY is a normal day — home offers: ${h.next.text}`); }
+setDay(2026, 9, 13); { const sun = await runDay({ way: 1, expectStreakBefore: 'active' });
+  assert.equal(sun.weekId, 'LONGV'); assert.equal(sun.dayIdx, 0); assert.ok(!sun.bonus, 'a Sunday lesson is a real plan lesson, not a bonus'); }
+// Monday: carries on with Long vowels (its 2nd lesson, still Way 1) because Sunday did the 1st
 setDay(2026, 9, 14); const w2 = await runDay({ way: 1, expectStreakBefore: 'active' });
+assert.equal(w2.dayIdx, 1);
 assert.equal(w2.weekId, 'LONGV');
 { const days = await (await open()).days(); const thu = days.find(d => d.date === '2026-09-10'); assert.ok(thu.words.some(w => w.source === 'exception'), 'Wednesday onward includes a rule-breaker word'); assert.equal(thu.ear.length, 2, 'learn days from day 2 have a 2-item ear check'); }
 const rev = w2.words.find(w => w.source === 'revision');
-assert.ok(rev && rev.ruleId === 'FLOSS', 'Week 2 Monday draws one revision word from FLOSS');
+assert.ok(rev && rev.ruleId === 'FLOSS', 'Long vowels lessons draw one revision word from FLOSS');
 log(`  revision word drawn: ${rev.word} (from ${rev.ruleId})`);
 
 // Revision mode on Week 2 Monday
@@ -104,40 +107,40 @@ log(`  revision word drawn: ${rev.word} (from ${rev.ruleId})`);
 {
   const app = await open();
   const nx = await app.peekNext();
-  assert.equal(nx.weekEntry.weekId, 'LONGV'); assert.equal(nx.dayIdx, 1, 'next lesson after Week 2 Monday is the Tuesday lesson');
+  assert.equal(nx.weekEntry.weekId, 'LONGV'); assert.equal(nx.dayIdx, 2, 'next lesson is the 3rd Long vowels lesson');
   const s = await app.getSession(undefined, { next: true });
-  assert.equal(s.day.id, '2026-09-14#2'); assert.equal(s.day.seq, 2); assert.equal(s.day.dayIdx, 1); assert.ok(s.day.ahead, 'marked as played ahead of plan');
-  assert.equal(s.day.learn.currentWay, 1, 'Tuesday lesson = Way 1 again');
+  assert.equal(s.day.id, '2026-09-14#2'); assert.equal(s.day.seq, 2); assert.equal(s.day.dayIdx, 2); assert.ok(s.day.ahead, 'marked as played ahead of plan');
+  assert.equal(s.day.learn.currentWay, 2, '3rd lesson = Way 2 (video)');
   assert.notDeepEqual(s.day.words.map(w => w.word), (await app.getDay('2026-09-14')).words.map(w => w.word), 'second lesson gets different words');
   const re = await (await open()).getSession(); assert.equal(re.day.id, '2026-09-14#2', 'reopening resumes the second lesson, no duplicate');
-  await s.tick(30000); await s.finishWelcome(); await s.tick(6 * 60000); await s.completeWay(1, { kind: 'ruletap', correct: true }, ['cake', 'boat']);
+  await s.tick(30000); await s.finishWelcome(); await s.tick(6 * 60000); await s.completeWay(2, { kind: 'quiz', correct: true }, ['cake', 'boat']);
   if (s.step === 'ear') { for (let i = 0; i < s.day.ear.length; i++) await s.answerEar(i, s.day.ear[i].word); await s.advance(); }
   while (s.step === 'write') { await s.tick(40000); await s.nextWord(); } await s.tick(60000);
   await s.parentCheck({ marks: s.checkList.map(() => true), selfCaught: 0 });
   const st = await app.streak();
   assert.equal(st.count, 7, 'a second lesson on the same day does not add a second flower');
   const home = await app.getHome();
-  assert.equal(home.lessonsToday, 2); assert.equal(home.next.dayIdx, 2, 'home now offers the Wednesday lesson');
+  assert.equal(home.lessonsToday, 2); assert.equal(home.next.dayIdx, 3, 'home now offers the 4th lesson');
   log(`\n=== 2026-09-14 SECOND LESSON (no lock): ${s.day.id} = ${s.day.weekId} ${['Mon','Tue','Wed','Thu','Fri','Sat'][s.day.dayIdx]} lesson, words ${s.day.words.map(w => w.word).join(', ')}; streak still ${st.count}; home offers next: ${home.next.text}; ${home.tomorrow.text}`);
 }
 {
   setDay(2026, 9, 15);
   const app = await open(); const h = await app.getHome();
   const t = await app.getSession();
-  assert.equal(t.day.dayIdx, 2, 'Tuesday: the Tuesday lesson was already done, so she gets the Wednesday lesson');
-  assert.equal(t.day.learn.currentWay, 2);
-  log(`=== 2026-09-15 opens on the ${['Mon','Tue','Wed','Thu','Fri','Sat'][t.day.dayIdx]} lesson (Way ${t.day.learn.currentWay}) because Tuesday's was played ahead; streak ${h.streak.count} ${h.streak.state}`);
+  assert.equal(t.day.dayIdx, 3, 'Tuesday carries on with the 4th Long vowels lesson');
+  assert.equal(t.day.learn.currentWay, 3);
+  log(`=== 2026-09-15 opens on the ${['Mon','Tue','Wed','Thu','Fri','Sat'][t.day.dayIdx]} lesson (Way ${t.day.learn.currentWay}) because she is ahead; streak ${h.streak.count} ${h.streak.state}`);
   setDay(2026, 9, 14);
 }
 
 const app = await open();
 const dash = await app.dashboard();
 const cal = await app.revisionCalendar();
-assert.equal(dash.streak.count, 7, 'seven counted days (Wed missed, Sunday bonus)');
+assert.equal(dash.streak.count, 7, 'seven counted days: Mon Tue Thu Fri Sat Sun Mon (Wed missed)');
 assert.equal(dash.switchPresses.length, 1);
 assert.equal(dash.weeks[0].fullyKnown, true, 'FLOSS fully known: >=2 ways and probe >= 8');
 assert.equal(cal.length, 9, 'Mon Tue Thu Fri Sat Sat#2 Sun Mon Mon#2');
-assert.ok(dash.weeks[0].sessions.some(s => s.bonus && s.date === '2026-09-13'), 'bonus day listed under FLOSS in the dashboard');
+assert.ok(dash.weeks[1].sessions.some(s => s.date === '2026-09-13' && !s.bonus), 'Sunday lesson listed under Long vowels as a normal lesson');
 console.log('\n================ PARENT DASHBOARD ================');
 console.log(JSON.stringify(dash, null, 1));
 console.log('\n================ REVISION CALENDAR ================');

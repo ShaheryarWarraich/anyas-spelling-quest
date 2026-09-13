@@ -13,9 +13,10 @@ Redo menu for FLOSS: 🧑‍🏫 Learn it with a grown-up | 🎬 Watch: Floss Ru
 redo lessons played: 2026-09-10#6 FLOSS Wed REDO way2-1 · 2026-09-10#7 FLOSS Thu REDO way3 · 2026-09-10#8 FLOSS Sat REDO probe | plan still next: Learn it with a grown-up
 Whole FLOSS again (mid Long vowels) -> FLOSS > LONGV > FLOSS* > BOSSYR > IGHLE > HEART > MIXED
 
-Sun 13 Sep: Play anyway offers Long vowels
+Sun 13 Sep: plays 2026-09-13 LONGV Tue (ahead)
 
 PROGRESS + REDO: ALL ASSERTIONS PASSED
+=== 2026-09-06 (before start) home offers: a new rule, The FLOSS rule
 
 === 2026-09-07 (learn) streak before: 0 none; no yesterday
   Way 1 done; way words: hill, miss
@@ -60,7 +61,7 @@ PROGRESS + REDO: ALL ASSERTIONS PASSED
   ear check: buzz(r)✓ yes(e)·
   words today: puff[taught], hill[taught], bus[exception], cliff[transfer], fill[taught]
   parent check done (7/7, self-caught 0); minutes 11.3; counts: true; streak now 5 active
-  done screen preview -> Tomorrow is a rest day. Have fun!
+  done screen preview -> Tomorrow: show what you know!
 
 === 2026-09-12 (probe) streak before: 5 active; Yesterday you did Sound boxes!
   (same day, next lesson: 2026-09-12#2)
@@ -70,25 +71,32 @@ PROGRESS + REDO: ALL ASSERTIONS PASSED
   which sentence?: [off] ✓ [miss] ✓ [this] ✓
   write sentences: Yes, the bus will huff and puff. / The bell is off.
   parent check done (11/12, self-caught 2); minutes 11.7; counts: true; streak now 5 active
-  done screen preview -> Tomorrow is a rest day. Have fun!
+  done screen preview -> Tomorrow: a new rule, Long vowels!
   weekly recap: {"rule":"The FLOSS rule","days":["2026-09-07","2026-09-08","2026-09-10","2026-09-11","2026-09-12"],"ways":[1,2,3,4],"videos":["Floss Rule Song","Alphablocks: FF LL SS"],"flowers":["2026-09-07","2026-09-08","2026-09-10","2026-09-11","2026-09-12"]}
 
-=== 2026-09-13 Sunday rest day — streak 5 active (Sunday never counts as missed)
-  BONUS "Play anyway" session on Sunday: kiss, doll, hill, huff, dress -> logged as bonus day (FLOSS), streak now 6
+=== 2026-09-13 SUNDAY is a normal day — home offers: a new rule, Long vowels
 
-=== 2026-09-14 (learn) streak before: 6 active; Yesterday you learned The FLOSS rule with a grown-up!
+=== 2026-09-13 (open) streak before: 5 active; Yesterday you showed what you know!
   Way 1 done; way words: hill, miss
   flow: welcome > learn > write > check > done
-  words today: doll[revision:FLOSS], mail[taught], hope[transfer], rope[taught], ride[transfer]
-  parent check done (7/7, self-caught 0); minutes 10.8; counts: true; streak now 7 active
+  words today: goat[transfer], bass[revision:FLOSS], cheese[taught], ride[transfer], train[taught]
+  parent check done (7/7, self-caught 0); minutes 10.8; counts: true; streak now 6 active
   done screen preview -> Tomorrow: Learn it with a grown-up!
+
+=== 2026-09-14 (learn) streak before: 6 active; Yesterday you learned Long vowels with a grown-up!
+  Way 1 done; way words: hill, miss
+  flow: welcome > learn > ear > write > check > done
+  ear check: said(e)✓ rain(r)·
+  words today: doll[revision:FLOSS], mail[taught], hope[transfer], rope[taught], game[transfer]
+  parent check done (7/7, self-caught 0); minutes 11.3; counts: true; streak now 7 active
+  done screen preview -> Tomorrow: the Silent E (Jack Hartmann) video!
   revision word drawn: doll (from FLOSS)
   quick look 2026-09-08 -> rule The FLOSS rule, ways 2, videos Floss Rule Song, words puff,buzz,hiss,bass,kiss
   old rules shelf: FLOSS
-  old-rule mini session FLOSS: kiss,fill,cliff
+  old-rule mini session FLOSS: toss,fill,hill
 
-=== 2026-09-14 SECOND LESSON (no lock): 2026-09-14#2 = LONGV Tue lesson, words off, seed, game, kite, goat; streak still 7; home offers next: the Silent E (Jack Hartmann) video; Tomorrow: the Silent E (Jack Hartmann) video!
-=== 2026-09-15 opens on the Wed lesson (Way 2) because Tuesday's was played ahead; streak 7 active
+=== 2026-09-14 SECOND LESSON (no lock): 2026-09-14#2 = LONGV Wed lesson, words off, seed, have, kite, tree; streak still 7; home offers next: Sound boxes; Tomorrow: Sound boxes!
+=== 2026-09-15 opens on the Thu lesson (Way 3) because she is ahead; streak 7 active
 
 ================ PARENT DASHBOARD ================
 {
@@ -597,69 +605,9 @@ PROGRESS + REDO: ALL ASSERTIONS PASSED
      },
      "ruleTaps": [],
      "wayWords": []
-    },
-    {
-     "id": "2026-09-13",
-     "seq": 1,
-     "slot": null,
-     "ahead": false,
-     "redo": false,
-     "redoPart": null,
-     "date": "2026-09-13",
-     "dayType": "learn",
-     "bonus": true,
-     "status": "complete",
-     "minutes": 10.8,
-     "countsForStreak": true,
-     "ways": [
-      1
-     ],
-     "switches": 0,
-     "transfer": {
-      "correct": 2,
-      "total": 2
-     },
-     "taught": {
-      "correct": 3,
-      "total": 3
-     },
-     "revision": [],
-     "probe": null,
-     "selfCaught": 0,
-     "exceptions": {
-      "correct": 0,
-      "total": 0
-     },
-     "ear": {
-      "correct": 0,
-      "total": 0
-     },
-     "pick": {
-      "correct": 0,
-      "total": 0
-     },
-     "earItems": [],
-     "pickItems": [],
-     "sentences": {
-      "correct": 0,
-      "total": 0
-     },
-     "ruleTaps": [],
-     "wayWords": [
-      {
-       "word": "hill",
-       "way": 1,
-       "mark": true
-      },
-      {
-       "word": "miss",
-       "way": 1,
-       "mark": true
-      }
-     ]
     }
    ],
-   "sessionCount": 7,
+   "sessionCount": 6,
    "waysDone": [
     1,
     2,
@@ -667,8 +615,8 @@ PROGRESS + REDO: ALL ASSERTIONS PASSED
     4
    ],
    "weekTransfer": {
-    "correct": 9,
-    "total": 9
+    "correct": 7,
+    "total": 7
    },
    "weekEar": {
     "correct": 9,
@@ -768,17 +716,17 @@ PROGRESS + REDO: ALL ASSERTIONS PASSED
    "iteration": 1,
    "sessions": [
     {
-     "id": "2026-09-14",
+     "id": "2026-09-13",
      "seq": 1,
      "slot": 0,
-     "ahead": false,
+     "ahead": true,
      "redo": false,
      "redoPart": null,
-     "date": "2026-09-14",
+     "date": "2026-09-13",
      "dayType": "learn",
      "bonus": false,
      "status": "complete",
-     "minutes": 13.8,
+     "minutes": 10.8,
      "countsForStreak": true,
      "ways": [
       1
@@ -794,7 +742,7 @@ PROGRESS + REDO: ALL ASSERTIONS PASSED
      },
      "revision": [
       {
-       "word": "doll",
+       "word": "bass",
        "ruleId": "FLOSS",
        "mark": true
       }
@@ -834,8 +782,8 @@ PROGRESS + REDO: ALL ASSERTIONS PASSED
      ]
     },
     {
-     "id": "2026-09-14#2",
-     "seq": 2,
+     "id": "2026-09-14",
+     "seq": 1,
      "slot": 1,
      "ahead": true,
      "redo": false,
@@ -844,7 +792,7 @@ PROGRESS + REDO: ALL ASSERTIONS PASSED
      "dayType": "learn",
      "bonus": false,
      "status": "complete",
-     "minutes": 10.8,
+     "minutes": 14.3,
      "countsForStreak": true,
      "ways": [
       1
@@ -860,7 +808,7 @@ PROGRESS + REDO: ALL ASSERTIONS PASSED
      },
      "revision": [
       {
-       "word": "off",
+       "word": "doll",
        "ruleId": "FLOSS",
        "mark": true
       }
@@ -870,6 +818,85 @@ PROGRESS + REDO: ALL ASSERTIONS PASSED
      "exceptions": {
       "correct": 0,
       "total": 0
+     },
+     "ear": {
+      "correct": 1,
+      "total": 2
+     },
+     "pick": {
+      "correct": 0,
+      "total": 0
+     },
+     "earItems": [
+      {
+       "word": "said",
+       "source": "exception",
+       "chosen": "said",
+       "correct": true
+      },
+      {
+       "word": "rain",
+       "source": "rule",
+       "chosen": "rane",
+       "correct": false
+      }
+     ],
+     "pickItems": [],
+     "sentences": {
+      "correct": 0,
+      "total": 0
+     },
+     "ruleTaps": [],
+     "wayWords": [
+      {
+       "word": "hill",
+       "way": 1,
+       "mark": true
+      },
+      {
+       "word": "miss",
+       "way": 1,
+       "mark": true
+      }
+     ]
+    },
+    {
+     "id": "2026-09-14#2",
+     "seq": 2,
+     "slot": 2,
+     "ahead": true,
+     "redo": false,
+     "redoPart": null,
+     "date": "2026-09-14",
+     "dayType": "learn",
+     "bonus": false,
+     "status": "complete",
+     "minutes": 10.8,
+     "countsForStreak": true,
+     "ways": [
+      2
+     ],
+     "switches": 0,
+     "transfer": {
+      "correct": 1,
+      "total": 1
+     },
+     "taught": {
+      "correct": 2,
+      "total": 2
+     },
+     "revision": [
+      {
+       "word": "off",
+       "ruleId": "FLOSS",
+       "mark": true
+      }
+     ],
+     "probe": null,
+     "selfCaught": 0,
+     "exceptions": {
+      "correct": 1,
+      "total": 1
      },
      "ear": {
       "correct": 2,
@@ -902,12 +929,12 @@ PROGRESS + REDO: ALL ASSERTIONS PASSED
      "wayWords": [
       {
        "word": "cake",
-       "way": 1,
+       "way": 2,
        "mark": true
       },
       {
        "word": "boat",
-       "way": 1,
+       "way": 2,
        "mark": true
       }
      ]
@@ -915,7 +942,7 @@ PROGRESS + REDO: ALL ASSERTIONS PASSED
     {
      "id": "2026-09-15",
      "seq": 1,
-     "slot": 2,
+     "slot": 3,
      "ahead": true,
      "redo": false,
      "redoPart": null,
@@ -978,25 +1005,26 @@ PROGRESS + REDO: ALL ASSERTIONS PASSED
      "wayWords": []
     }
    ],
-   "sessionCount": 3,
+   "sessionCount": 4,
    "waysDone": [
-    1
+    1,
+    2
    ],
    "weekTransfer": {
-    "correct": 4,
-    "total": 5
+    "correct": 5,
+    "total": 6
    },
    "weekEar": {
-    "correct": 2,
-    "total": 2
+    "correct": 3,
+    "total": 4
    },
    "weekPick": {
     "correct": 0,
     "total": 0
    },
    "weekExceptions": {
-    "correct": 0,
-    "total": 1
+    "correct": 1,
+    "total": 2
    },
    "weekSentences": {
     "correct": 0,
@@ -1163,6 +1191,14 @@ PROGRESS + REDO: ALL ASSERTIONS PASSED
  "revisions": [
   {
    "type": "auto",
+   "date": "2026-09-13",
+   "ruleId": "FLOSS",
+   "word": "bass",
+   "replayDate": null,
+   "words": null
+  },
+  {
+   "type": "auto",
    "date": "2026-09-14",
    "ruleId": "FLOSS",
    "word": "doll",
@@ -1185,7 +1221,7 @@ PROGRESS + REDO: ALL ASSERTIONS PASSED
    "replayDate": null,
    "words": [
     {
-     "word": "kiss",
+     "word": "toss",
      "source": "oldrule",
      "ruleId": "FLOSS",
      "mark": true
@@ -1197,7 +1233,7 @@ PROGRESS + REDO: ALL ASSERTIONS PASSED
      "mark": true
     },
     {
-     "word": "cliff",
+     "word": "hill",
      "source": "oldrule",
      "ruleId": "FLOSS",
      "mark": false
@@ -1241,7 +1277,7 @@ PROGRESS + REDO: ALL ASSERTIONS PASSED
  ],
  "totals": {
   "sessions": 9,
-  "minutes": 107,
+  "minutes": 107.5,
   "videosWatched": 2
  }
 }
@@ -1385,20 +1421,20 @@ PROGRESS + REDO: ALL ASSERTIONS PASSED
   "id": "2026-09-13",
   "seq": 1,
   "date": "2026-09-13",
-  "weekId": "FLOSS",
-  "ruleName": "The FLOSS rule",
-  "emoji": "🦷",
+  "weekId": "LONGV",
+  "ruleName": "Long vowels",
+  "emoji": "✨",
   "dayType": "learn",
   "ways": [
    1
   ],
   "videos": [],
   "words": [
-   "kiss",
-   "doll",
-   "hill",
-   "huff",
-   "dress"
+   "goat",
+   "bass",
+   "cheese",
+   "ride",
+   "train"
   ],
   "countsForStreak": true
  },
@@ -1419,7 +1455,7 @@ PROGRESS + REDO: ALL ASSERTIONS PASSED
    "mail",
    "hope",
    "rope",
-   "ride"
+   "game"
   ],
   "countsForStreak": true
  },
@@ -1432,15 +1468,15 @@ PROGRESS + REDO: ALL ASSERTIONS PASSED
   "emoji": "✨",
   "dayType": "learn",
   "ways": [
-   1
+   2
   ],
   "videos": [],
   "words": [
    "off",
    "seed",
-   "game",
+   "have",
    "kite",
-   "goat"
+   "tree"
   ],
   "countsForStreak": true
  }
@@ -1454,9 +1490,9 @@ id,date,seq,slot,ahead,weekId,dayType,status,minutes,countsForStreak,waysDone,sw
 2026-09-11,2026-09-11,1,Thu,false,FLOSS,learn,complete,15.0,true,3,0,10,10,1,1,,,0,1,1,1,2,0,0,0,0,false
 2026-09-12,2026-09-12,1,Fri,false,FLOSS,learn,complete,11.3,true,4,0,7,7,1,1,,,0,1,1,1,2,0,0,0,0,false
 2026-09-12#2,2026-09-12,2,Sat,false,FLOSS,probe,complete,11.7,true,,0,11,12,0,0,9,10,2,0,0,5,6,3,3,2,2,false
-2026-09-13,2026-09-13,1,bonus,false,FLOSS,learn,complete,10.8,true,1,0,7,7,2,2,,,0,0,0,0,0,0,0,0,0,true
-2026-09-14,2026-09-14,1,Mon,false,LONGV,learn,complete,13.8,true,1,0,7,7,2,2,,,0,0,0,0,0,0,0,0,0,false
-2026-09-14#2,2026-09-14,2,Tue,true,LONGV,learn,complete,10.8,true,1,0,7,7,2,2,,,0,0,0,2,2,0,0,0,0,false
-2026-09-15,2026-09-15,1,Wed,true,LONGV,learn,started,0.0,false,,0,,,0,1,,,,0,1,0,0,0,0,0,0,false
+2026-09-13,2026-09-13,1,Mon,true,LONGV,learn,complete,10.8,true,1,0,7,7,2,2,,,0,0,0,0,0,0,0,0,0,false
+2026-09-14,2026-09-14,1,Tue,true,LONGV,learn,complete,14.3,true,1,0,7,7,2,2,,,0,0,0,1,2,0,0,0,0,false
+2026-09-14#2,2026-09-14,2,Wed,true,LONGV,learn,complete,10.8,true,2,0,7,7,1,1,,,0,1,1,2,2,0,0,0,0,false
+2026-09-15,2026-09-15,1,Thu,true,LONGV,learn,started,0.0,false,,0,,,0,1,,,,0,1,0,0,0,0,0,0,false
 
 ALL ASSERTIONS PASSED
